@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,23 +16,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class Employees {
+public class RoomList {
+
+	@Id
+	private long roomNo;
 	
-	@Id 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long empNo;
+	private String roomName;
 	
-	private String firstName;
-	
-	private String lastName;
-	
-	private LocalDateTime hireDate;
-	
-	private String mailAddress;
-	
-	private String salary;
-	
-	@OneToOne
-	private Job job;
-	
+	private String location;
 }

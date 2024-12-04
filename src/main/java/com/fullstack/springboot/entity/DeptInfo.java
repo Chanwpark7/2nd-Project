@@ -17,23 +17,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class Employees {
+public class DeptInfo {
+
+	@Id
+	private long deptNo;
 	
-	@Id 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long empNo;
+	private String deptName;
 	
-	private String firstName;
+	private String deptAddress;
 	
-	private String lastName;
-	
-	private LocalDateTime hireDate;
-	
-	private String mailAddress;
-	
-	private String salary;
+	private String phoneNo;
 	
 	@OneToOne
-	private Job job;
-	
+	private Employees employees;
 }

@@ -1,11 +1,13 @@
 package com.fullstack.springboot.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,23 +19,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class Employees {
-	
-	@Id 
+public class Booking {
+
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long empNo;
+	private long bookNo;
 	
-	private String firstName;
+	private LocalDateTime bookDate;
 	
-	private String lastName;
+	private LocalDateTime start;
 	
-	private LocalDateTime hireDate;
-	
-	private String mailAddress;
-	
-	private String salary;
+	private LocalDateTime end;
 	
 	@OneToOne
-	private Job job;
+	private RoomList roomList;
 	
+	@OneToMany
+	private List<Employees> employees;
 }
