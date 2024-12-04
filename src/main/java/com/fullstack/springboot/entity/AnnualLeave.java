@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class AnnualLeave {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long annualId;
