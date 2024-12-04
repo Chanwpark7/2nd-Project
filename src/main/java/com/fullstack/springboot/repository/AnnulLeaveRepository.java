@@ -6,4 +6,5 @@ import com.fullstack.springboot.entity.AnnualLeave;
 
 public interface AnnulLeaveRepository extends JpaRepository<AnnualLeave, Long> {
 
+	
 }
