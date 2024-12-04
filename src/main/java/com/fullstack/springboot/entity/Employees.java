@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Employees {
 	
+	//직원 엔티티
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long empNo;
