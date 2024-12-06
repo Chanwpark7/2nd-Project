@@ -23,9 +23,9 @@ public class AnnualLeave {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long annualId;
 	
-	@MapsId
+	@MapsId(value = "annualId")
 	@OneToOne
-	@JoinColumn(name = "annualId")
+	@JoinColumn(name = "emp_no")
 	private Employees employees;
 	
 	private int antecedent;

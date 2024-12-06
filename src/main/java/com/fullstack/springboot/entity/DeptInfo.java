@@ -28,6 +28,4 @@ public class DeptInfo {
 	
 	private String phoneNo;
 	
-	@OneToOne
-	private Employees employees;
 }

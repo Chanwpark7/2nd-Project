@@ -11,7 +11,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,8 +36,7 @@ public class Board extends BaseEntity {
 	
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<BoardFileList> boardFileList;
-
-	@ElementCollection(fetch = FetchType.LAZY)
-	@Builder.Default
-	private Set<CompanyAuth> companyAuth = new HashSet<CompanyAuth>();
+	
+	@ManyToOne
+	private Employees employees;
 }
