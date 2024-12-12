@@ -40,5 +40,7 @@ public class CompanyMail {
 	@OneToMany(fetch = FetchType.LAZY)
 	@Builder.Default
 	private List<Employees> employees = new ArrayList<Employees>();
+	
+	private String mailCategory;
 
 }
