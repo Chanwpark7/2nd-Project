@@ -45,4 +45,15 @@ public class Employees {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Job job;
+	
+	private LocalDateTime birthday;
+	
+	private String address;
+	
+	private String phoneNum;
+	
+	private String gender;
+	
+	private String citizenId;
+
 }
