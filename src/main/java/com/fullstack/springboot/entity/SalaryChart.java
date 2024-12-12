@@ -3,6 +3,7 @@ package com.fullstack.springboot.entity;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,9 +25,8 @@ public class SalaryChart {
 	@Id
 	private long saleryNo;
 	
-	@MapsId
-	@OneToOne
-	@JoinColumn(name = "saleryNo")
+	
+	@OneToOne(fetch = FetchType.LAZY)
 	private Job job;
 	
 	private long minSalary;
