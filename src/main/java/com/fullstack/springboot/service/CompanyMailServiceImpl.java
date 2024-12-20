@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.fullstack.springboot.entity.CompanyMail;
 import com.fullstack.springboot.mail.dto.CompanyMailDTO;
+import com.fullstack.springboot.repository.CompanyMailAttachFilesRepository;
 import com.fullstack.springboot.repository.CompanyMailRepository;
 
 import jakarta.transaction.Transactional;
@@ -23,13 +24,12 @@ public class CompanyMailServiceImpl implements CompanyMailService {
 	CompanyMailRepository companyMailRepository;
 	
 	@Override
-	public String register(CompanyMailDTO dto) {
+	public long register(CompanyMailDTO dto) {
 		
+		CompanyMail cm = mailDtoToEntity(dto);
+		companyMailRepository.save(cm);
 		
-		
-		
-		
-		return null;
+		return cm.getMailNo();
 	}
 
 	@Override

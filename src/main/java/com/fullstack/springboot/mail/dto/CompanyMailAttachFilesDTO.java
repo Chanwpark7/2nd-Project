@@ -16,20 +16,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CompanyMailDTO {
-	
+public class CompanyMailAttachFilesDTO {
+	private long fileNo;
 	private long mailNo;
-	private LocalDateTime sendDate;
-	private String contents;
-	private String title;
-	private String mailFileOriginName;
-	private String mailFileUUID;
-	private String mailCategory;
-	
-	private Employees sender;
-	
-	private List<Employees> employees;
-	private List<MultipartFile> files;
-	
-
+	private String attachOriginName;
+	private String attachUUID;
 }

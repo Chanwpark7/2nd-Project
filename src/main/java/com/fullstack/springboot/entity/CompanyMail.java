@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +29,7 @@ public class CompanyMail {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long mailNo;
 	
+	@CreatedDate
 	private LocalDateTime sendDate;
 	
 	private String contents;
@@ -37,10 +40,16 @@ public class CompanyMail {
 	
 	private String mailFileUUID;
 	
+	private String mailCategory;
+	
 	@OneToMany(fetch = FetchType.LAZY)
 	@Builder.Default
 	private List<Employees> employees = new ArrayList<Employees>();
 	
-	private String mailCategory;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Employees sender;
+
+	
+	
 
 }
