@@ -40,14 +40,25 @@ public class CompanyMailController {
 	@PostMapping(path = "/mail", consumes = { "multipart/form-data;charset=UTF-8"})
 	public String regiMail(CompanyMailDTO dto,@RequestParam("sendEmpNo") long sendEmpNo,@RequestParam("receiveEmpNo") long[] receiveEmpNo) {
 		System.out.println("company-mail-sendMail");
+		System.out.println(dto);
+		System.out.println(sendEmpNo);
+		for(long no : receiveEmpNo) {
+			System.out.println(no);
+		}
 		
-		List<String> savedNames = null;
-		long getMailNo = companyMailService.register(dto);
-		dto.setMailNo(getMailNo);
-		savedNames = fileUtil.attachFiles(dto.getFiles());
-		String tranMsg = companyMailAttachFilesService.register(dto,savedNames);
+		dto.setSender(Employees.builder().empNo(sendEmpNo).build());
+		List<Employees> empList = new ArrayList<Employees>();
+		for(long no : receiveEmpNo) {
+			empList.add(Employees.builder().empNo(no).build());
+		}
+		dto.setEmployees(empList);
 		
-		return tranMsg;
+		companyMailService.register(dto);
+		List<String> savedName = fileUtil.attachFiles(dto.getFiles());
+		companyMailAttachFilesService.register(dto, savedName);
+		
+		System.out.println("company-mail-sendMail");
+		return null;
 	}
 	@PostMapping("/mail/attach")
 	public String attachMail(@RequestBody CompanyMailDTO dto) {

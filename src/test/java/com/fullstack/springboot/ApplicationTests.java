@@ -41,164 +41,158 @@ class ApplicationTests {
 	@Autowired
 	private DeptInfoRepository deptInfoRepository;
 	
-	@Test
-//	 void insertDummies() {
-//	      Job job = Job.builder()
-//	            .jobNo(100L)
-//	            .jobTitle("DIRECTOR")
-//	            .build();
-//
-//	      jobRepository.save(job);
-//	      
-//	      job = Job.builder()
-//	            .jobNo(200L)
-//	            .jobTitle("MANAGER")
-//	            .build();
-//
-//	      jobRepository.save(job);
-//	      
-//	      job = Job.builder()
-//	            .jobNo(300L)
-//	            .jobTitle("SENIOR")
-//	            .build();
-//
-//	      jobRepository.save(job);
-//	      
-//	      job = Job.builder()
-//	            .jobNo(400L)
-//	            .jobTitle("EMPLOYEE")
-//	            .build();
-//
-//	      jobRepository.save(job);
-//	      
-//	      job = Job.builder()
-//	      .jobNo(500L)
-//	      .jobTitle("INTERN")
-//	      .build();
-//	      
-//	      jobRepository.save(job);
-//		
-//		SalaryChart salaryChart = SalaryChart.builder()
-//				.saleryNo(100L)
-//				.job(Job.builder()
-//						.jobNo(100L)
-//						.build())
-//				.minSalary(6500L)
-//				.maxSalary(7500L)
-//				.build();
-//
-//		salaryChartRepository.save(salaryChart);
-//		
-//		salaryChart = SalaryChart.builder()
-//				.saleryNo(200L)
-//				.job((Job)jobRepository.getJobById(200L))
-//				.minSalary(5500L)
-//				.maxSalary(6500L)
-//				.build();
-//
-//		salaryChartRepository.save(salaryChart);
-//		
-//		salaryChart = SalaryChart.builder()
-//				.saleryNo(300L)
-//				.job((Job)jobRepository.getJobById(300L))
-//				.minSalary(4500L)
-//				.maxSalary(5500L)
-//				.build();
-//
-//		salaryChartRepository.save(salaryChart);
-//		
-//		salaryChart = SalaryChart.builder()
-//				.saleryNo(400L)
-//				.job((Job)jobRepository.getJobById(400L))
-//				.minSalary(3500L)
-//				.maxSalary(4500L)
-//				.build();
-//
-//		salaryChartRepository.save(salaryChart);
-//		
-//		salaryChart = SalaryChart.builder()
-//				.saleryNo(500L)
-//				.job((Job)jobRepository.getJobById(500L))
-//				.minSalary(2500L)
-//				.maxSalary(3500L)
-//				.build();
-//
-//		salaryChartRepository.save(salaryChart);
-//		
-//	}
-	
-//	void insertDummies() {
-//		DeptInfo deptInfo = DeptInfo.builder()
-//				.deptNo(100L)
-//				.deptName("GA")
-//				.deptAddress("GA Building")
-//				.phoneNo("02-100-100")
-//				.build();
-//		
-//		deptInfoRepository.save(deptInfo);
-//		
-//		deptInfo = DeptInfo.builder()
-//				.deptNo(200L)
-//				.deptName("HR")
-//				.deptAddress("HR Building")
-//				.phoneNo("02-100-200")
-//				.build();
-//		
-//		deptInfoRepository.save(deptInfo);
-//		
-//		deptInfo = DeptInfo.builder()
-//				.deptNo(300L)
-//				.deptName("ACC")
-//				.deptAddress("ACC Building")
-//				.phoneNo("02-100-300")
-//				.build();
-//		
-//		deptInfoRepository.save(deptInfo);
-//	}
+	//@Test
+	 void insertDummies1() {
+	      Job job = Job.builder()
+	            .jobNo(100L)
+	            .jobTitle("DIRECTOR")
+	            .build();
 
-//	void insertDummies() {
-//		RoomList roomList = RoomList.builder()
-//				.roomNo(101L)
-//				.roomName("회의실1")
-//				.location("901호")
-//				.build();
-//		
-//		roomListRepository.save(roomList);
-//		
-//		roomList = RoomList.builder()
-//				.roomNo(102L)
-//				.roomName("회의실2")
-//				.location("902호")
-//				.build();
-//		
-//		roomListRepository.save(roomList);
-//		
-//		roomList = RoomList.builder()
-//				.roomNo(103L)
-//				.roomName("회의실3")
-//				.location("903호")
-//				.build();
-//		
-//		roomListRepository.save(roomList);
-//		
-//		roomList = RoomList.builder()
-//				.roomNo(201L)
-//				.roomName("변기 901")
-//				.location("9층 남자 1번")
-//				.build();
-//		
-//		roomListRepository.save(roomList);
-//		
-//		roomList = RoomList.builder()
-//				.roomNo(211L)
-//				.roomName("변기 911")
-//				.location("9층 여자 1번")
-//				.build();
-//		
-//		roomListRepository.save(roomList);
-//	}
-	
-	void insertDummies() {
+	      jobRepository.save(job);
+	      
+	      job = Job.builder()
+	            .jobNo(200L)
+	            .jobTitle("MANAGER")
+	            .build();
+
+	      jobRepository.save(job);
+	      
+	      job = Job.builder()
+	            .jobNo(300L)
+	            .jobTitle("SENIOR")
+	            .build();
+
+	      jobRepository.save(job);
+	      
+	      job = Job.builder()
+	            .jobNo(400L)
+	            .jobTitle("EMPLOYEE")
+	            .build();
+
+	      jobRepository.save(job);
+	      
+	      job = Job.builder()
+	      .jobNo(500L)
+	      .jobTitle("INTERN")
+	      .build();
+	      
+	      jobRepository.save(job);
+		
+		SalaryChart salaryChart = SalaryChart.builder()
+				.saleryNo(100L)
+				.job(Job.builder()
+						.jobNo(100L)
+						.build())
+				.minSalary(6500L)
+				.maxSalary(7500L)
+				.build();
+
+		salaryChartRepository.save(salaryChart);
+		
+		salaryChart = SalaryChart.builder()
+				.saleryNo(200L)
+				.job((Job)jobRepository.getJobById(200L))
+				.minSalary(5500L)
+				.maxSalary(6500L)
+				.build();
+
+		salaryChartRepository.save(salaryChart);
+		
+		salaryChart = SalaryChart.builder()
+				.saleryNo(300L)
+				.job((Job)jobRepository.getJobById(300L))
+				.minSalary(4500L)
+				.maxSalary(5500L)
+				.build();
+
+		salaryChartRepository.save(salaryChart);
+		
+		salaryChart = SalaryChart.builder()
+				.saleryNo(400L)
+				.job((Job)jobRepository.getJobById(400L))
+				.minSalary(3500L)
+				.maxSalary(4500L)
+				.build();
+
+		salaryChartRepository.save(salaryChart);
+		
+		salaryChart = SalaryChart.builder()
+				.saleryNo(500L)
+				.job((Job)jobRepository.getJobById(500L))
+				.minSalary(2500L)
+				.maxSalary(3500L)
+				.build();
+
+		salaryChartRepository.save(salaryChart);
+		
+
+		DeptInfo deptInfo = DeptInfo.builder()
+				.deptNo(100L)
+				.deptName("GA")
+				.deptAddress("GA Building")
+				.phoneNo("02-100-100")
+				.build();
+		
+		deptInfoRepository.save(deptInfo);
+		
+		deptInfo = DeptInfo.builder()
+				.deptNo(200L)
+				.deptName("HR")
+				.deptAddress("HR Building")
+				.phoneNo("02-100-200")
+				.build();
+		
+		deptInfoRepository.save(deptInfo);
+		
+		deptInfo = DeptInfo.builder()
+				.deptNo(300L)
+				.deptName("ACC")
+				.deptAddress("ACC Building")
+				.phoneNo("02-100-300")
+				.build();
+		
+		deptInfoRepository.save(deptInfo);
+
+		RoomList roomList = RoomList.builder()
+				.roomNo(101L)
+				.roomName("회의실1")
+				.location("901호")
+				.build();
+		
+		roomListRepository.save(roomList);
+		
+		roomList = RoomList.builder()
+				.roomNo(102L)
+				.roomName("회의실2")
+				.location("902호")
+				.build();
+		
+		roomListRepository.save(roomList);
+		
+		roomList = RoomList.builder()
+				.roomNo(103L)
+				.roomName("회의실3")
+				.location("903호")
+				.build();
+		
+		roomListRepository.save(roomList);
+		
+		roomList = RoomList.builder()
+				.roomNo(201L)
+				.roomName("변기 901")
+				.location("9층 남자 1번")
+				.build();
+		
+		roomListRepository.save(roomList);
+		
+		roomList = RoomList.builder()
+				.roomNo(211L)
+				.roomName("변기 911")
+				.location("9층 여자 1번")
+				.build();
+		
+		roomListRepository.save(roomList);
+
 		IntStream.rangeClosed(1, 100).forEach(i -> {
 			Employees employees = Employees.builder().build();
 			if(i<20) {
