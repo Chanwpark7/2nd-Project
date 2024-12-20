@@ -31,4 +31,12 @@ public class Commute {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employees employees;
+	
+	public void changeCheckOut(LocalDateTime now) {
+		this.checkOutTime = now;
+	}
+	
+	public void changeCommNo(Long commNo) {
+		this.commNo = commNo;
+	}
 }
