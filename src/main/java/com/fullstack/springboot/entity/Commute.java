@@ -2,6 +2,8 @@ package com.fullstack.springboot.entity;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +27,7 @@ public class Commute {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long commNo;
 	
+	@CreationTimestamp
 	private LocalDateTime checkInTime;
 	
 	private LocalDateTime checkOutTime;

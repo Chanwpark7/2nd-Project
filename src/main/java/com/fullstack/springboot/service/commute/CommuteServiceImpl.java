@@ -23,20 +23,20 @@ public class CommuteServiceImpl implements CommuteService {
 	private final CommuteRepository commuteRepository;
 	
 	@Override
-	public Long addCommute(CommuteDTO commuteDTO) {
+	public CommuteDTO addCommute(CommuteDTO commuteDTO) {
 		
 		commuteRepository.save(dtoToEntity(commuteDTO));
 		
-		return commuteDTO.getEmpNo();
+		return commuteDTO;
 	}
 	
 	@Override
-	public Long checkOut(Long empNo) {
+	public void checkOut(Long empNo) {
 
 		CommuteDTO commuteDTO = commuteRepository.whenCheckingOut(empNo);
 		
 		if(commuteDTO == null) {
-			return -1L;
+			return;
 		};
 		
 		Commute commute = dtoToEntity(commuteDTO);
@@ -46,8 +46,6 @@ public class CommuteServiceImpl implements CommuteService {
 		commute.changeCommNo(commuteDTO.getCommNo());
 		
 		commuteRepository.save(commute);
-		
-		return commute.getEmployees().getEmpNo();
 	}
 	
 	@Override

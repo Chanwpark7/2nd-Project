@@ -16,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fullstack.springboot.dto.BookingDTO;
 import com.fullstack.springboot.dto.CommuteDTO;
+import com.fullstack.springboot.dto.DeptInfoDTO;
+import com.fullstack.springboot.dto.EmployeesDTO;
+import com.fullstack.springboot.dto.JobDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResponseDTO;
 import com.fullstack.springboot.entity.Booking;
@@ -31,8 +34,11 @@ import com.fullstack.springboot.repository.EmployeesRepository;
 import com.fullstack.springboot.repository.JobRepository;
 import com.fullstack.springboot.repository.RoomListRepository;
 import com.fullstack.springboot.repository.SalaryChartRepository;
+import com.fullstack.springboot.service.EmployeesService;
 import com.fullstack.springboot.service.booking.BookingService;
 import com.fullstack.springboot.service.commute.CommuteService;
+import com.fullstack.springboot.service.deptinfo.DeptInfoService;
+import com.fullstack.springboot.service.job.JobService;
 
 import jakarta.persistence.Version;
 import lombok.RequiredArgsConstructor;
@@ -68,6 +74,15 @@ class ApplicationTests {
 	
 	@Autowired
 	private CommuteRepository commuteRepository;
+	
+	@Autowired
+	private JobService jobService;
+	
+	@Autowired
+	private DeptInfoService deptInfoService;
+	
+	@Autowired
+	private EmployeesService employeesService;
 	
 	@Test
 //	 void insertDummies() {
@@ -506,7 +521,6 @@ class ApplicationTests {
 	
 //	void addCommute() {
 //		CommuteDTO commuteDTO = CommuteDTO.builder()
-//				.checkInTime(LocalDateTime.now())
 //				.empNo(1L)
 //				.build();
 //		
@@ -514,20 +528,85 @@ class ApplicationTests {
 //	}
 	
 //	void oimocheck() {
-//		
-//		log.error(commuteService.checkOut(1L));
+//		commuteService.checkOut(1L);
 //	}
 	
-	void getpage() {
-		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
-				.size(10)
-				.page(1)
+//	void getpage() {
+//		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+//				.size(10)
+//				.page(1)
+//				.build();
+//		
+//		Page<CommuteDTO> page = commuteService.getListCommute(1L, pageRequestDTO);
+//		
+//		for(CommuteDTO dto : page) {
+//			log.error(dto);
+//		}
+//	};
+	
+//	void jobCrudTest() {
+//		
+//		JobDTO jobDTO = JobDTO.builder()
+//				.jobNo(998L)
+//				.jobTitle("ADMIN1")
+//				.build();
+//		
+//		//jobService.createOrModifyJob(jobDTO);
+//		
+//		//jobService.deleteJob(998L);
+//		
+//		List<JobDTO> list = jobService.jobList();
+//		for(JobDTO dto : list) {
+//			log.error(dto);
+//		}
+//	}
+	
+//	void deptCRUDTest() {
+//		DeptInfoDTO deptInfoDTO = DeptInfoDTO.builder()
+//				.deptNo(999L)
+//				.deptName("ADMIN11")
+//				.deptAddress("ADMIN11")
+//				.phoneNo("999-999")
+//				.build();
+//		
+//		//deptInfoService.createOrModifyDept(deptInfoDTO);
+//		
+//		//deptInfoService.deleteDept(999L);
+//		
+//		List<DeptInfoDTO> list = deptInfoService.getDeptList();
+//		for(DeptInfoDTO dto : list) {
+//			log.error(dto);
+//		}
+//	}
+	
+	void employeesCRUDTest() {
+		EmployeesDTO employeesDTO = EmployeesDTO.builder()
+				.empNo(101L)
+				.firstName("A")
+				.lastName("DMIN")
+				.hireDate(LocalDateTime.of(2000, 1, 1, 0, 0))
+				.mailAddress("1@1")
+				.salary(100L)
+				.deptNo(100L)
+				.jobNo(100L)
+				.birthday(LocalDateTime.of(2000, 1, 1, 1, 1))
+				.address("ADMIN")
+				.phoneNum("01011111")
+				.gender("m")
+				.citizenId("1111111111111")
 				.build();
 		
-		Page<CommuteDTO> page = commuteService.getListCommute(1L, pageRequestDTO);
+		//employeesService.deleteEmployees(101L);
 		
-		for(CommuteDTO dto : page) {
+		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+				.page(1)
+				.size(10)
+				.build();
+		
+		Page<EmployeesDTO> page = employeesService.getEmployeesListPage(pageRequestDTO);
+		
+		for(EmployeesDTO dto : page) {
 			log.error(dto);
 		}
-	};
+	}
 }

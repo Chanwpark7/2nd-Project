@@ -9,9 +9,9 @@ import com.fullstack.springboot.entity.Employees;
 
 public interface CommuteService {
 
-	public Long addCommute(CommuteDTO commuteDTO);
+	public CommuteDTO addCommute(CommuteDTO commuteDTO);
 	
-	public Long checkOut(Long empNo);
+	public void checkOut(Long empNo);
 	
 	public Page<CommuteDTO> getListCommute(Long empNo, PageRequestDTO pageRequestDTO);
 	

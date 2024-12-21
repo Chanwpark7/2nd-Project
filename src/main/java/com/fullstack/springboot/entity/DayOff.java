@@ -8,6 +8,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,10 +26,10 @@ public class DayOff {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long dayOffNo;
 	
-	private LocalDateTime offHours;
+	private Long offHours;
 	
 	private LocalDateTime dayOffDate;
 	
-	@OneToMany(fetch = FetchType.LAZY)
-	private List<Employees> employees;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Employees employees;
 }
