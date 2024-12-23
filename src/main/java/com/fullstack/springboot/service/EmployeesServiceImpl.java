@@ -1,8 +1,9 @@
 package com.fullstack.springboot.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
-import com.fullstack.springboot.entity.DeptInfo;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.repository.DeptInfoRepository;
 import com.fullstack.springboot.repository.EmployeesRepository;
@@ -23,6 +23,8 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequiredArgsConstructor
 public class EmployeesServiceImpl implements EmployeesService {
+	
+	private final ModelMapper modelMapper;
 	
 	private final EmployeesRepository employeesRepository;
 	private final DeptInfoRepository deptInfoRepository;
@@ -92,8 +94,30 @@ public class EmployeesServiceImpl implements EmployeesService {
 	}
 
 	@Override
-	public List<?> getOne(EmployeesDTO employeesDTO) {
-		// TODO Auto-generated method stub
-		return null;
+	public EmployeesDTO getOne(EmployeesDTO employeesDTO) {
+		
+		System.out.println(employeesDTO.getEmpNo());
+		
+		Optional<Employees> result = employeesRepository.findById(employeesDTO.getEmpNo());
+		
+		Employees emp = result.orElseThrow();
+
+		EmployeesDTO dto = EmployeesDTO.builder()
+				.empNo(emp.getEmpNo())
+				.firstName(emp.getFirstName())
+				.lastName(emp.getLastName())
+				.hireDate(emp.getHireDate())
+				.mailAddress(emp.getMailAddress())
+				.salary(emp.getSalary())
+				.deptNo(emp.getDeptInfo().getDeptNo())
+				.jobNo(emp.getJob().getJobNo())
+				.birthday(emp.getBirthday())
+				.address(emp.getAddress())
+				.phoneNum(emp.getPhoneNum())
+				.gender(emp.getGender())
+				.citizenId(emp.getCitizenId())
+				.build();
+		
+		return dto;
 	}
 }

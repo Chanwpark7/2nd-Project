@@ -14,8 +14,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fullstack.springboot.dto.AnnualLeaveDTO;
 import com.fullstack.springboot.dto.BookingDTO;
 import com.fullstack.springboot.dto.CommuteDTO;
+import com.fullstack.springboot.dto.DayOffDTO;
 import com.fullstack.springboot.dto.DeptInfoDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.dto.JobDTO;
@@ -35,8 +37,10 @@ import com.fullstack.springboot.repository.JobRepository;
 import com.fullstack.springboot.repository.RoomListRepository;
 import com.fullstack.springboot.repository.SalaryChartRepository;
 import com.fullstack.springboot.service.EmployeesService;
+import com.fullstack.springboot.service.annualleave.AnnualleaveService;
 import com.fullstack.springboot.service.booking.BookingService;
 import com.fullstack.springboot.service.commute.CommuteService;
+import com.fullstack.springboot.service.dayoff.DayOffService;
 import com.fullstack.springboot.service.deptinfo.DeptInfoService;
 import com.fullstack.springboot.service.job.JobService;
 
@@ -83,6 +87,12 @@ class ApplicationTests {
 	
 	@Autowired
 	private EmployeesService employeesService;
+	
+	@Autowired
+	private AnnualleaveService annualleaveService;
+	
+	@Autowired
+	private DayOffService dayOffService;
 	
 	@Test
 //	 void insertDummies() {
@@ -579,34 +589,74 @@ class ApplicationTests {
 //		}
 //	}
 	
-	void employeesCRUDTest() {
-		EmployeesDTO employeesDTO = EmployeesDTO.builder()
-				.empNo(101L)
-				.firstName("A")
-				.lastName("DMIN")
-				.hireDate(LocalDateTime.of(2000, 1, 1, 0, 0))
-				.mailAddress("1@1")
-				.salary(100L)
-				.deptNo(100L)
-				.jobNo(100L)
-				.birthday(LocalDateTime.of(2000, 1, 1, 1, 1))
-				.address("ADMIN")
-				.phoneNum("01011111")
-				.gender("m")
-				.citizenId("1111111111111")
+//	void employeesCRUDTest() {
+//		EmployeesDTO employeesDTO = EmployeesDTO.builder()
+//				.empNo(100L)
+//				.firstName("A")
+//				.lastName("DMIN")
+//				.hireDate(LocalDateTime.of(2000, 1, 1, 0, 0))
+//				.mailAddress("1@1")
+//				.salary(100L)
+//				//.deptNo(100L)
+//				//.jobNo(100L)
+//				.birthday(LocalDateTime.of(2000, 1, 1, 1, 1))
+//				.address("ADMIN")
+//				.phoneNum("01011111")
+//				.gender("m")
+//				.citizenId("1111111111111")
+//				.build();
+//		
+//		//employeesService.deleteEmployees(101L);
+//		
+//		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+//				.page(1)
+//				.size(10)
+//				.build();
+//		
+//		//Page<EmployeesDTO> page = employeesService.getEmployeesListPage(pageRequestDTO);
+//		
+//		//for(EmployeesDTO dto : page) {
+//			//log.error(dto);
+//		//}
+//		
+//		log.error(employeesService.getOne(employeesDTO));
+//	}
+
+//	void annualLeaveTest() {
+//		IntStream.rangeClosed(1, 100).forEach(i -> {
+//			//annualleaveService.deleteAnnualleave((long)i);
+//			
+//			annualleaveService.setAnnualleave((long) i);
+//		});
+//		
+//		AnnualLeaveDTO annualLeaveDTO = AnnualLeaveDTO.builder()
+//				.annualId(101L)
+//				.antecedent(1)
+//				.empNo(1L)
+//				.hours(0L)
+//				.build();
+//		
+//		//log.error(annualleaveService.getOne(annualLeaveDTO));
+//		
+//		//annualleaveService.deleteAnnualleave(annualLeaveDTO.getEmpNo());
+//		
+//		//annualleaveService.setAnnualleave(1L);
+//		
+//		//annualleaveService.modifyAnnualleave(annualLeaveDTO);
+//	}
+	
+	
+	void dayOffTest() {
+		DayOffDTO dayOffDTO = DayOffDTO.builder()
+				.empNo(1L)
+				.offHours(2L)
+				.dayOffDate(LocalDateTime.now())
 				.build();
+				
+		//dayOffService.addDayOff(dayOffDTO);
 		
-		//employeesService.deleteEmployees(101L);
+		//dayOffService.removeDayOff(DayOffDTO.builder().empNo(1L).dayOffDate(LocalDateTime.now()).build());
 		
-		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
-				.page(1)
-				.size(10)
-				.build();
-		
-		Page<EmployeesDTO> page = employeesService.getEmployeesListPage(pageRequestDTO);
-		
-		for(EmployeesDTO dto : page) {
-			log.error(dto);
-		}
+		dayOffService.modifyDayOff(dayOffDTO);
 	}
 }

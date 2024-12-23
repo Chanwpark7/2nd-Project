@@ -17,5 +17,5 @@ public interface EmployeesService {
 	
 	public Page<EmployeesDTO> getEmployeesListPage(PageRequestDTO pageRequestDTO);
 	
-	public List<?> getOne(EmployeesDTO employeesDTO);
+	public EmployeesDTO getOne(EmployeesDTO employeesDTO);
 }
