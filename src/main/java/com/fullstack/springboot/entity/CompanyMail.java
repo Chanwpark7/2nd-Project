@@ -11,6 +11,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -41,10 +42,6 @@ public class CompanyMail {
 	private String mailFileUUID;
 	
 	private String mailCategory;
-	
-	@OneToMany(fetch = FetchType.LAZY)
-	@Builder.Default
-	private List<Employees> employees = new ArrayList<Employees>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employees sender;

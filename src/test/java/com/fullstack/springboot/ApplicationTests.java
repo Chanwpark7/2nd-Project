@@ -41,7 +41,7 @@ class ApplicationTests {
 	@Autowired
 	private DeptInfoRepository deptInfoRepository;
 	
-	//@Test
+	@Test
 	 void insertDummies1() {
 	      Job job = Job.builder()
 	            .jobNo(100L)

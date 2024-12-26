@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.entity.Employees;
 
 import lombok.AllArgsConstructor;
@@ -26,7 +27,7 @@ public class CompanyMailDTO {
 	private String mailFileUUID;
 	private String mailCategory;
 	
-	private Employees sender;
+	private EmployeesDTO sender;
 	
 	private List<Employees> employees;
 	private List<MultipartFile> files;

@@ -2,7 +2,9 @@ package com.fullstack.springboot.service;
 
 import java.util.List;
 
+import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.entity.CompanyMail;
+import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.mail.dto.CompanyMailDTO;
 
 public interface CompanyMailService {
@@ -15,7 +17,7 @@ public interface CompanyMailService {
 	
 	String deleteMail(Long memberNo);
 	
-	String modifyMailCat(Long mailNo);
+	String modifyMailCat(Long sendEmpNo,String cat);
 	
 	default CompanyMail mailDtoToEntity(CompanyMailDTO dto) {
 		return CompanyMail.builder()
@@ -26,8 +28,9 @@ public interface CompanyMailService {
 							.mailCategory(dto.getMailCategory())
 							.mailFileOriginName(dto.getMailFileOriginName())
 							.mailFileUUID(dto.getMailFileUUID())
-							.employees(dto.getEmployees())
-							.sender(dto.getSender())
+							.sender(Employees.builder()
+									.empNo(dto.getSender().getEmpNo())
+									.build())
 							.build();
 	}
 	default CompanyMailDTO mailEntityToDto(CompanyMail entity) {
@@ -39,8 +42,13 @@ public interface CompanyMailService {
 								.mailFileOriginName(entity.getMailFileOriginName())
 								.mailFileUUID(entity.getMailFileUUID())
 								.mailCategory(entity.getMailCategory())
-								.employees(entity.getEmployees())
-								.sender(entity.getSender())
+								.sender(EmployeesDTO.builder()
+											.empNo(entity.getSender().getEmpNo())
+											.firstName(entity.getSender().getFirstName())
+											.lastName(entity.getSender().getLastName())
+											.mailAddress(entity.getSender().getMailAddress())
+											.deptNo(entity.getSender().getDeptInfo().getDeptNo())
+											.build())
 								.build();
 	}
 }
