@@ -47,7 +47,7 @@ public class CompanyAuthConfig {
 		http.sessionManagement(c->c.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		http.csrf(config -> config.disable());
 		
-		http.formLogin(t -> t.loginPage(companyUrl + "/auth").successHandler(new ApiAuthSuccessHandler()).failureHandler(new ApiAuthFailureHandler()) );
+		http.formLogin(t -> t.loginPage("/auth").successHandler(new ApiAuthSuccessHandler()).failureHandler(new ApiAuthFailureHandler()) );
 		http.addFilterBefore(new JWTFilter(),UsernamePasswordAuthenticationFilter.class);
 		http.exceptionHandling(t -> t.accessDeniedHandler(new ApiAuthDeniedHandler()));
 		

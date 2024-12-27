@@ -1,7 +1,12 @@
 package com.fullstack.springboot.dto;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.springframework.security.core.userdetails.User;
+
+import com.fullstack.springboot.entity.CompanyAuth;
 import com.fullstack.springboot.entity.Employees;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EmployeesDTO {
+public class EmployeesDTO{
 
 	private Long empNo;
 	

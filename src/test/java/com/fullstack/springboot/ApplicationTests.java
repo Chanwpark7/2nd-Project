@@ -9,9 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fullstack.springboot.dto.EmployeesAuthDTO;
 import com.fullstack.springboot.entity.DeptInfo;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.entity.Job;
+import com.fullstack.springboot.entity.Password;
 import com.fullstack.springboot.entity.RoomList;
 import com.fullstack.springboot.entity.SalaryChart;
 import com.fullstack.springboot.repository.DeptInfoRepository;
@@ -41,7 +43,8 @@ class ApplicationTests {
 	@Autowired
 	private DeptInfoRepository deptInfoRepository;
 	
-	@Test
+	
+	//@Test
 	 void insertDummies1() {
 	      Job job = Job.builder()
 	            .jobNo(100L)
@@ -428,5 +431,11 @@ class ApplicationTests {
 				employeesRepository.save(employees);
 			}
 		});
+	}
+	@Test
+	@Transactional
+	void testPwd() {
+		
+		
 	}
 }
