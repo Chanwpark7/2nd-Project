@@ -9,14 +9,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fullstack.springboot.entity.Board;
 import com.fullstack.springboot.entity.DeptInfo;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.entity.Job;
+import com.fullstack.springboot.entity.Reply;
 import com.fullstack.springboot.entity.RoomList;
 import com.fullstack.springboot.entity.SalaryChart;
+import com.fullstack.springboot.repository.BoardRepository;
 import com.fullstack.springboot.repository.DeptInfoRepository;
 import com.fullstack.springboot.repository.EmployeesRepository;
 import com.fullstack.springboot.repository.JobRepository;
+import com.fullstack.springboot.repository.ReplyRepository;
 import com.fullstack.springboot.repository.RoomListRepository;
 import com.fullstack.springboot.repository.SalaryChartRepository;
 
@@ -40,6 +44,11 @@ class ApplicationTests {
 	
 	@Autowired
 	private DeptInfoRepository deptInfoRepository;
+	
+	@Autowired
+	private BoardRepository boardRepository;
+	
+	@Autowired ReplyRepository replyRepository;
 	
 	@Test
 //	 void insertDummies() {
@@ -198,241 +207,272 @@ class ApplicationTests {
 //		roomListRepository.save(roomList);
 //	}
 	
-	void insertDummies() {
-		IntStream.rangeClosed(1, 100).forEach(i -> {
-			Employees employees = Employees.builder().build();
-			if(i<20) {
-				System.out.println("성공!");
-				long salary = (long)(Math.random()*1000)+6500;
-				if(i<5) {
-					employees = Employees.builder()
-							.firstName("f"+i)
-							.lastName("l"+i)
-							.mailAddress("f"+i+"l"+i+"@ddt.co")
-							.salary(salary)
-							.job(Job.builder().jobNo(100L).build())
-							.deptInfo(DeptInfo.builder().deptNo(100L).build())
-							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
-							.address("seoul")
-							.phoneNum("010-1111-1111")
-							.gender("m")
-							.citizenId("0000000000000")
-							.build();
-				}else if(i<10) {
-					employees = Employees.builder()
-							.firstName("f"+i)
-							.lastName("l"+i)
-							.mailAddress("f"+i+"l"+i+"@ddt.co")
-							.salary(salary)
-							.job(Job.builder().jobNo(100L).build())
-							.deptInfo(DeptInfo.builder().deptNo(200L).build())
-							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
-							.address("seoul")
-							.phoneNum("010-1111-1111")
-							.gender("f")
-							.citizenId("0000000000000")
-							.build();
-				}else {
-					employees = Employees.builder()
-							.firstName("f"+i)
-							.lastName("l"+i)
-							.mailAddress("f"+i+"l"+i+"@ddt.co")
-							.salary(salary)
-							.job(Job.builder().jobNo(100L).build())
-							.deptInfo(DeptInfo.builder().deptNo(300L).build())
-							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
-							.address("seoul")
-							.phoneNum("010-1111-1111")
-							.gender("m")
-							.citizenId("0000000000000")
-							.build();
-				}
-				employeesRepository.save(employees);
-			}else if(i<40) {
-				long salary = (long)(Math.random()*1000)+5500;
-				if(i<25) {
-					employees = Employees.builder()
-							.firstName("f"+i)
-							.lastName("l"+i)
-							.mailAddress("f"+i+"l"+i+"@ddt.co")
-							.salary(salary)
-							.job(Job.builder().jobNo(200L).build())
-							.deptInfo(DeptInfo.builder().deptNo(100L).build())
-							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
-							.address("daejeon")
-							.phoneNum("010-1111-1111")
-							.gender("f")
-							.citizenId("0000000000000")
-							.build();
-				}else if(i<30) {
-					employees = Employees.builder()
-							.firstName("f"+i)
-							.lastName("l"+i)
-							.mailAddress("f"+i+"l"+i+"@ddt.co")
-							.salary(salary)
-							.job(Job.builder().jobNo(200L).build())
-							.deptInfo(DeptInfo.builder().deptNo(200L).build())
-							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
-							.address("daejeon")
-							.phoneNum("010-1111-1111")
-							.gender("f")
-							.citizenId("0000000000000")
-							.build();
-				}else {
-					employees = Employees.builder()
-							.firstName("f"+i)
-							.lastName("l"+i)
-							.mailAddress("f"+i+"l"+i+"@ddt.co")
-							.salary(salary)
-							.job(Job.builder().jobNo(200L).build())
-							.deptInfo(DeptInfo.builder().deptNo(300L).build())
-							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
-							.address("daejeon")
-							.phoneNum("010-1111-1111")
-							.gender("m")
-							.citizenId("0000000000000")
-							.build();
-				}
-				employeesRepository.save(employees);
-			}else if(i<60) {
-				long salary = (long)(Math.random()*1000)+4500;
-				if(i<45) {
-					employees = Employees.builder()
-							.firstName("f"+i)
-							.lastName("l"+i)
-							.mailAddress("f"+i+"l"+i+"@ddt.co")
-							.salary(salary)
-							.job(Job.builder().jobNo(300L).build())
-							.deptInfo(DeptInfo.builder().deptNo(100L).build())
-							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
-							.address("daegu")
-							.phoneNum("010-1111-1111")
-							.gender("m")
-							.citizenId("0000000000000")
-							.build();
-				}else if(i<50) {
-					employees = Employees.builder()
-							.firstName("f"+i)
-							.lastName("l"+i)
-							.mailAddress("f"+i+"l"+i+"@ddt.co")
-							.salary(salary)
-							.job(Job.builder().jobNo(300L).build())
-							.deptInfo(DeptInfo.builder().deptNo(200L).build())
-							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
-							.address("daegu")
-							.phoneNum("010-1111-1111")
-							.gender("f")
-							.citizenId("0000000000000")
-							.build();
-				}else {
-					employees = Employees.builder()
-							.firstName("f"+i)
-							.lastName("l"+i)
-							.mailAddress("f"+i+"l"+i+"@ddt.co")
-							.salary(salary)
-							.job(Job.builder().jobNo(300L).build())
-							.deptInfo(DeptInfo.builder().deptNo(300L).build())
-							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
-							.address("daegu")
-							.phoneNum("010-1111-1111")
-							.gender("f")
-							.citizenId("0000000000000")
-							.build();
-				}
-				employeesRepository.save(employees);
-			}else if(i<80) {
-				long salary = (long)(Math.random()*1000)+3500;
-				if(i<65) {
-					employees = Employees.builder()
-							.firstName("f"+i)
-							.lastName("l"+i)
-							.mailAddress("f"+i+"l"+i+"@ddt.co")
-							.salary(salary)
-							.job(Job.builder().jobNo(400L).build())
-							.deptInfo(DeptInfo.builder().deptNo(100L).build())
-							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
-							.address("busan")
-							.phoneNum("010-1111-1111")
-							.gender("m")
-							.citizenId("0000000000000")
-							.build();
-				}else if(i<70) {
-					employees = Employees.builder()
-							.firstName("f"+i)
-							.lastName("l"+i)
-							.mailAddress("f"+i+"l"+i+"@ddt.co")
-							.salary(salary)
-							.job(Job.builder().jobNo(400L).build())
-							.deptInfo(DeptInfo.builder().deptNo(200L).build())
-							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
-							.address("busan")
-							.phoneNum("010-1111-1111")
-							.gender("f")
-							.citizenId("0000000000000")
-							.build();
-				}else {
-					employees = Employees.builder()
-							.firstName("f"+i)
-							.lastName("l"+i)
-							.mailAddress("f"+i+"l"+i+"@ddt.co")
-							.salary(salary)
-							.job(Job.builder().jobNo(400L).build())
-							.deptInfo(DeptInfo.builder().deptNo(300L).build())
-							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
-							.address("busan")
-							.phoneNum("010-1111-1111")
-							.gender("m")
-							.citizenId("0000000000000")
-							.build();
-				}
-				employeesRepository.save(employees);
-			}else{
-				long salary = (long)(Math.random()*1000)+2500;
-				if(i<85) {
-					employees = Employees.builder()
-							.firstName("f"+i)
-							.lastName("l"+i)
-							.mailAddress("f"+i+"l"+i+"@ddt.co")
-							.salary(salary)
-							.job(Job.builder().jobNo(500L).build())
-							.deptInfo(DeptInfo.builder().deptNo(100L).build())
-							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
-							.address("ulsan")
-							.phoneNum("010-1111-1111")
-							.gender("m")
-							.citizenId("0000000000000")
-							.build();
-				}else if(i<90) {
-					employees = Employees.builder()
-							.firstName("f"+i)
-							.lastName("l"+i)
-							.mailAddress("f"+i+"l"+i+"@ddt.co")
-							.salary(salary)
-							.job(Job.builder().jobNo(500L).build())
-							.deptInfo(DeptInfo.builder().deptNo(200L).build())
-							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
-							.address("ulsan")
-							.phoneNum("010-1111-1111")
-							.gender("m")
-							.citizenId("0000000000000")
-							.build();
-				}else {
-					employees = Employees.builder()
-							.firstName("f"+i)
-							.lastName("l"+i)
-							.mailAddress("f"+i+"l"+i+"@ddt.co")
-							.salary(salary)
-							.job(Job.builder().jobNo(500L).build())
-							.deptInfo(DeptInfo.builder().deptNo(300L).build())
-							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
-							.address("ulsan")
-							.phoneNum("010-1111-1111")
-							.gender("m")
-							.citizenId("0000000000000")
-							.build();
-				}
-				employeesRepository.save(employees);
-			}
+//	void insertDummies() {
+//		IntStream.rangeClosed(1, 100).forEach(i -> {
+//			Employees employees = Employees.builder().build();
+//			if(i<20) {
+//				System.out.println("성공!");
+//				long salary = (long)(Math.random()*1000)+6500;
+//				if(i<5) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(100L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(100L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("seoul")
+//							.phoneNum("010-1111-1111")
+//							.gender("m")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else if(i<10) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(100L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(200L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("seoul")
+//							.phoneNum("010-1111-1111")
+//							.gender("f")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(100L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(300L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("seoul")
+//							.phoneNum("010-1111-1111")
+//							.gender("m")
+//							.citizenId("0000000000000")
+//							.build();
+//				}
+//				employeesRepository.save(employees);
+//			}else if(i<40) {
+//				long salary = (long)(Math.random()*1000)+5500;
+//				if(i<25) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(200L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(100L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("daejeon")
+//							.phoneNum("010-1111-1111")
+//							.gender("f")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else if(i<30) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(200L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(200L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("daejeon")
+//							.phoneNum("010-1111-1111")
+//							.gender("f")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(200L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(300L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("daejeon")
+//							.phoneNum("010-1111-1111")
+//							.gender("m")
+//							.citizenId("0000000000000")
+//							.build();
+//				}
+//				employeesRepository.save(employees);
+//			}else if(i<60) {
+//				long salary = (long)(Math.random()*1000)+4500;
+//				if(i<45) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(300L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(100L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("daegu")
+//							.phoneNum("010-1111-1111")
+//							.gender("m")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else if(i<50) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(300L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(200L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("daegu")
+//							.phoneNum("010-1111-1111")
+//							.gender("f")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(300L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(300L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("daegu")
+//							.phoneNum("010-1111-1111")
+//							.gender("f")
+//							.citizenId("0000000000000")
+//							.build();
+//				}
+//				employeesRepository.save(employees);
+//			}else if(i<80) {
+//				long salary = (long)(Math.random()*1000)+3500;
+//				if(i<65) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(400L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(100L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("busan")
+//							.phoneNum("010-1111-1111")
+//							.gender("m")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else if(i<70) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(400L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(200L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("busan")
+//							.phoneNum("010-1111-1111")
+//							.gender("f")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(400L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(300L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("busan")
+//							.phoneNum("010-1111-1111")
+//							.gender("m")
+//							.citizenId("0000000000000")
+//							.build();
+//				}
+//				employeesRepository.save(employees);
+//			}else{
+//				long salary = (long)(Math.random()*1000)+2500;
+//				if(i<85) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(500L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(100L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("ulsan")
+//							.phoneNum("010-1111-1111")
+//							.gender("m")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else if(i<90) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(500L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(200L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("ulsan")
+//							.phoneNum("010-1111-1111")
+//							.gender("m")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(500L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(300L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("ulsan")
+//							.phoneNum("010-1111-1111")
+//							.gender("m")
+//							.citizenId("0000000000000")
+//							.build();
+//				}
+//				employeesRepository.save(employees);
+//			}
+//		});
+	
+	void insertBoard() {
+		IntStream.rangeClosed(1, 100).forEach(i->{
+			Employees employees = Employees.builder()
+					.mailAddress("f"+i+"l"+i+"@ddt.co").build();
+			Board board = Board.builder()
+					.title("Title...." + i)
+					.contents("Content...." + i)
+					.employees(employees)
+					.build();
+			
+			
+			boardRepository.save(board);
 		});
 	}
+	
+	void insertReply() {
+		//replyer 는 반드시 member email 중 하나여야 하고, 랜덤하게 생성해서 하나의 게시글에 하나이상의 댓글을 구성하도록 합니다.
+
+			IntStream.rangeClosed(1, 100).forEach(i->{
+			long boaradNo = (long)(Math.random() * 100) + 1;
+			Board board = Board.builder().boardNo(boaradNo).build();
+			
+			Reply reply = Reply.builder()
+					.text("댓글..." + i)
+					.board(board)
+					.replyer("guest")
+					.build();
+			replyRepository.save(reply);
+		});
+	}
+	
 }
