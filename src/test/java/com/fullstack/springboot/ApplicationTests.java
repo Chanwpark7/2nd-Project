@@ -50,7 +50,7 @@ class ApplicationTests {
 	
 	@Autowired ReplyRepository replyRepository;
 	
-	@Test
+	//@Test
 //	 void insertDummies() {
 //	      Job job = Job.builder()
 //	            .jobNo(100L)
@@ -444,35 +444,35 @@ class ApplicationTests {
 //			}
 //		});
 	
-	void insertBoard() {
-		IntStream.rangeClosed(1, 100).forEach(i->{
-			Employees employees = Employees.builder()
-					.mailAddress("f"+i+"l"+i+"@ddt.co").build();
-			Board board = Board.builder()
-					.title("Title...." + i)
-					.contents("Content...." + i)
-					.employees(employees)
-					.build();
-			
-			
-			boardRepository.save(board);
-		});
-	}
-	
-	void insertReply() {
-		//replyer 는 반드시 member email 중 하나여야 하고, 랜덤하게 생성해서 하나의 게시글에 하나이상의 댓글을 구성하도록 합니다.
-
-			IntStream.rangeClosed(1, 100).forEach(i->{
-			long boaradNo = (long)(Math.random() * 100) + 1;
-			Board board = Board.builder().boardNo(boaradNo).build();
-			
-			Reply reply = Reply.builder()
-					.text("댓글..." + i)
-					.board(board)
-					.replyer("guest")
-					.build();
-			replyRepository.save(reply);
-		});
-	}
+//	void insertBoard() {
+//		IntStream.rangeClosed(1, 100).forEach(i->{
+//			Employees employees = Employees.builder()
+//					.mailAddress("f"+i+"l"+i+"@ddt.co").build();
+//			Board board = Board.builder()
+//					.title("Title...." + i)
+//					.contents("Content...." + i)
+//					.employees(employees)
+//					.build();
+//			
+//			
+//			boardRepository.save(board);
+//		});
+//	}
+//	
+//	void insertReply() {
+//		//replyer 는 반드시 member email 중 하나여야 하고, 랜덤하게 생성해서 하나의 게시글에 하나이상의 댓글을 구성하도록 합니다.
+//
+//			IntStream.rangeClosed(1, 100).forEach(i->{
+//			long boaradNo = (long)(Math.random() * 100) + 1;
+//			Board board = Board.builder().boardNo(boaradNo).build();
+//			
+//			Reply reply = Reply.builder()
+//					.text("댓글..." + i)
+//					.board(board)
+//					.replyer("guest")
+//					.build();
+//			replyRepository.save(reply);
+//		});
+//	}
 	
 }

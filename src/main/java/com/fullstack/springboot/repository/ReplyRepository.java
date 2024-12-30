@@ -15,7 +15,7 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
 	//삭제 기능 쿼리
 	@Modifying//Select 가 아닌 DML 은 이 어노선언해야함.
 	@Query("delete from Reply r where r.board.boardNo = :boardNo")
-	void deleteByBno(@Param("boardNo") Long boardNo);
+	void deleteByBoardNo(@Param("boardNo") Long boardNo);
 	
 	//게시물의 댓글 리스트 리턴하도록 선언
 	

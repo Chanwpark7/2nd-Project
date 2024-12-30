@@ -72,7 +72,7 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	@Override
 	public void removeWithRelpies(Long boardNo) {
-		replyRepository.deleteByBno(boardNo);
+		replyRepository.deleteByBoardNo(boardNo);
 		boardRepository.deleteById(boardNo);
 	}
 	@Transactional

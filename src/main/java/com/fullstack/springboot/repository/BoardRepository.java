@@ -15,10 +15,6 @@ import com.fullstack.springboot.repository.search.SearchBoardRepository;
 
 
 
-/*
- * QueryDSL 을 사용할때, QueryDSL 을 사용하는 인터페이스와 구현체를 생성한후, 도메인 레포지토리(Board,Reply,Member 등..)
- * 에서는 SeachBoardRepository 를 명시적으로 상속 받습니다.
- */
 
 public interface BoardRepository extends JpaRepository<Board, Long>,SearchBoardRepository {
 	
@@ -37,11 +33,12 @@ public interface BoardRepository extends JpaRepository<Board, Long>,SearchBoardR
 	
 	
 
-	@Query(value = "select b, e, count(r)from Board b left join b.Emplyoees e left join Reply r On r.board = b group by b"
+	@Query(value = "select b, e, count(r)from Board b left join b.Employees e left join Reply r On r.board = b group by b"
 			,countQuery = "select count(b) from Board b")
 	Page<Object[]> getBoardWithReplyCount(Pageable pageable);
 	
 	
+		
 	
 	@Query("select b, e, count(r) from Board b left join b.Emplyoees e left join Reply r On r.board = b where b.boardNo = :boardNo")
 	Object getBoardByBoardNo(@Param("boardNo") Long boardNo);//Object getBoardByBno(@Param("boardNo") Long boardNo);
