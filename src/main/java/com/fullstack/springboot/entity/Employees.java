@@ -15,14 +15,17 @@ import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Data
-public class Employees {
+@Getter
+@ToString
+public class Employees extends BaseEntity {
 	
 	//직원 엔티티
 	@Id 

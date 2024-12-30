@@ -11,37 +11,29 @@ import org.springframework.data.repository.query.Param;
 
 import com.fullstack.springboot.dto.BoardDTO;
 import com.fullstack.springboot.entity.Board;
-import com.fullstack.springboot.repository.search.SearchBoardRepository;
 
-
-
-
-public interface BoardRepository extends JpaRepository<Board, Long>,SearchBoardRepository {
+public interface BoardRepository extends JpaRepository<Board, Long>{
 	
-	@Query("select b.boardNo, b.title,e.mail_address,e.employees_emp_no from Board b Join b.Employees e where b.boardNo= :boardNo")
-	Object getBoardWithEmployees(@Param("boardNo") Long boardNo);//Object getBoardWithMember(@Param("boardNo") Long boardNo);//Object[] 로 리턴됨
+ // 엔티티 필드명으로 바꾸기
+	@Query("select b.boardNo, b.title, b.employees.mailAddress, b.employees.firstName from Board b "
+			+ "where b.boardNo = :boardNo")
+	Object getBoardWithEmployees(@Param("boardNo") Long boardNo);
 	
 	
 	@Query("Select count(u), sum(u.boardNo) from Board u")
 	Object getUsefunc();
-	
-	
-	
-	@Query("select b,r from Board b Right Join Reply r On r.board = b where b.boardNo = :boardNo")
-	Object[] getBoardWithReply(); //Object[] getBoardWithReple();
-	
-	
-	
 
-	@Query(value = "select b, e, count(r)from Board b left join b.Employees e left join Reply r On r.board = b group by b"
-			,countQuery = "select count(b) from Board b")
-	Page<Object[]> getBoardWithReplyCount(Pageable pageable);
+	//쿼리 수정요망
+//	@Query("select b, r from Board b Right Join Reply r On r.board = b where b.boardNo = :boardNo")
+//	Object[] getBoardWithReply();
+
 	
-	
-		
-	
-	@Query("select b, e, count(r) from Board b left join b.Emplyoees e left join Reply r On r.board = b where b.boardNo = :boardNo")
-	Object getBoardByBoardNo(@Param("boardNo") Long boardNo);//Object getBoardByBno(@Param("boardNo") Long boardNo);
+	@Query(value = "select b, e, count(r) from Board b left join b.employees e left join Reply r On r.board = b group by b", 
+		       countQuery = "select count(b) from Board b")
+		Page<Object[]> getBoardWithReplyCount(Pageable pageable);
+
+	@Query("select b, e, count(r) from Board b left join b.employees e left join Reply r On r.board = b where b.boardNo = :boardNo")
+	Object getBoardByBoardNo(@Param("boardNo") Long boardNo);
 	
 
 }
