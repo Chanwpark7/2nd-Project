@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fullstack.springboot.dto.EmployeesAuthDTO;
@@ -432,10 +433,14 @@ class ApplicationTests {
 			}
 		});
 	}
+	 @Autowired
+	 PasswordEncoder encoder;
 	@Test
-	@Transactional
 	void testPwd() {
-		
-		
+		Employees emp = employeesRepository.findById(1L).get();
+		String pwd = encoder.encode("1111");
+		emp.setPassword(pwd);
+		employeesRepository.save(emp);
+
 	}
 }

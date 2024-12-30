@@ -24,12 +24,13 @@ public class CustomUserDetailService implements UserDetailsService {
 	private final EmployeesRepository employeesRepository;
 	
 	@Override
-	public UserDetails loadUserByUsername(String empNo) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		log.info("loadUserByUsername start");
-		
-		//EmployeesAuthDTO authDto = new EmployeesAuthDTO(employeesRepository.findById(null), null)
-		
-		return null;
+		System.out.println(username);
+		EmployeesAuthDTO dto = new EmployeesAuthDTO(employeesRepository.getByEmail(username));
+		System.out.println(dto);
+		log.info("loadUserByUsername end");
+		return dto;
 	}
 
 }

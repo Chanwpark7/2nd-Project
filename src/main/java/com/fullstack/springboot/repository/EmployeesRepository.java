@@ -10,4 +10,8 @@ import com.fullstack.springboot.entity.Employees;
 
 public interface EmployeesRepository extends JpaRepository<Employees, Long> {
 	
+	@EntityGraph(attributePaths = "roleSet")
+	@Query("select emp from Employees emp where emp.mailAddress = :email")
+	Employees getByEmail(@Param("email") String email);
+	
 }

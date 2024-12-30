@@ -1,9 +1,15 @@
 package com.fullstack.springboot.auth.handler;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import com.fullstack.springboot.dto.EmployeesAuthDTO;
+import com.fullstack.springboot.util.JWTUtil;
+import com.google.gson.Gson;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,6 +21,21 @@ public class ApiAuthSuccessHandler implements AuthenticationSuccessHandler{
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		System.out.println("auth-success-handler");
+		System.out.println(authentication);
+		
+		EmployeesAuthDTO dto = (EmployeesAuthDTO)authentication.getPrincipal();
+		Map<String, Object> claims = dto.getClaims();
+		
+		String accessToken = JWTUtil.genToken(claims, 60);
+		String validateToken = JWTUtil.genToken(claims, 60*24);
+		
+		Gson gson = new Gson();
+		String jsonStr = gson.toJson(claims);
+		response.setContentType("application/json; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.print(jsonStr);
+		out.close();
+		
 		
 	}
 
