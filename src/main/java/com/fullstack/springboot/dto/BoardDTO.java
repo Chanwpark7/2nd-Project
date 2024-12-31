@@ -9,9 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/*
- * 글번호, 작성자, 내용, 작성자이메일, 작성자 이름, 작성일, 수정일, 댓글수 를 필드로 선언함
- */
+
 @Data
 @Builder
 @AllArgsConstructor

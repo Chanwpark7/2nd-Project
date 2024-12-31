@@ -14,7 +14,7 @@ import com.fullstack.springboot.entity.Board;
 
 public interface BoardRepository extends JpaRepository<Board, Long>{
 	
- // 엔티티 필드명으로 바꾸기
+	
 	@Query("select b.boardNo, b.title, b.employees.mailAddress, b.employees.firstName from Board b "
 			+ "where b.boardNo = :boardNo")
 	Object getBoardWithEmployees(@Param("boardNo") Long boardNo);
@@ -23,9 +23,9 @@ public interface BoardRepository extends JpaRepository<Board, Long>{
 	@Query("Select count(u), sum(u.boardNo) from Board u")
 	Object getUsefunc();
 
-	//쿼리 수정요망
-//	@Query("select b, r from Board b Right Join Reply r On r.board = b where b.boardNo = :boardNo")
-//	Object[] getBoardWithReply();
+
+	@Query("select b, r from Board b Right Join Reply r On r.board = b where b.boardNo = :boardNo")
+	Object[] getBoardWithReple(); 
 
 	
 	@Query(value = "select b, e, count(r) from Board b left join b.employees e left join Reply r On r.board = b group by b", 
