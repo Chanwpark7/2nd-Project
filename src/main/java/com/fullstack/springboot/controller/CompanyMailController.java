@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +24,8 @@ import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.entity.CompanyMail;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.mail.dto.CompanyMailDTO;
+import com.fullstack.springboot.mail.dto.CompanyMailListRequestDTO;
+import com.fullstack.springboot.mail.dto.CompanyMailResponseDTO;
 import com.fullstack.springboot.service.CompanyMailAttachFilesService;
 import com.fullstack.springboot.service.CompanyMailReceivedService;
 import com.fullstack.springboot.service.CompanyMailService;
@@ -52,9 +58,9 @@ public class CompanyMailController {
 		}
 		
 		dto.setSender(EmployeesDTO.builder().empNo(sendEmpNo).build());
-		List<Employees> empList = new ArrayList<Employees>();
+		List<EmployeesDTO> empList = new ArrayList<EmployeesDTO>();
 		for(long no : receiveEmpNo) {
-			empList.add(Employees.builder().empNo(no).build());
+			empList.add(EmployeesDTO.builder().empNo(no).build());
 		}
 		dto.setEmployees(empList);
 		dto.setMailNo(companyMailService.register(dto));
@@ -94,7 +100,7 @@ public class CompanyMailController {
 		return dto;
 	}
 	@Transactional
-	@GetMapping("/mail/l/{memberNo}")
+	//@GetMapping("/mail/l/{memberNo}")
 	public List<CompanyMailDTO> listMail(@PathVariable("memberNo") String memberNo){
 		System.out.println("company-mail-listMail");
 
@@ -103,6 +109,16 @@ public class CompanyMailController {
 		System.out.println(mailList);
 		return mailList;
 	}
+	@Transactional
+	@GetMapping("/mail/l")
+	public CompanyMailResponseDTO listMailPage(@RequestParam("email") String email,CompanyMailListRequestDTO reqDTO){
+		System.out.println("company-mail-lisMailPage");
+		Pageable pageable = PageRequest.of(reqDTO.getPage()-1, reqDTO.getSize(),Sort.by("mailNo").descending());
+		
+		return companyMailService.getListPage(email, pageable, reqDTO);
+	}
+	
+	
 	@PutMapping("/mail/m")
 	public String modCat(@RequestParam("cat") String cat, @RequestParam("sendEmpNo") String sendEmpNo) {
 		System.out.println("company-mail-modCat");

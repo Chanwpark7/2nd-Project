@@ -28,6 +28,14 @@ public class ApiAuthSuccessHandler implements AuthenticationSuccessHandler{
 		
 		String accessToken = JWTUtil.genToken(claims, 60);
 		String validateToken = JWTUtil.genToken(claims, 60*24);
+
+		claims.put("accessToken", accessToken);
+		claims.put("refreshToken", validateToken);
+		
+		System.out.println("Tokens");
+		System.out.println(accessToken);
+		System.out.println(validateToken);
+		System.out.println("Tokens");
 		
 		Gson gson = new Gson();
 		String jsonStr = gson.toJson(claims);

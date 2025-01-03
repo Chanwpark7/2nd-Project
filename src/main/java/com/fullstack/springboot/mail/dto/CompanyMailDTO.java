@@ -29,7 +29,7 @@ public class CompanyMailDTO {
 	
 	private EmployeesDTO sender;
 	
-	private List<Employees> employees;
+	private List<EmployeesDTO> employees;
 	private List<MultipartFile> files;
 	
 

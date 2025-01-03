@@ -2,10 +2,14 @@ package com.fullstack.springboot.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+
 import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.entity.CompanyMail;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.mail.dto.CompanyMailDTO;
+import com.fullstack.springboot.mail.dto.CompanyMailListRequestDTO;
+import com.fullstack.springboot.mail.dto.CompanyMailResponseDTO;
 
 public interface CompanyMailService {
 	
@@ -15,9 +19,13 @@ public interface CompanyMailService {
 	
 	List<CompanyMailDTO> getList(Long memberNo);
 	
+	CompanyMailResponseDTO getListPage(String email, Pageable pageable, CompanyMailListRequestDTO reqDTO);
+	
 	String deleteMail(Long memberNo);
 	
 	String modifyMailCat(Long sendEmpNo,String cat);
+	
+	
 	
 	default CompanyMail mailDtoToEntity(CompanyMailDTO dto) {
 		return CompanyMail.builder()

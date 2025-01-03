@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.entity.CompanyMail;
 import com.fullstack.springboot.entity.CompanyMailReceived;
 import com.fullstack.springboot.entity.Employees;
@@ -24,11 +25,11 @@ public class CompanyMailReceivedServiceImpl implements CompanyMailReceivedServic
 	CompanyMailReceivedRepository companyMailReceivedRepository;
 	
 	@Override
-	public void register(CompanyMail mail, List<Employees> emps) {
+	public void register(CompanyMail mail, List<EmployeesDTO> emps) {
 		// TODO Auto-generated method stub
 		
-		for(Employees emp : emps) {
-		CompanyMailReceived received =  CompanyMailReceived.builder().mail(mail).employee(emp).build();
+		for(EmployeesDTO emp : emps) {
+		CompanyMailReceived received =  CompanyMailReceived.builder().mail(mail).employee(Employees.builder().empNo(emp.getEmpNo()).build()).build();
 		companyMailReceivedRepository.save(received);
 		}
 	}

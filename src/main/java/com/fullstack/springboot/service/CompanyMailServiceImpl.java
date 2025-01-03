@@ -3,12 +3,18 @@ package com.fullstack.springboot.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.fullstack.springboot.entity.CompanyMail;
 import com.fullstack.springboot.mail.dto.CompanyMailDTO;
+import com.fullstack.springboot.mail.dto.CompanyMailListRequestDTO;
+import com.fullstack.springboot.mail.dto.CompanyMailResponseDTO;
 import com.fullstack.springboot.repository.CompanyMailAttachFilesRepository;
 import com.fullstack.springboot.repository.CompanyMailReceivedRepository;
 import com.fullstack.springboot.repository.CompanyMailRepository;
@@ -60,6 +66,24 @@ public class CompanyMailServiceImpl implements CompanyMailService {
 		}
 		
 		return dtoList;
+	}
+	
+	@Override
+	public CompanyMailResponseDTO getListPage(String email, Pageable pageable, CompanyMailListRequestDTO reqDTO){
+		System.out.println("getListPage");
+		Page<CompanyMail> result = companyMailRepository.getListPage(email, pageable);
+		
+		List<CompanyMailDTO> dtoList = result.get()
+				.map(obj -> this.mailEntityToDto(obj))
+				.collect(Collectors.toList());
+		
+		long totalCnt = result.getTotalElements();
+	
+		return CompanyMailResponseDTO.builder()
+					.dtoList(dtoList)
+					.totalCnt(totalCnt)
+					.requestDTO(reqDTO)
+					.build();
 	}
 
 	@Override
