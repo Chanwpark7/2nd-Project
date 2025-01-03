@@ -2,8 +2,13 @@ package com.fullstack.springboot.service.job;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
+import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.dto.JobDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
+import com.fullstack.springboot.dto.PageResponseDTO;
+import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.entity.Job;
 
 public interface JobService {
@@ -13,6 +18,10 @@ public interface JobService {
 	public void deleteJob(Long jobNo);
 	
 	public List<JobDTO> getJobList();
+	
+	public JobDTO getOne(Long jobNo);
+	
+	public PageResponseDTO<EmployeesDTO> getEmployeesListPageByJobNo(PageRequestDTO pageRequestDTO, Long jobNo);
 	
 	default Job dtoToEntity(JobDTO jobDTO) {
 		Job job = Job.builder()

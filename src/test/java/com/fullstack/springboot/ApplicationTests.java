@@ -43,6 +43,7 @@ import com.fullstack.springboot.service.commute.CommuteService;
 import com.fullstack.springboot.service.dayoff.DayOffService;
 import com.fullstack.springboot.service.deptinfo.DeptInfoService;
 import com.fullstack.springboot.service.job.JobService;
+import com.fullstack.springboot.service.roomlist.RoomListService;
 
 import jakarta.persistence.Version;
 import lombok.RequiredArgsConstructor;
@@ -63,6 +64,9 @@ class ApplicationTests {
 	
 	@Autowired
 	private RoomListRepository roomListRepository;
+
+	@Autowired
+	private RoomListService roomListService;
 	
 	@Autowired
 	private DeptInfoRepository deptInfoRepository;
@@ -590,36 +594,36 @@ class ApplicationTests {
 //	}
 	
 //	void employeesCRUDTest() {
-//		EmployeesDTO employeesDTO = EmployeesDTO.builder()
-//				.empNo(100L)
-//				.firstName("A")
-//				.lastName("DMIN")
-//				.hireDate(LocalDateTime.of(2000, 1, 1, 0, 0))
-//				.mailAddress("1@1")
-//				.salary(100L)
-//				//.deptNo(100L)
-//				//.jobNo(100L)
-//				.birthday(LocalDateTime.of(2000, 1, 1, 1, 1))
-//				.address("ADMIN")
-//				.phoneNum("01011111")
-//				.gender("m")
-//				.citizenId("1111111111111")
-//				.build();
+////		EmployeesDTO employeesDTO = EmployeesDTO.builder()
+////				.empNo(100L)
+////				.firstName("A")
+////				.lastName("DMIN")
+////				.hireDate(LocalDateTime.of(2000, 1, 1, 0, 0))
+////				.mailAddress("1@1")
+////				.salary(100L)
+////				//.deptNo(100L)
+////				//.jobNo(100L)
+////				.birthday(LocalDateTime.of(2000, 1, 1, 1, 1))
+////				.address("ADMIN")
+////				.phoneNum("01011111")
+////				.gender("m")
+////				.citizenId("1111111111111")
+////				.build();
 //		
 //		//employeesService.deleteEmployees(101L);
 //		
 //		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
-//				.page(1)
+//				.page(2)
 //				.size(10)
 //				.build();
 //		
-//		//Page<EmployeesDTO> page = employeesService.getEmployeesListPage(pageRequestDTO);
+//		PageResponseDTO<BookingDTO> page = roomListService.getBookingListPageByRoomNo(pageRequestDTO, 101L);
 //		
-//		//for(EmployeesDTO dto : page) {
-//			//log.error(dto);
-//		//}
+//		for(BookingDTO emp : page.getDtoList()) {
+//			log.error(emp);
+//		}
 //		
-//		log.error(employeesService.getOne(employeesDTO));
+//		log.error(page.getPageRequestDTO().getPageable(Sort.by("empNo")));
 //	}
 
 //	void annualLeaveTest() {
@@ -645,18 +649,32 @@ class ApplicationTests {
 //		//annualleaveService.modifyAnnualleave(annualLeaveDTO);
 //	}
 	
+//	void dayOffTest() {
+//		DayOffDTO dayOffDTO = DayOffDTO.builder()
+//				.empNo(1L)
+//				.offHours(2L)
+//				.dayOffDate(LocalDateTime.now())
+//				.build();
+//				
+//		//dayOffService.addDayOff(dayOffDTO);
+//		
+//		//dayOffService.removeDayOff(DayOffDTO.builder().empNo(1L).dayOffDate(LocalDateTime.now()).build());
+//		
+//		dayOffService.modifyDayOff(dayOffDTO);
+//	}
 	
-	void dayOffTest() {
-		DayOffDTO dayOffDTO = DayOffDTO.builder()
-				.empNo(1L)
-				.offHours(2L)
-				.dayOffDate(LocalDateTime.now())
+	void roomListRepTest() {
+		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+				.page(2)
+				.size(10)
 				.build();
-				
-		//dayOffService.addDayOff(dayOffDTO);
 		
-		//dayOffService.removeDayOff(DayOffDTO.builder().empNo(1L).dayOffDate(LocalDateTime.now()).build());
+		PageResponseDTO<BookingDTO> page = roomListService.getBookingListPageByRoomNo(pageRequestDTO, 101L);
 		
-		dayOffService.modifyDayOff(dayOffDTO);
+		for(BookingDTO dto : page.getDtoList()) {
+			log.error(dto);
+		}
+		
+		log.error(page.getPageRequestDTO().getPageable(Sort.by("empNo")));
 	}
 }
