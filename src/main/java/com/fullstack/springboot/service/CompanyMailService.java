@@ -21,6 +21,8 @@ public interface CompanyMailService {
 	
 	CompanyMailResponseDTO getListPage(String email, Pageable pageable, CompanyMailListRequestDTO reqDTO);
 	
+	CompanyMailResponseDTO getMySendListPage(String email, Pageable pageable, CompanyMailListRequestDTO reqDTO);
+	
 	String deleteMail(Long memberNo);
 	
 	String modifyMailCat(Long sendEmpNo,String cat);

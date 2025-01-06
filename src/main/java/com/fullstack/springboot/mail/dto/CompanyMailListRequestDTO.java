@@ -15,5 +15,8 @@ public class CompanyMailListRequestDTO {
 	  private int page = 1;
 
 	  @Builder.Default
-	  private int size = 10;
+	  private int size = 50;
+	  
+	  @Builder.Default
+	  private String cat = "def";
 }

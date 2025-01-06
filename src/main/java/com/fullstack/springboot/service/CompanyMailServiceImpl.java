@@ -71,7 +71,7 @@ public class CompanyMailServiceImpl implements CompanyMailService {
 	@Override
 	public CompanyMailResponseDTO getListPage(String email, Pageable pageable, CompanyMailListRequestDTO reqDTO){
 		System.out.println("getListPage");
-		Page<CompanyMail> result = companyMailRepository.getListPage(email, pageable);
+		Page<CompanyMail> result = companyMailRepository.getListPage(email, reqDTO.getCat() , pageable);
 		
 		List<CompanyMailDTO> dtoList = result.get()
 				.map(obj -> this.mailEntityToDto(obj))
@@ -84,6 +84,25 @@ public class CompanyMailServiceImpl implements CompanyMailService {
 					.totalCnt(totalCnt)
 					.requestDTO(reqDTO)
 					.build();
+	}
+	
+	@Override
+	public CompanyMailResponseDTO getMySendListPage(String email, Pageable pageable, CompanyMailListRequestDTO reqDTO) {
+		System.out.println("getMySendListPage");
+		Page<CompanyMail> result = companyMailRepository.getMySendListPage(email, pageable);
+		
+		List<CompanyMailDTO> dtoList = result.get()
+				.map(obj -> this.mailEntityToDto(obj))
+				.collect(Collectors.toList());
+		
+		long totalCnt = result.getTotalElements();
+	
+		return CompanyMailResponseDTO.builder()
+					.dtoList(dtoList)
+					.totalCnt(totalCnt)
+					.requestDTO(reqDTO)
+					.build();
+		
 	}
 
 	@Override

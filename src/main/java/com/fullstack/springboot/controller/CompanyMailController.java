@@ -117,7 +117,14 @@ public class CompanyMailController {
 		
 		return companyMailService.getListPage(email, pageable, reqDTO);
 	}
-	
+	@Transactional
+	@GetMapping("/mail/l/{email}")
+	public CompanyMailResponseDTO listSendMailPage(@PathVariable("email") String email, CompanyMailListRequestDTO reqDTO) {
+		System.out.println("company-mail-listSendMailPage");
+		Pageable pageable = PageRequest.of(reqDTO.getPage()-1, reqDTO.getSize(), Sort.by("mailNo").descending());
+		
+		return companyMailService.getMySendListPage(email, pageable, reqDTO);
+	}
 	
 	@PutMapping("/mail/m")
 	public String modCat(@RequestParam("cat") String cat, @RequestParam("sendEmpNo") String sendEmpNo) {
