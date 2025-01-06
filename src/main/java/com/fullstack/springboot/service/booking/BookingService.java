@@ -1,5 +1,10 @@
 package com.fullstack.springboot.service.booking;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.data.domain.Page;
 
 import com.fullstack.springboot.dto.BookingDTO;
@@ -14,9 +19,13 @@ public interface BookingService {
 
 	public Long addBooking(BookingDTO bookingDTO);
 	
-	public Page<BookingDTO> getCRBookingList(PageRequestDTO pageRequestDTO);
+	public PageResponseDTO<BookingDTO> getCRBookingList(PageRequestDTO pageRequestDTO);
 	
-	public Page<BookingDTO> getWRBookingList(PageRequestDTO pageRequestDTO);
+	public PageResponseDTO<BookingDTO> getWRBookingList(PageRequestDTO pageRequestDTO);
+	
+	public BookingDTO getOne(Long bookNo);
+	
+	public void modify(Long bookNo, BookingDTO bookingDTO);
 	
 	public void remove(Long bookNo);
 
@@ -28,9 +37,9 @@ public interface BookingService {
 				.roomNo(bookingDTO.getRoomNo()).build();
 		
 		Booking booking = Booking.builder()
-				.bookDate(bookingDTO.getBookDate())
-				.start(bookingDTO.getStart())
-				.end(bookingDTO.getEnd())
+				.bookDate(LocalDate.parse(bookingDTO.getBookDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+				.start(LocalTime.parse(bookingDTO.getStart(), DateTimeFormatter.ofPattern("HH:mm")))
+				.end(LocalTime.parse(bookingDTO.getEnd(), DateTimeFormatter.ofPattern("HH:mm")))
 				.roomList(roomList)
 				.employees(employees)
 				.build();
@@ -42,10 +51,10 @@ public interface BookingService {
 		
 		BookingDTO bookingDTO = BookingDTO.builder()
 				.bookNo(booking.getBookNo())
-				.bookDate(booking.getBookDate())
-				.start(booking.getStart())
-				.end(booking.getEnd())
-				.RoomNo(booking.getRoomList().getRoomNo())
+				.bookDate(booking.getBookDate().toString())
+				.start(booking.getStart().toString())
+				.end(booking.getEnd().toString())
+				.roomNo(booking.getRoomList().getRoomNo())
 				.empNo(booking.getEmployees().getEmpNo())
 				.build();
 		

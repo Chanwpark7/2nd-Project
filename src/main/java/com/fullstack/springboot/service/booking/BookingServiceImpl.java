@@ -40,7 +40,7 @@ public class BookingServiceImpl implements BookingService {
 	}
 	
 	@Override
-	public Page<BookingDTO> getCRBookingList(PageRequestDTO pageRequestDTO) {
+	public PageResponseDTO<BookingDTO> getCRBookingList(PageRequestDTO pageRequestDTO) {
 		
 		Pageable pageable = pageRequestDTO.getPageable(Sort.by("bookNo").descending());
 		
@@ -59,11 +59,19 @@ public class BookingServiceImpl implements BookingService {
 		
 		Page<BookingDTO> page = new PageImpl<BookingDTO>(res.subList(start, end),pageable,res.size());
 		
-		return page;
+		List<BookingDTO> dtoList = page.get().toList();
+		
+		long totalCount = page.getTotalElements();
+		
+		return PageResponseDTO.<BookingDTO>withAll()
+				.dtoList(dtoList)
+				.totalCount(totalCount)
+				.pageRequestDTO(pageRequestDTO)
+				.build();
 	}
 	
 	@Override
-	public Page<BookingDTO> getWRBookingList(PageRequestDTO pageRequestDTO) {
+	public PageResponseDTO<BookingDTO> getWRBookingList(PageRequestDTO pageRequestDTO) {
 
 		Pageable pageable = pageRequestDTO.getPageable(Sort.by("bookNo").descending());
 		
@@ -82,7 +90,15 @@ public class BookingServiceImpl implements BookingService {
 		
 		Page<BookingDTO> page = new PageImpl<BookingDTO>(res.subList(start, end),pageable,res.size());
 		
-		return page;
+		List<BookingDTO> dtoList = page.get().toList();
+		
+		long totalCount = page.getTotalElements();
+		
+		return PageResponseDTO.<BookingDTO>withAll()
+				.dtoList(dtoList)
+				.totalCount(totalCount)
+				.pageRequestDTO(pageRequestDTO)
+				.build();
 	}
 	
 	@Override
@@ -92,5 +108,20 @@ public class BookingServiceImpl implements BookingService {
 				.build();
 		
 		bookingRepository.delete(booking);
+	}
+	
+	@Override
+	public BookingDTO getOne(Long bookNo) {
+
+		return entityToDto(bookingRepository.findById(bookNo).get());
+	}
+
+	@Override
+	public void modify(Long bookNo, BookingDTO bookingDTO) {
+
+		Booking booking = dtoToEntity(bookingDTO);
+		booking.setBookNo(bookNo);
+		
+		bookingRepository.save(booking);
 	}
 }

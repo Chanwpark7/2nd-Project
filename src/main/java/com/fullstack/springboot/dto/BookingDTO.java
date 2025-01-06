@@ -19,24 +19,24 @@ public class BookingDTO {
 	private Long bookNo;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	private LocalDateTime bookDate;
+	private String bookDate;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
-	private LocalDateTime start;
+	private String start;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
-	private LocalDateTime end;
+	private String end;
 	
-	private Long RoomNo;
+	private Long roomNo;
 	
 	private Long empNo;
 	
 	public BookingDTO(Booking bk) {
 		this.bookNo = bk.getBookNo();
-		this.bookDate = bk.getBookDate();
-		this.start = bk.getStart();
-		this.end = bk.getEnd();
-		this.RoomNo = bk.getRoomList().getRoomNo();
+		this.bookDate = bk.getBookDate().toString();
+		this.start = bk.getStart().toString();
+		this.end = bk.getEnd().toString();
+		this.roomNo = bk.getRoomList().getRoomNo();
 		this.empNo = bk.getEmployees().getEmpNo();
 	}
 }

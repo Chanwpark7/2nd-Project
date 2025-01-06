@@ -1,6 +1,8 @@
 package com.fullstack.springboot;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -494,7 +496,7 @@ class ApplicationTests {
 //	}
 	
 //	void insertDummiesBooking() {
-//		IntStream.rangeClosed(1, 11).forEach(i -> {
+//		//IntStream.rangeClosed(1, 11).forEach(i -> {
 //			BookingDTO bookingDTO = BookingDTO.builder()
 //					.bookDate(LocalDateTime.now())
 //					.start(LocalDateTime.now())
@@ -503,8 +505,8 @@ class ApplicationTests {
 //					.empNo(2L)
 //					.build();
 //			
-//			bookingService.addBooking(bookingDTO);
-//		});
+//			bookingService.modify(1L, bookingDTO);
+//		//});
 //	}
 	
 //	void testGetList() {
@@ -663,18 +665,30 @@ class ApplicationTests {
 //		dayOffService.modifyDayOff(dayOffDTO);
 //	}
 	
-	void roomListRepTest() {
-		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
-				.page(2)
-				.size(10)
+//	void roomListRepTest() {
+//		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+//				.page(2)
+//				.size(10)
+//				.build();
+//		
+//		PageResponseDTO<BookingDTO> page = roomListService.getBookingListPageByRoomNo(pageRequestDTO, 101L);
+//		
+//		for(BookingDTO dto : page.getDtoList()) {
+//			log.error(dto);
+//		}
+//		
+//		log.error(page.getPageRequestDTO().getPageable(Sort.by("empNo")));
+//	}
+	
+	void addBookingService() {
+		BookingDTO bookingDTO = BookingDTO.builder()
+				.bookDate("2025-01-11")
+				.empNo(12L)
+				.start("11:11")
+				.end("21:11")
+				.roomNo(101L)
 				.build();
 		
-		PageResponseDTO<BookingDTO> page = roomListService.getBookingListPageByRoomNo(pageRequestDTO, 101L);
-		
-		for(BookingDTO dto : page.getDtoList()) {
-			log.error(dto);
-		}
-		
-		log.error(page.getPageRequestDTO().getPageable(Sort.by("empNo")));
+		bookingService.addBooking(bookingDTO);
 	}
 }
