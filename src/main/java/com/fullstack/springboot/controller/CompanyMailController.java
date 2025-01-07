@@ -25,6 +25,7 @@ import com.fullstack.springboot.entity.CompanyMail;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.mail.dto.CompanyMailDTO;
 import com.fullstack.springboot.mail.dto.CompanyMailListRequestDTO;
+import com.fullstack.springboot.mail.dto.CompanyMailReceivedDTO;
 import com.fullstack.springboot.mail.dto.CompanyMailResponseDTO;
 import com.fullstack.springboot.service.CompanyMailAttachFilesService;
 import com.fullstack.springboot.service.CompanyMailReceivedService;
@@ -99,6 +100,21 @@ public class CompanyMailController {
 		
 		return dto;
 	}
+	@GetMapping("/mail/{mailNo}/received")
+	public CompanyMailReceivedDTO readMailReceived(@PathVariable("mailNo") String mailNo) {
+		System.out.println("company-mail-received");
+		
+		CompanyMailReceivedDTO dto = companyMailReceivedService.getReceivedByMailNo(Long.valueOf(mailNo));
+		
+		return dto;
+	}
+	@GetMapping("/mail/{mailNo}/attcfile")
+	public String getMailAttachFIle(@PathVariable("mailNo") String mailNo) {
+		System.out.println("company-mail-attachedFile");
+		
+		return new String();
+	}
+	
 	@Transactional
 	//@GetMapping("/mail/l/{memberNo}")
 	public List<CompanyMailDTO> listMail(@PathVariable("memberNo") String memberNo){

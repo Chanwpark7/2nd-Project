@@ -17,6 +17,7 @@ import com.fullstack.springboot.entity.Job;
 import com.fullstack.springboot.entity.Password;
 import com.fullstack.springboot.entity.RoomList;
 import com.fullstack.springboot.entity.SalaryChart;
+import com.fullstack.springboot.repository.CompanyMailReceivedRepository;
 import com.fullstack.springboot.repository.DeptInfoRepository;
 import com.fullstack.springboot.repository.EmployeesRepository;
 import com.fullstack.springboot.repository.JobRepository;
@@ -43,6 +44,9 @@ class ApplicationTests {
 	
 	@Autowired
 	private DeptInfoRepository deptInfoRepository;
+	
+	@Autowired
+	private CompanyMailReceivedRepository companyMailReceivedRepository;
 	
 	
 	//@Test
@@ -435,12 +439,17 @@ class ApplicationTests {
 	}
 	 @Autowired
 	 PasswordEncoder encoder;
-	@Test
+	//@Test
 	void testPwd() {
 		Employees emp = employeesRepository.findById(1L).get();
 		String pwd = encoder.encode("1111");
 		emp.setPassword(pwd);
 		employeesRepository.save(emp);
 
+	}
+	@Transactional
+	@Test
+	void testrec() {
+		System.out.println(companyMailReceivedRepository.getReceiveds(4L));
 	}
 }
