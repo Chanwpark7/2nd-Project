@@ -20,6 +20,7 @@ import com.fullstack.springboot.entity.Password;
 import com.fullstack.springboot.entity.RoomList;
 import com.fullstack.springboot.entity.SalaryChart;
 import com.fullstack.springboot.repository.CompanyMailRepository;
+import com.fullstack.springboot.repository.CompanyMailReceivedRepository;
 import com.fullstack.springboot.repository.DeptInfoRepository;
 import com.fullstack.springboot.repository.EmployeesRepository;
 import com.fullstack.springboot.repository.JobRepository;
@@ -50,6 +51,8 @@ class ApplicationTests {
 	
 	@Autowired
 	private CompanyMailRepository companyMailRepository;
+	@Autowired
+	private CompanyMailReceivedRepository companyMailReceivedRepository;
 	
 	
 	//@Test
@@ -461,5 +464,10 @@ class ApplicationTests {
 								.build();
 			companyMailRepository.save(mail);
 		});
+	}
+	@Transactional
+	@Test
+	void testrec() {
+		System.out.println(companyMailReceivedRepository.getReceiveds(4L));
 	}
 }

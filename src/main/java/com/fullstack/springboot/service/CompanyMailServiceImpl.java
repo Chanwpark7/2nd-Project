@@ -49,7 +49,9 @@ public class CompanyMailServiceImpl implements CompanyMailService {
 		Optional<CompanyMail> obj = companyMailRepository.findById(mailNo);
 		CompanyMailDTO dto = null;
 		if(obj.isPresent()) {
-			dto = this.mailEntityToDto(obj.get());
+			CompanyMail t = obj.get();
+			System.out.println(t);
+			dto = this.mailEntityToDto(t);
 		}
 		return dto;
 		

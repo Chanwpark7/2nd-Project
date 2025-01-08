@@ -105,7 +105,6 @@ public class CompanyMailController {
 		System.out.println("company-mail-received");
 		
 		
-		
 		return null;
 	}
 	@GetMapping("/mail/{mailNo}/attcfile")
