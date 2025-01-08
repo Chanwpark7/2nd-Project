@@ -1,6 +1,7 @@
 package com.fullstack.springboot;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
@@ -11,12 +12,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fullstack.springboot.dto.EmployeesAuthDTO;
+import com.fullstack.springboot.entity.CompanyMail;
 import com.fullstack.springboot.entity.DeptInfo;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.entity.Job;
 import com.fullstack.springboot.entity.Password;
 import com.fullstack.springboot.entity.RoomList;
 import com.fullstack.springboot.entity.SalaryChart;
+import com.fullstack.springboot.repository.CompanyMailRepository;
 import com.fullstack.springboot.repository.DeptInfoRepository;
 import com.fullstack.springboot.repository.EmployeesRepository;
 import com.fullstack.springboot.repository.JobRepository;
@@ -27,6 +30,7 @@ import jakarta.persistence.Version;
 import lombok.RequiredArgsConstructor;
 
 @SpringBootTest
+@EnableJpaAuditing
 class ApplicationTests {
 
 	@Autowired
@@ -43,6 +47,9 @@ class ApplicationTests {
 	
 	@Autowired
 	private DeptInfoRepository deptInfoRepository;
+	
+	@Autowired
+	private CompanyMailRepository companyMailRepository;
 	
 	
 	//@Test
@@ -201,7 +208,7 @@ class ApplicationTests {
 			Employees employees = Employees.builder().build();
 			if(i<20) {
 				System.out.println("성공!");
-				long salary = (long)(Math.random()*1000)+6500;
+				long salary = (long)(ThreadLocalRandom.current().nextDouble()*1000)+6500;
 				if(i<5) {
 					employees = Employees.builder()
 							.firstName("f"+i)
@@ -247,7 +254,7 @@ class ApplicationTests {
 				}
 				employeesRepository.save(employees);
 			}else if(i<40) {
-				long salary = (long)(Math.random()*1000)+5500;
+				long salary = (long)(ThreadLocalRandom.current().nextDouble()*1000)+5500;
 				if(i<25) {
 					employees = Employees.builder()
 							.firstName("f"+i)
@@ -293,7 +300,7 @@ class ApplicationTests {
 				}
 				employeesRepository.save(employees);
 			}else if(i<60) {
-				long salary = (long)(Math.random()*1000)+4500;
+				long salary = (long)(ThreadLocalRandom.current().nextDouble()*1000)+4500;
 				if(i<45) {
 					employees = Employees.builder()
 							.firstName("f"+i)
@@ -339,7 +346,7 @@ class ApplicationTests {
 				}
 				employeesRepository.save(employees);
 			}else if(i<80) {
-				long salary = (long)(Math.random()*1000)+3500;
+				long salary = (long)(ThreadLocalRandom.current().nextDouble()*1000)+3500;
 				if(i<65) {
 					employees = Employees.builder()
 							.firstName("f"+i)
@@ -385,7 +392,7 @@ class ApplicationTests {
 				}
 				employeesRepository.save(employees);
 			}else{
-				long salary = (long)(Math.random()*1000)+2500;
+				long salary = (long)(ThreadLocalRandom.current().nextDouble()*1000)+2500;
 				if(i<85) {
 					employees = Employees.builder()
 							.firstName("f"+i)
@@ -435,12 +442,24 @@ class ApplicationTests {
 	}
 	 @Autowired
 	 PasswordEncoder encoder;
-	@Test
+	//@Test
 	void testPwd() {
 		Employees emp = employeesRepository.findById(1L).get();
 		String pwd = encoder.encode("1111");
 		emp.setPassword(pwd);
 		employeesRepository.save(emp);
 
+	}
+	@Test
+	void dumdums() {
+		IntStream.rangeClosed(1, 100).forEach(i -> {
+			CompanyMail mail = CompanyMail.builder()
+								.contents("content"+i)
+								.title("title"+i)
+								.sender(Employees.builder().empNo(1L).build())
+								.mailCategory("cat1")
+								.build();
+			companyMailRepository.save(mail);
+		});
 	}
 }

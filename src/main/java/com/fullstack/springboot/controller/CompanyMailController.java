@@ -25,6 +25,7 @@ import com.fullstack.springboot.entity.CompanyMail;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.mail.dto.CompanyMailDTO;
 import com.fullstack.springboot.mail.dto.CompanyMailListRequestDTO;
+import com.fullstack.springboot.mail.dto.CompanyMailReceivedDTO;
 import com.fullstack.springboot.mail.dto.CompanyMailResponseDTO;
 import com.fullstack.springboot.service.CompanyMailAttachFilesService;
 import com.fullstack.springboot.service.CompanyMailReceivedService;
@@ -49,7 +50,7 @@ public class CompanyMailController {
 	private final FileUtil fileUtil;
 
 	@PostMapping(path = "/mail", consumes = { "multipart/form-data;charset=UTF-8"})
-	public String regiMail(CompanyMailDTO dto,@RequestParam("sendEmpNo") long sendEmpNo,@RequestParam("receiveEmpNo") long[] receiveEmpNo) {
+	public String regiMail(CompanyMailDTO dto,@RequestParam long sendEmpNo,@RequestParam long[] receiveEmpNo) {
 		System.out.println("company-mail-sendMail");
 		System.out.println(dto);
 		System.out.println(sendEmpNo);
@@ -91,7 +92,7 @@ public class CompanyMailController {
 	}
 	
 	@GetMapping("/mail/r/{mailNo}")
-	public CompanyMailDTO readMail(@PathVariable("mailNo") String mailNo) {
+	public CompanyMailDTO readMail(@PathVariable String mailNo) {
 		System.out.println("company-mail-readMail");
 		
 		//CompanyMailDTO dto = companyMailService.read(Long.valueOf(URIVariableCrypto.decodePathVariable(mailNo)));
@@ -99,9 +100,24 @@ public class CompanyMailController {
 		
 		return dto;
 	}
+	@GetMapping("/mail/{mailNo}/received")
+	public CompanyMailReceivedDTO readMailReceived(@PathVariable("mailNo") String mailNo) {
+		System.out.println("company-mail-received");
+		
+		
+		
+		return null;
+	}
+	@GetMapping("/mail/{mailNo}/attcfile")
+	public String getMailAttachFIle(@PathVariable("mailNo") String mailNo) {
+		System.out.println("company-mail-attachedFile");
+		
+		return new String();
+	}
+	
 	@Transactional
 	//@GetMapping("/mail/l/{memberNo}")
-	public List<CompanyMailDTO> listMail(@PathVariable("memberNo") String memberNo){
+	public List<CompanyMailDTO> listMail(@PathVariable String memberNo){
 		System.out.println("company-mail-listMail");
 
 		//List<CompanyMailDTO> mailList = companyMailService.getList(Long.valueOf(URIVariableCrypto.decodePathVariable(memberNo)));
@@ -111,7 +127,7 @@ public class CompanyMailController {
 	}
 	@Transactional
 	@GetMapping("/mail/l")
-	public CompanyMailResponseDTO listMailPage(@RequestParam("email") String email,CompanyMailListRequestDTO reqDTO){
+	public CompanyMailResponseDTO listMailPage(@RequestParam String email,CompanyMailListRequestDTO reqDTO){
 		System.out.println("company-mail-lisMailPage");
 		Pageable pageable = PageRequest.of(reqDTO.getPage()-1, reqDTO.getSize(),Sort.by("mailNo").descending());
 		
@@ -119,7 +135,7 @@ public class CompanyMailController {
 	}
 	@Transactional
 	@GetMapping("/mail/l/{email}")
-	public CompanyMailResponseDTO listSendMailPage(@PathVariable("email") String email, CompanyMailListRequestDTO reqDTO) {
+	public CompanyMailResponseDTO listSendMailPage(@PathVariable String email, CompanyMailListRequestDTO reqDTO) {
 		System.out.println("company-mail-listSendMailPage");
 		Pageable pageable = PageRequest.of(reqDTO.getPage()-1, reqDTO.getSize(), Sort.by("mailNo").descending());
 		
@@ -127,7 +143,7 @@ public class CompanyMailController {
 	}
 	
 	@PutMapping("/mail/m")
-	public String modCat(@RequestParam("cat") String cat, @RequestParam("sendEmpNo") String sendEmpNo) {
+	public String modCat(@RequestParam String cat, @RequestParam String sendEmpNo) {
 		System.out.println("company-mail-modCat");
 
 		//String tranMsg = companyMailService.modifyMailCat(Long.valueOf(URIVariableCrypto.decodePathVariable(mailNo)),cat);
@@ -137,7 +153,7 @@ public class CompanyMailController {
 	}
 	
 	@DeleteMapping("/mail/e/{mailNo}")
-	public String deleteMail(@PathVariable("mailNo")String mailNo) {
+	public String deleteMail(@PathVariable String mailNo) {
 		System.out.println("company-mail-deleteMail");
 		
 		//String tranMsg = companyMailService.deleteMail(Long.valueOf(URIVariableCrypto.decodePathVariable(mailNo)));

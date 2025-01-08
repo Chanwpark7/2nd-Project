@@ -37,9 +37,9 @@ public class CompanyAuthConfig {
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		System.out.println("company-auth-config-init-filterchain");
 		http.cors(t ->{
 			t.configurationSource(corsConfigurationSource());
@@ -53,10 +53,10 @@ public class CompanyAuthConfig {
 		
 		return http.build();
 	}
-	
 
-	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		
 		corsConfiguration.setAllowedOriginPatterns(Arrays.asList("*"));
