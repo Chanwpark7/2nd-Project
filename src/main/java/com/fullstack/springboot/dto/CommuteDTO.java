@@ -1,6 +1,7 @@
 package com.fullstack.springboot.dto;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fullstack.springboot.entity.Commute;
@@ -20,10 +21,10 @@ public class CommuteDTO {
 	private Long commNo;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-	private LocalDateTime checkInTime;
+	private LocalTime checkInTime;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-	private LocalDateTime checkOutTime;
+	private LocalTime checkOutTime;
 	
 	private Long empNo;
 	

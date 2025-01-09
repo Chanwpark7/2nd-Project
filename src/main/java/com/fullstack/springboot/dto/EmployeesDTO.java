@@ -1,5 +1,6 @@
 package com.fullstack.springboot.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fullstack.springboot.entity.Employees;
@@ -21,7 +22,7 @@ public class EmployeesDTO {
 	
 	private String lastName;
 	
-	private LocalDateTime hireDate;
+	private LocalDate hireDate;
 	
 	private String mailAddress;
 	
@@ -31,7 +32,7 @@ public class EmployeesDTO {
 	
 	private Long jobNo;
 	
-	private LocalDateTime birthday;
+	private LocalDate birthday;
 	
 	private String address;
 	

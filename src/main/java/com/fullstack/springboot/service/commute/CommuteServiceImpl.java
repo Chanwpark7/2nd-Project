@@ -1,6 +1,7 @@
 package com.fullstack.springboot.service.commute;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +42,7 @@ public class CommuteServiceImpl implements CommuteService {
 		
 		Commute commute = dtoToEntity(commuteDTO);
 		
-		commute.changeCheckOut(LocalDateTime.now());
+		commute.changeCheckOut(LocalTime.now());
 		
 		commute.changeCommNo(commuteDTO.getCommNo());
 		

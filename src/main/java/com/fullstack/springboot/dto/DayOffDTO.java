@@ -1,5 +1,6 @@
 package com.fullstack.springboot.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fullstack.springboot.entity.DayOff;
@@ -19,7 +20,7 @@ public class DayOffDTO {
 	
 	private Long offHours;
 	
-	private LocalDateTime dayOffDate;
+	private LocalDate dayOffDate;
 	
 	private Long empNo;
 	
@@ -34,7 +35,7 @@ public class DayOffDTO {
 		this.offHours = hours;
 	}
 	
-	public void changeOffDate(LocalDateTime date) {
+	public void changeOffDate(LocalDate date) {
 		this.dayOffDate = date;
 	}
 }

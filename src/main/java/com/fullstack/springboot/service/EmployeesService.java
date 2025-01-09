@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 
 import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
+import com.fullstack.springboot.dto.PageResponseDTO;
 
 public interface EmployeesService {
 
@@ -15,7 +16,7 @@ public interface EmployeesService {
 	
 	public void deleteEmployees(Long empNo);
 	
-	public Page<EmployeesDTO> getEmployeesListPage(PageRequestDTO pageRequestDTO);
+	public PageResponseDTO<EmployeesDTO> getEmployeesListPage(PageRequestDTO pageRequestDTO);
 	
-	public EmployeesDTO getOne(EmployeesDTO employeesDTO);
+	public EmployeesDTO getOne(Long empNo);
 }

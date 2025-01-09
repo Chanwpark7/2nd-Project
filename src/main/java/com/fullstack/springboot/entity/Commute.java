@@ -1,6 +1,7 @@
 package com.fullstack.springboot.entity;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -28,14 +29,14 @@ public class Commute {
 	private long commNo;
 	
 	@CreationTimestamp
-	private LocalDateTime checkInTime;
+	private LocalTime checkInTime;
 	
-	private LocalDateTime checkOutTime;
+	private LocalTime checkOutTime;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employees employees;
 	
-	public void changeCheckOut(LocalDateTime now) {
+	public void changeCheckOut(LocalTime now) {
 		this.checkOutTime = now;
 	}
 	

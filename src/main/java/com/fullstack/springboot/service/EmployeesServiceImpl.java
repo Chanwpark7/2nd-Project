@@ -9,8 +9,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.fullstack.springboot.dto.DayOffDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
+import com.fullstack.springboot.dto.PageResponseDTO;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.repository.DeptInfoRepository;
 import com.fullstack.springboot.repository.EmployeesRepository;
@@ -85,20 +87,27 @@ public class EmployeesServiceImpl implements EmployeesService {
 	}
 
 	@Override
-	public Page<EmployeesDTO> getEmployeesListPage(PageRequestDTO pageRequestDTO) {
+	public PageResponseDTO<EmployeesDTO> getEmployeesListPage(PageRequestDTO pageRequestDTO) {
 		
 		Pageable pageable = pageRequestDTO.getPageable(Sort.by("empNo").ascending());
 
 		Page<EmployeesDTO> page = employeesRepository.getEmployeesList(pageable);
-		return page;
+
+		List<EmployeesDTO> dtoList = page.get().toList();
+		
+		long totalCount = page.getTotalElements();
+		
+		return PageResponseDTO.<EmployeesDTO>withAll()
+				.dtoList(dtoList)
+				.totalCount(totalCount)
+				.pageRequestDTO(pageRequestDTO)
+				.build();
 	}
 
 	@Override
-	public EmployeesDTO getOne(EmployeesDTO employeesDTO) {
+	public EmployeesDTO getOne(Long empNo) {
 		
-		System.out.println(employeesDTO.getEmpNo());
-		
-		Optional<Employees> result = employeesRepository.findById(employeesDTO.getEmpNo());
+		Optional<Employees> result = employeesRepository.findById(empNo);
 		
 		Employees emp = result.orElseThrow();
 

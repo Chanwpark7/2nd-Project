@@ -1,6 +1,8 @@
 package com.fullstack.springboot.service.annualleave;
 
 import com.fullstack.springboot.dto.AnnualLeaveDTO;
+import com.fullstack.springboot.dto.PageRequestDTO;
+import com.fullstack.springboot.dto.PageResponseDTO;
 import com.fullstack.springboot.entity.AnnualLeave;
 import com.fullstack.springboot.entity.Employees;
 
@@ -15,6 +17,7 @@ public interface AnnualleaveService {
 	public void changeHours(Long empNo, Long hours);
 	
 	public void modifyAnnualleave(AnnualLeaveDTO annualleaveDTO, Long hours);
+	
 	
 	default AnnualLeave dtoToEntity(AnnualLeaveDTO annualLeaveDTO) {
 		AnnualLeave annualLeave = AnnualLeave.builder()

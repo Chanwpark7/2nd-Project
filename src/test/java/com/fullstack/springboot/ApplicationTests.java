@@ -680,15 +680,19 @@ class ApplicationTests {
 //		log.error(page.getPageRequestDTO().getPageable(Sort.by("empNo")));
 //	}
 	
-	void addBookingService() {
-		BookingDTO bookingDTO = BookingDTO.builder()
-				.bookDate("2025-01-11")
-				.empNo(12L)
-				.start("11:11")
-				.end("21:11")
-				.roomNo(101L)
-				.build();
-		
-		bookingService.addBooking(bookingDTO);
+//	void addBookingService() {
+//		BookingDTO bookingDTO = BookingDTO.builder()
+//				.bookDate("2025-01-11")
+//				.empNo(12L)
+//				.start("11:11")
+//				.end("21:11")
+//				.roomNo(101L)
+//				.build();
+//		
+//		bookingService.addBooking(bookingDTO);
+//	}
+	
+	void getOneTest() {
+		log.error(employeesRepository.getOneByEmpNo(1L)[0]);
 	}
 }

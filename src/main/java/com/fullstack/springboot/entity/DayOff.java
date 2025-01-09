@@ -1,5 +1,6 @@
 package com.fullstack.springboot.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class DayOff {
 	
 	private Long offHours;
 	
-	private LocalDateTime dayOffDate;
+	private LocalDate dayOffDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employees employees;
