@@ -1,5 +1,6 @@
 package com.fullstack.springboot.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,7 +35,7 @@ public class Employees {
 	private String lastName;
 	
 	@CreationTimestamp
-	private LocalDateTime hireDate;
+	private LocalDate hireDate;
 	
 	private String mailAddress;
 	
@@ -46,7 +47,7 @@ public class Employees {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Job job;
 	
-	private LocalDateTime birthday;
+	private LocalDate birthday;
 	
 	private String address;
 	
@@ -55,5 +56,7 @@ public class Employees {
 	private String gender;
 	
 	private String citizenId;
+	
+	private String password;
 
 }

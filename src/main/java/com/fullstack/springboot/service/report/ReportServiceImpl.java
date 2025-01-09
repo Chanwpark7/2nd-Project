@@ -1,4 +1,4 @@
-package com.fullstack.springboot.service;
+package com.fullstack.springboot.service.report;
 
 import org.springframework.stereotype.Service;
 

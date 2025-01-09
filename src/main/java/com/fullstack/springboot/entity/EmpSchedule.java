@@ -24,10 +24,23 @@ public class EmpSchedule {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long empSchNo;
 	
-	private LocalDateTime scheduleDate;
+	private LocalDateTime startDate;
+	
+	private LocalDateTime endDate;
 	
 	private String scheduleText;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employees employees;
+	
+	
+	public void changeScheduleDate(LocalDateTime startDate, LocalDateTime endDate) {
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+	
+	public void changeScheduleText(String scheduleText) {
+		this.scheduleText = scheduleText;
+	}
+	
 }
