@@ -10,13 +10,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.fullstack.springboot.dto.CommuteDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.entity.Employees;
 
 public interface EmployeesRepository extends JpaRepository<Employees, Long> {
 
 	@Query("select e from Employees e where e.empNo =:empNo")
-	public Optional<Employees> getEmpNo(@Param("empNo")Long empNO);
+	public Optional<Employees> getEmpNo(@Param("empNo")Long empNo);
 	
 	@Query("select new com.fullstack.springboot.dto.EmployeesDTO(e) from Employees e ")
 	public Page<EmployeesDTO> empAllList(Pageable pageable);
@@ -48,4 +49,12 @@ public interface EmployeesRepository extends JpaRepository<Employees, Long> {
 			+ "left join Commute cm on cm.employees = emp "
 			+ "where emp.empNo = :empNo")
 	Object[] getOneByEmpNo(@Param("empNo") Long empNo);
+	
+	@Query("Select new com.fullstack.springboot.dto.CommuteDTO(cm) "
+			+ "from Commute cm "
+			+ "where cm.employees = :empNo")
+	Page<CommuteDTO> getCommuteByEmpNo(Pageable pageable, @Param("empNo")Long empNo);
+	
+	@Query("Select FUNCTION('MAX',e.empNo) from Employees e")
+	Object getMaxEmpNo();
 }

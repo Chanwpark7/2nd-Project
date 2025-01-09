@@ -2,6 +2,7 @@ package com.fullstack.springboot.service.commute;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,7 +10,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.fullstack.springboot.dto.CommuteDTO;
+import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
+import com.fullstack.springboot.dto.PageResponseDTO;
 import com.fullstack.springboot.entity.Commute;
 import com.fullstack.springboot.repository.CommuteRepository;
 
@@ -24,11 +27,18 @@ public class CommuteServiceImpl implements CommuteService {
 	private final CommuteRepository commuteRepository;
 	
 	@Override
-	public CommuteDTO addCommute(CommuteDTO commuteDTO) {
+	public Long addCommute(Long empNo) {
+		CommuteDTO commuteDTO = commuteRepository.whenCheckingOut(empNo);
 		
-		commuteRepository.save(dtoToEntity(commuteDTO));
+		if(commuteDTO == null) {
+			if(commuteRepository.checkingExistency(empNo)==null) {
+				commuteRepository.save(dtoToEntity(CommuteDTO.builder().empNo(empNo).build()));
+				
+				return empNo;
+			}
+		};
 		
-		return commuteDTO;
+		return null;
 	}
 	
 	@Override
@@ -40,6 +50,8 @@ public class CommuteServiceImpl implements CommuteService {
 			return;
 		};
 		
+		System.out.println(commuteDTO);
+		
 		Commute commute = dtoToEntity(commuteDTO);
 		
 		commute.changeCheckOut(LocalTime.now());
@@ -50,12 +62,26 @@ public class CommuteServiceImpl implements CommuteService {
 	}
 	
 	@Override
-	public Page<CommuteDTO> getListCommute(Long empNo, PageRequestDTO pageRequestDTO) {
+	public PageResponseDTO<CommuteDTO> getListCommute(Long empNo, PageRequestDTO pageRequestDTO) {
 
 		Pageable pageable = pageRequestDTO.getPageable(Sort.by("commNo").descending());
 		
 		Page<CommuteDTO> page = commuteRepository.getListComm(empNo, pageable);
 		
-		return page;
+		List<CommuteDTO> dtoList = page.get().toList();
+		
+		long totalCount = page.getTotalElements();
+		
+		return PageResponseDTO.<CommuteDTO>withAll()
+				.dtoList(dtoList)
+				.totalCount(totalCount)
+				.pageRequestDTO(pageRequestDTO)
+				.build();
+	}
+	
+	@Override
+	public void modifyCommute(Long empNo, CommuteDTO commuteDTO) {
+		
+		commuteRepository.save(dtoToEntity(commuteDTO));
 	}
 }
