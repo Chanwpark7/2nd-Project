@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.fullstack.springboot.dto.BookingDTO;
 import com.fullstack.springboot.entity.Booking;
+import com.fullstack.springboot.entity.RoomList;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 

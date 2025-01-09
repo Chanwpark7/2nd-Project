@@ -9,6 +9,8 @@ import com.fullstack.springboot.dto.DeptInfoDTO;
 import com.fullstack.springboot.entity.DeptInfo;
 
 public interface DeptInfoRepository extends JpaRepository<DeptInfo, Long> {
+	
+	
 
 	@Query("Select new com.fullstack.springboot.dto.DeptInfoDTO(di) from DeptInfo di")
 	List<DeptInfoDTO> getDeptList();
