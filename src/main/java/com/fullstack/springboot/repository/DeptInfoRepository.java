@@ -1,11 +1,17 @@
 package com.fullstack.springboot.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.fullstack.springboot.dto.DeptInfoDTO;
 import com.fullstack.springboot.entity.DeptInfo;
 
 public interface DeptInfoRepository extends JpaRepository<DeptInfo, Long> {
 	
 	
 
+	@Query("Select new com.fullstack.springboot.dto.DeptInfoDTO(di) from DeptInfo di")
+	List<DeptInfoDTO> getDeptList();
 }

@@ -11,4 +11,6 @@ import com.fullstack.springboot.entity.RoomList;
 
 public interface RoomListRepository extends JpaRepository<RoomList, Long> {
 
+	@Query("Select new com.fullstack.springboot.dto.RoomListDTO(rl) from RoomList rl")
+	List<RoomListDTO> getRoomList();
 }

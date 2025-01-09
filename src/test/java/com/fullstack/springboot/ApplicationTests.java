@@ -1,47 +1,55 @@
 package com.fullstack.springboot;
 
-
-import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fullstack.springboot.dto.CompanyChatDTO;
-import com.fullstack.springboot.dto.CompanyChatMemberDTO;
-import com.fullstack.springboot.dto.DeptScheduleDTO;
-import com.fullstack.springboot.dto.EmpScheduleDTO;
-import com.fullstack.springboot.dto.RoomListDTO;
-import com.fullstack.springboot.entity.CompanyChat;
-import com.fullstack.springboot.entity.CompanyChatMember;
+import com.fullstack.springboot.dto.AnnualLeaveDTO;
+import com.fullstack.springboot.dto.BookingDTO;
+import com.fullstack.springboot.dto.CommuteDTO;
+import com.fullstack.springboot.dto.DayOffDTO;
+import com.fullstack.springboot.dto.DeptInfoDTO;
+import com.fullstack.springboot.dto.EmployeesDTO;
+import com.fullstack.springboot.dto.JobDTO;
+import com.fullstack.springboot.dto.PageRequestDTO;
+import com.fullstack.springboot.dto.PageResponseDTO;
+import com.fullstack.springboot.entity.Booking;
 import com.fullstack.springboot.entity.DeptInfo;
-import com.fullstack.springboot.entity.DeptSchedule;
-import com.fullstack.springboot.entity.EmpSchedule;
 import com.fullstack.springboot.entity.Employees;
+import com.fullstack.springboot.entity.Job;
 import com.fullstack.springboot.entity.RoomList;
-import com.fullstack.springboot.repository.CompanyChatMemberRepository;
-import com.fullstack.springboot.repository.CompanyChatRepository;
+import com.fullstack.springboot.entity.SalaryChart;
+import com.fullstack.springboot.repository.BookingRepository;
+import com.fullstack.springboot.repository.CommuteRepository;
 import com.fullstack.springboot.repository.DeptInfoRepository;
-import com.fullstack.springboot.repository.DeptScheduleRepository;
-import com.fullstack.springboot.repository.EmpScheuleRepository;
 import com.fullstack.springboot.repository.EmployeesRepository;
 import com.fullstack.springboot.repository.JobRepository;
 import com.fullstack.springboot.repository.RoomListRepository;
 import com.fullstack.springboot.repository.SalaryChartRepository;
-import com.fullstack.springboot.service.CompanyChatService;
-import com.fullstack.springboot.service.DeptScheduleService;
-import com.fullstack.springboot.service.EmpScheduleService;
+import com.fullstack.springboot.service.EmployeesService;
+import com.fullstack.springboot.service.annualleave.AnnualleaveService;
+import com.fullstack.springboot.service.booking.BookingService;
+import com.fullstack.springboot.service.commute.CommuteService;
+import com.fullstack.springboot.service.dayoff.DayOffService;
+import com.fullstack.springboot.service.deptinfo.DeptInfoService;
+import com.fullstack.springboot.service.job.JobService;
+import com.fullstack.springboot.service.roomlist.RoomListService;
 
+import jakarta.persistence.Version;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-
 
 @SpringBootTest
 @Log4j2
@@ -58,271 +66,633 @@ class ApplicationTests {
 	
 	@Autowired
 	private RoomListRepository roomListRepository;
+
+	@Autowired
+	private RoomListService roomListService;
 	
 	@Autowired
 	private DeptInfoRepository deptInfoRepository;
 	
 	@Autowired
-	private EmpScheuleRepository empScheuleRepository;
-
-	@Autowired
-	private DeptScheduleRepository deptScheduleRepository;
-
-	@Autowired
-	private EmpScheduleService empScheduleService;
+	private BookingRepository bookingRepository;
 	
 	@Autowired
-	private DeptScheduleService deptScheduleService;
+	private BookingService bookingService;
 	
 	@Autowired
-	private CompanyChatMemberRepository companyChatMemberRepository;
+	private CommuteService commuteService;
 	
 	@Autowired
-	private CompanyChatRepository companyChatRepository;
+	private CommuteRepository commuteRepository;
 	
 	@Autowired
-	private CompanyChatService companyChatService;
+	private JobService jobService;
 	
-//	@Test
-//	void delTest() {
-//		long empNo = 3L;
-//		long empSchNo = 338L;
+	@Autowired
+	private DeptInfoService deptInfoService;
+	
+	@Autowired
+	private EmployeesService employeesService;
+	
+	@Autowired
+	private AnnualleaveService annualleaveService;
+	
+	@Autowired
+	private DayOffService dayOffService;
+	
+	@Test
+//	 void insertDummies() {
+//	      Job job = Job.builder()
+//	            .jobNo(100L)
+//	            .jobTitle("DIRECTOR")
+//	            .build();
+//
+//	      jobRepository.save(job);
+//	      
+//	      job = Job.builder()
+//	            .jobNo(200L)
+//	            .jobTitle("MANAGER")
+//	            .build();
+//
+//	      jobRepository.save(job);
+//	      
+//	      job = Job.builder()
+//	            .jobNo(300L)
+//	            .jobTitle("SENIOR")
+//	            .build();
+//
+//	      jobRepository.save(job);
+//	      
+//	      job = Job.builder()
+//	            .jobNo(400L)
+//	            .jobTitle("EMPLOYEE")
+//	            .build();
+//
+//	      jobRepository.save(job);
+//	      
+//	      job = Job.builder()
+//	      .jobNo(500L)
+//	      .jobTitle("INTERN")
+//	      .build();
+//	      
+//	      jobRepository.save(job);
 //		
-//		empScheuleRepository.deleteById(empSchNo);
-//	}
-	
-	
-//	@Test
-//	@Transactional
-//	 void testGetSche() {
-//		log.error("Gggggggggggggg");
-//		System.out.println("Gggggggggg");
+//		SalaryChart salaryChart = SalaryChart.builder()
+//				.saleryNo(100L)
+//				.job(Job.builder()
+//						.jobNo(100L)
+//						.build())
+//				.minSalary(6500L)
+//				.maxSalary(7500L)
+//				.build();
+//
+//		salaryChartRepository.save(salaryChart);
 //		
-//		long empNo = 3L;
-//	
-//		List<EmpScheduleDTO> res = empScheuleRepository.getEmpScheduleDate(empNo, LocalDateTime.of(2024,12,23,15,41,26), LocalDateTime.of(2024,12,23,15,41,26));
-//		if (res.isEmpty()) {
-//		    log.error("error");
-//		} else {
-//		    for (EmpScheduleDTO dto : res) {
-//		        log.error("res" + dto);
-//		    }
-//		}
-//    }
-
-	
-//	@Test
-//	void testGetDeptScheduleList() {
-//	    long deptNo = 100L;
-//	    long empNo = 3L;
+//		salaryChart = SalaryChart.builder()
+//				.saleryNo(200L)
+//				.job((Job)jobRepository.getJobById(200L))
+//				.minSalary(5500L)
+//				.maxSalary(6500L)
+//				.build();
 //
-//	    List<DeptScheduleDTO> result = deptScheduleRepository.getDeptScheduleList(deptNo, empNo);
-//
-//	    if (result.isEmpty()) {
-//	        System.out.println("결과x");
-//	    } else {
-//	        for (DeptScheduleDTO dto : result) {
-//	            System.out.println(dto);
-//	        }
-//	    }
-//
-//
-//
-//      
-//	}
-
-
-//	@Test
-//	void test2() {
-//		long empNo = 3;
+//		salaryChartRepository.save(salaryChart);
 //		
-//		List<EmpScheduleDTO> res = empScheuleRepository.getEmpScheList(empNo);
-//		if (res.isEmpty()) {
-//		    log.error(empNo);
-//		} else {
-//		    for (EmpScheduleDTO dto : res) {
-//		        log.error( dto);
-//		    }
-//		}
-//	}
-//}
-//	}
-	
-//	@Test
-//	void test3() {
-//	    List<DeptScheduleDTO> one = deptScheduleRepository.getDeptScheOne(5L, 100L);
-//	    for (DeptScheduleDTO dto : one) {
-//	        log.error(dto.toString());  // 결과 출력
-//	    }
-//	}
-
-
-	
-//	@Test
-//	void test4() {
-//	 
-//	    List<DeptScheduleDTO> result = deptScheduleRepository.getDeptScheOne(5L, 100L);
+//		salaryChart = SalaryChart.builder()
+//				.saleryNo(300L)
+//				.job((Job)jobRepository.getJobById(300L))
+//				.minSalary(4500L)
+//				.maxSalary(5500L)
+//				.build();
 //
+//		salaryChartRepository.save(salaryChart);
+//		
+//		salaryChart = SalaryChart.builder()
+//				.saleryNo(400L)
+//				.job((Job)jobRepository.getJobById(400L))
+//				.minSalary(3500L)
+//				.maxSalary(4500L)
+//				.build();
 //
-//	    if (result.isEmpty()) {
-//	        System.out.println("결과x");
-//	    } else {
-//	        System.out.println(result);
-//	    }
+//		salaryChartRepository.save(salaryChart);
+//		
+//		salaryChart = SalaryChart.builder()
+//				.saleryNo(500L)
+//				.job((Job)jobRepository.getJobById(500L))
+//				.minSalary(2500L)
+//				.maxSalary(3500L)
+//				.build();
+//
+//		salaryChartRepository.save(salaryChart);
+//		
 //	}
-
 	
-//	@Transactional
-//	@Test
-//	void test5() {
-//	    List<DeptScheduleDTO> result = deptScheduleRepository.getDeptSchedulDay(100L, LocalDateTime.of(2024,12,23,15,43,37), LocalDateTime.of(2024,12,23,15,43,37));
-//	    
-//	    if (result.isEmpty()) {
-//	        System.out.println("결과x");
-//	    } else {
-//	        System.out.println(result);
-//	        for (DeptScheduleDTO dto : result) {
-//	            System.out.println(dto.getEmpNo());  
-//	        }
-//	    }
+//	void insertDummies() {
+//		DeptInfo deptInfo = DeptInfo.builder()
+//				.deptNo(100L)
+//				.deptName("GA")
+//				.deptAddress("GA Building")
+//				.phoneNo("02-100-100")
+//				.build();
+//		
+//		deptInfoRepository.save(deptInfo);
+//		
+//		deptInfo = DeptInfo.builder()
+//				.deptNo(200L)
+//				.deptName("HR")
+//				.deptAddress("HR Building")
+//				.phoneNo("02-100-200")
+//				.build();
+//		
+//		deptInfoRepository.save(deptInfo);
+//		
+//		deptInfo = DeptInfo.builder()
+//				.deptNo(300L)
+//				.deptName("ACC")
+//				.deptAddress("ACC Building")
+//				.phoneNo("02-100-300")
+//				.build();
+//		
+//		deptInfoRepository.save(deptInfo);
 //	}
-//	
 
-
-//	@Test
-//	void tes() {
-//		List<EmpScheduleDTO> res = empScheduleService.getEmpScheduleList(3L);
-//		for(EmpScheduleDTO dto : res) {
-//			log.warn(dto);
+//	void insertDummies() {
+//		RoomList roomList = RoomList.builder()
+//				.roomNo(101L)
+//				.roomName("회의실1")
+//				.location("901호")
+//				.build();
+//		
+//		roomListRepository.save(roomList);
+//		
+//		roomList = RoomList.builder()
+//				.roomNo(102L)
+//				.roomName("회의실2")
+//				.location("902호")
+//				.build();
+//		
+//		roomListRepository.save(roomList);
+//		
+//		roomList = RoomList.builder()
+//				.roomNo(103L)
+//				.roomName("회의실3")
+//				.location("903호")
+//				.build();
+//		
+//		roomListRepository.save(roomList);
+//		
+//		roomList = RoomList.builder()
+//				.roomNo(201L)
+//				.roomName("변기 901")
+//				.location("9층 남자 1번")
+//				.build();
+//		
+//		roomListRepository.save(roomList);
+//		
+//		roomList = RoomList.builder()
+//				.roomNo(211L)
+//				.roomName("변기 911")
+//				.location("9층 여자 1번")
+//				.build();
+//		
+//		roomListRepository.save(roomList);
+//	}
+	
+//	void insertDummies() {
+//		IntStream.rangeClosed(1, 100).forEach(i -> {
+//			Employees employees = Employees.builder().build();
+//			if(i<20) {
+//				System.out.println("성공!");
+//				long salary = (long)(Math.random()*1000)+6500;
+//				if(i<5) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(100L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(100L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("seoul")
+//							.phoneNum("010-1111-1111")
+//							.gender("m")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else if(i<10) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(100L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(200L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("seoul")
+//							.phoneNum("010-1111-1111")
+//							.gender("f")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(100L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(300L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("seoul")
+//							.phoneNum("010-1111-1111")
+//							.gender("m")
+//							.citizenId("0000000000000")
+//							.build();
+//				}
+//				employeesRepository.save(employees);
+//			}else if(i<40) {
+//				long salary = (long)(Math.random()*1000)+5500;
+//				if(i<25) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(200L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(100L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("daejeon")
+//							.phoneNum("010-1111-1111")
+//							.gender("f")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else if(i<30) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(200L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(200L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("daejeon")
+//							.phoneNum("010-1111-1111")
+//							.gender("f")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(200L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(300L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("daejeon")
+//							.phoneNum("010-1111-1111")
+//							.gender("m")
+//							.citizenId("0000000000000")
+//							.build();
+//				}
+//				employeesRepository.save(employees);
+//			}else if(i<60) {
+//				long salary = (long)(Math.random()*1000)+4500;
+//				if(i<45) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(300L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(100L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("daegu")
+//							.phoneNum("010-1111-1111")
+//							.gender("m")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else if(i<50) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(300L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(200L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("daegu")
+//							.phoneNum("010-1111-1111")
+//							.gender("f")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(300L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(300L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("daegu")
+//							.phoneNum("010-1111-1111")
+//							.gender("f")
+//							.citizenId("0000000000000")
+//							.build();
+//				}
+//				employeesRepository.save(employees);
+//			}else if(i<80) {
+//				long salary = (long)(Math.random()*1000)+3500;
+//				if(i<65) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(400L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(100L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("busan")
+//							.phoneNum("010-1111-1111")
+//							.gender("m")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else if(i<70) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(400L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(200L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("busan")
+//							.phoneNum("010-1111-1111")
+//							.gender("f")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(400L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(300L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("busan")
+//							.phoneNum("010-1111-1111")
+//							.gender("m")
+//							.citizenId("0000000000000")
+//							.build();
+//				}
+//				employeesRepository.save(employees);
+//			}else{
+//				long salary = (long)(Math.random()*1000)+2500;
+//				if(i<85) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(500L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(100L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("ulsan")
+//							.phoneNum("010-1111-1111")
+//							.gender("m")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else if(i<90) {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(500L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(200L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("ulsan")
+//							.phoneNum("010-1111-1111")
+//							.gender("m")
+//							.citizenId("0000000000000")
+//							.build();
+//				}else {
+//					employees = Employees.builder()
+//							.firstName("f"+i)
+//							.lastName("l"+i)
+//							.mailAddress("f"+i+"l"+i+"@ddt.co")
+//							.salary(salary)
+//							.job(Job.builder().jobNo(500L).build())
+//							.deptInfo(DeptInfo.builder().deptNo(300L).build())
+//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.address("ulsan")
+//							.phoneNum("010-1111-1111")
+//							.gender("m")
+//							.citizenId("0000000000000")
+//							.build();
+//				}
+//				employeesRepository.save(employees);
 //			}
-//		}
-	
-//	@Test
-//	@Commit
-//	void tes() { //글 수정하는 거 테스트
-//		Long empSchNo = 228L;
-//		String scheduleTest = "팀 미팅";
-//		Optional<EmpSchedule> res = empScheuleRepository.findById(empSchNo);
-//		EmpSchedule empSchedule = res.orElseThrow();
-//		empSchedule.changeScheduleText(scheduleTest);
-//		empScheuleRepository.save(empSchedule);
-//		log.error("수정완료");
-//	}
-	
-	
-//	@Test
-//	void insEmpSche() {
-//		IntStream.rangeClosed(3, 100).forEach(i->{
-//			Employees employees = Employees.builder().empNo(i).build();
-//			EmpSchedule empSchedule = EmpSchedule.builder()
-//					.scheduleText("팀회의")
-//					.employees(employees)
-//					.startDate(LocalDateTime.now())
-//					.endDate(LocalDateTime.now())
-//					.build();
-//			empScheuleRepository.save(empSchedule);
 //		});
 //	}
 	
-//	@Autowired
-//	private DeptScheduleRepository deptScheduleRepository;
-//
-//	
-//	@Test
-//	void DeptIns() {
-//		Employees employees = Employees.builder().empNo(3).build();
-//		DeptInfo deptInfo =  DeptInfo.builder().deptNo(100).build();
-//		DeptSchedule deptSchedule = DeptSchedule.builder()
-//				.scheduleText("Team meeting")
-//				.deptInfo(deptInfo)
-//				.employees(employees)
-//				.startDate(LocalDateTime.now())
-//				.endDate(LocalDateTime.now())
+//	void insertDummiesBooking() {
+//		//IntStream.rangeClosed(1, 11).forEach(i -> {
+//			BookingDTO bookingDTO = BookingDTO.builder()
+//					.bookDate(LocalDateTime.now())
+//					.start(LocalDateTime.now())
+//					.end(LocalDateTime.now())
+//					.RoomNo(201L)
+//					.empNo(2L)
+//					.build();
+//			
+//			bookingService.modify(1L, bookingDTO);
+//		//});
+//	}
+	
+//	void testGetList() {
+//		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+//				.size(10)
+//				.page(1)
 //				.build();
-//		deptScheduleRepository.save(deptSchedule);
-//	}
-	
-	
-
-//	@Test
-//	void tes() {
-//		 CompanyChat companyChat = CompanyChat.builder()
-//		            .companyChatMember(new ArrayList<>()) 
-//		            .build();
-//		    companyChatRepository.save(companyChat);  
+//		
+//		Page<BookingDTO> result = bookingService.getWRBookingList(pageRequestDTO);
 //
-//		    IntStream.rangeClosed(3, 13).forEach(i -> {
-//		        Employees employees = employeesRepository.findById((long) i)
-//		                .orElseThrow(() -> new RuntimeException("emp x"));
-//		        CompanyChatMember chatMember = CompanyChatMember.builder()
-//		                .employees(employees)   
-//		                .companyChat(companyChat) 
-//		                .build();
-//
-//		        companyChatMemberRepository.save(chatMember);
-//		        companyChat.getCompanyChatMember().add(chatMember);
-//		    });
-//	}
-	
-	
-//	@Test
-//	void getCompanyChatNoAll() {
-//		List<CompanyChatDTO> one = companyChatRepository.getCompanyChatNoAll(3L);
-//		for(CompanyChatDTO dto : one) {
-//			log.error(dto.toString());
+//		log.error(result.getPageable());
+//		for(BookingDTO res : result) {
+//			log.error(res);
 //		}
 //	}
-
-//	@Test
-//	void getChatAllMember(){
-//		List<CompanyChatMemberDTO> one = companyChatMemberRepository.getChatAllMember(4L);
-//		for(CompanyChatMemberDTO dto : one) {
+	
+//	void getList() {
+//		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+//				.size(10)
+//				.page(1)
+//				.build();
+//		bookingService.getBookingList(pageRequestDTO);
+//	}
+	
+//	void remove() {
+//		bookingService.remove(50L);
+//	}
+	
+//	void addCommute() {
+//		CommuteDTO commuteDTO = CommuteDTO.builder()
+//				.empNo(1L)
+//				.build();
+//		
+//		commuteService.addCommute(commuteDTO);
+//	}
+	
+//	void oimocheck() {
+//		commuteService.checkOut(1L);
+//	}
+	
+//	void getpage() {
+//		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+//				.size(10)
+//				.page(1)
+//				.build();
+//		
+//		Page<CommuteDTO> page = commuteService.getListCommute(1L, pageRequestDTO);
+//		
+//		for(CommuteDTO dto : page) {
+//			log.error(dto);
+//		}
+//	};
+	
+//	void jobCrudTest() {
+//		
+//		JobDTO jobDTO = JobDTO.builder()
+//				.jobNo(998L)
+//				.jobTitle("ADMIN1")
+//				.build();
+//		
+//		//jobService.createOrModifyJob(jobDTO);
+//		
+//		//jobService.deleteJob(998L);
+//		
+//		List<JobDTO> list = jobService.jobList();
+//		for(JobDTO dto : list) {
 //			log.error(dto);
 //		}
 //	}
-
-
-//	@Test
-//	void getCompanyChatNoOne() {
-//		List<CompanyChatDTO> one = companyChatRepository.getCompanyChatNoOne(3L, 4L);
-//		for(CompanyChatDTO dto : one) {
-//			log.error(dto);
-//		}
-//	}
-
-//	@Test
-//	void getChatOneMember() {
-//		List<CompanyChatMemberDTO> one = companyChatMemberRepository.getChatOneMember(4L, 3L);
-//		for(CompanyChatMemberDTO dto : one) {
+	
+//	void deptCRUDTest() {
+//		DeptInfoDTO deptInfoDTO = DeptInfoDTO.builder()
+//				.deptNo(999L)
+//				.deptName("ADMIN11")
+//				.deptAddress("ADMIN11")
+//				.phoneNo("999-999")
+//				.build();
+//		
+//		//deptInfoService.createOrModifyDept(deptInfoDTO);
+//		
+//		//deptInfoService.deleteDept(999L);
+//		
+//		List<DeptInfoDTO> list = deptInfoService.getDeptList();
+//		for(DeptInfoDTO dto : list) {
 //			log.error(dto);
 //		}
 //	}
 	
-//	@Test
-//	void tee() {
-//		String chatNo = "3_89";
-//		Long empNo = 3L;
-//		List<CompanyChatMemberDTO> res = companyChatMemberRepository.getSameList(chatNo, empNo);
-//		for(CompanyChatMemberDTO dto : res) {
-//			log.warn(dto);
+//	void employeesCRUDTest() {
+////		EmployeesDTO employeesDTO = EmployeesDTO.builder()
+////				.empNo(100L)
+////				.firstName("A")
+////				.lastName("DMIN")
+////				.hireDate(LocalDateTime.of(2000, 1, 1, 0, 0))
+////				.mailAddress("1@1")
+////				.salary(100L)
+////				//.deptNo(100L)
+////				//.jobNo(100L)
+////				.birthday(LocalDateTime.of(2000, 1, 1, 1, 1))
+////				.address("ADMIN")
+////				.phoneNum("01011111")
+////				.gender("m")
+////				.citizenId("1111111111111")
+////				.build();
+//		
+//		//employeesService.deleteEmployees(101L);
+//		
+//		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+//				.page(2)
+//				.size(10)
+//				.build();
+//		
+//		PageResponseDTO<BookingDTO> page = roomListService.getBookingListPageByRoomNo(pageRequestDTO, 101L);
+//		
+//		for(BookingDTO emp : page.getDtoList()) {
+//			log.error(emp);
 //		}
-//	
+//		
+//		log.error(page.getPageRequestDTO().getPageable(Sort.by("empNo")));
+//	}
+
+//	void annualLeaveTest() {
+//		IntStream.rangeClosed(1, 100).forEach(i -> {
+//			//annualleaveService.deleteAnnualleave((long)i);
+//			
+//			annualleaveService.setAnnualleave((long) i);
+//		});
+//		
+//		AnnualLeaveDTO annualLeaveDTO = AnnualLeaveDTO.builder()
+//				.annualId(101L)
+//				.antecedent(1)
+//				.empNo(1L)
+//				.hours(0L)
+//				.build();
+//		
+//		//log.error(annualleaveService.getOne(annualLeaveDTO));
+//		
+//		//annualleaveService.deleteAnnualleave(annualLeaveDTO.getEmpNo());
+//		
+//		//annualleaveService.setAnnualleave(1L);
+//		
+//		//annualleaveService.modifyAnnualleave(annualLeaveDTO);
 //	}
 	
-	@Test
-	void tes() {
-		int year = LocalDate.now().getYear();
-		String DIRECTORY_PATH = "C:" + File.separator + "chatting" + File.separator + year;
-		String chatNo = "3_95";
-		try {
-			List<List<String>> res = companyChatService.chatDataReadToExcel(DIRECTORY_PATH, chatNo);
-		
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+//	void dayOffTest() {
+//		DayOffDTO dayOffDTO = DayOffDTO.builder()
+//				.empNo(1L)
+//				.offHours(2L)
+//				.dayOffDate(LocalDateTime.now())
+//				.build();
+//				
+//		//dayOffService.addDayOff(dayOffDTO);
+//		
+//		//dayOffService.removeDayOff(DayOffDTO.builder().empNo(1L).dayOffDate(LocalDateTime.now()).build());
+//		
+//		dayOffService.modifyDayOff(dayOffDTO);
+//	}
+	
+//	void roomListRepTest() {
+//		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+//				.page(2)
+//				.size(10)
+//				.build();
+//		
+//		PageResponseDTO<BookingDTO> page = roomListService.getBookingListPageByRoomNo(pageRequestDTO, 101L);
+//		
+//		for(BookingDTO dto : page.getDtoList()) {
+//			log.error(dto);
+//		}
+//		
+//		log.error(page.getPageRequestDTO().getPageable(Sort.by("empNo")));
+//	}
+	
+//	void addBookingService() {
+//		BookingDTO bookingDTO = BookingDTO.builder()
+//				.bookDate("2025-01-11")
+//				.empNo(12L)
+//				.start("11:11")
+//				.end("21:11")
+//				.roomNo(101L)
+//				.build();
+//		
+//		bookingService.addBooking(bookingDTO);
+//	}
+	
+	void getOneTest() {
+		log.error(employeesRepository.getOneByEmpNo(1L)[0]);
 	}
-	
-	
-	
-	}
-
+}

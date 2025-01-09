@@ -25,4 +25,27 @@ public interface EmployeesRepository extends JpaRepository<Employees, Long> {
 			+ "where e.firstName like :firstname% or e.lastName like :lastName%")
 	public Page<EmployeesDTO> empLikstList(Pageable pageable);
 	
-}	
+	@Query("Select new com.fullstack.springboot.dto.EmployeesDTO(emp) from Employees emp")
+	Page<EmployeesDTO> getEmployeesList(Pageable pageable);
+
+	@Query("Select distinct new com.fullstack.springboot.dto.EmployeesDTO(emp) "
+			+ "from Employees emp "
+			+ "left join Job j on emp.job = j "
+			+ "where j.jobNo = :jobNo")
+	Page<EmployeesDTO> getEmployeesListByJobNo(Pageable pageable, @Param("jobNo") Long jobNo);
+	
+	@Query("Select distinct new com.fullstack.springboot.dto.EmployeesDTO(emp) "
+			+ "from Employees emp "
+			+ "left join DeptInfo di on emp.deptInfo = di "
+			+ "where di.deptNo = :deptNo")
+	Page<EmployeesDTO> getEmployeesListByDeptNo(Pageable pageable, @Param("deptNo") Long deptNo);
+	
+	@Query("Select emp, j, di, al, cm "
+			+ "from Employees emp "
+			+ "left join Job j on emp.job = j "
+			+ "left join DeptInfo di on emp.deptInfo = di "
+			+ "left join AnnualLeave al on al.employees = emp "
+			+ "left join Commute cm on cm.employees = emp "
+			+ "where emp.empNo = :empNo")
+	Object[] getOneByEmpNo(@Param("empNo") Long empNo);
+}
