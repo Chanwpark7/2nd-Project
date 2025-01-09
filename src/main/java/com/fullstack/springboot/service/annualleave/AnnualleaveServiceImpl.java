@@ -1,15 +1,21 @@
 package com.fullstack.springboot.service.annualleave;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.fullstack.springboot.dto.AnnualLeaveDTO;
+import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResponseDTO;
 import com.fullstack.springboot.entity.AnnualLeave;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.repository.AnnualleaveRepository;
+import com.fullstack.springboot.repository.EmployeesRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -21,10 +27,12 @@ public class AnnualleaveServiceImpl implements AnnualleaveService {
 
 	private final AnnualleaveRepository annualleaveRepository;
 	
+	private final EmployeesRepository employeesRepository;
+	
 	@Override
-	public AnnualLeaveDTO getOne(AnnualLeaveDTO annualleaveDTO) {
+	public AnnualLeaveDTO getOne(Long empNo) {
 		
-		AnnualLeave result = annualleaveRepository.getOne(annualleaveDTO.getEmpNo());
+		AnnualLeave result = annualleaveRepository.getOne(empNo);
 		
 		return entityToDto(result);
 	}
@@ -68,5 +76,23 @@ public class AnnualleaveServiceImpl implements AnnualleaveService {
 		dto.changeHoursByUsing(hours);
 		
 		annualleaveRepository.save(dtoToEntity(dto));
+	}
+	
+	@Override
+	public PageResponseDTO<AnnualLeaveDTO> getALList(Long empNo, PageRequestDTO pageRequestDTO) {
+
+		Pageable pageable = pageRequestDTO.getPageable(Sort.by("annualId").descending());
+		
+		Page<AnnualLeaveDTO> page = annualleaveRepository.getALList(empNo, pageable);
+		
+		List<AnnualLeaveDTO> dtoList = page.get().toList();
+		
+		long totalCount = page.getTotalElements();
+		
+		return PageResponseDTO.<AnnualLeaveDTO>withAll()
+				.dtoList(dtoList)
+				.totalCount(totalCount)
+				.pageRequestDTO(pageRequestDTO)
+				.build();
 	}
 }

@@ -693,6 +693,6 @@ class ApplicationTests {
 //	}
 	
 	void getOneTest() {
-		log.error(employeesRepository.getOneByEmpNo(1L)[0]);
+		log.error(Long.parseLong(employeesRepository.getMaxEmpNo().toString()));
 	}
 }

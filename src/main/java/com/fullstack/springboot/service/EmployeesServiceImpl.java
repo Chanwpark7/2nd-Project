@@ -51,8 +51,29 @@ public class EmployeesServiceImpl implements EmployeesService {
 				.build();
 		
 		employeesRepository.save(employees);
-				
-		return employeesDTO;
+		
+		Long empNo = Long.parseLong(employeesRepository.getMaxEmpNo().toString());
+
+		
+		Employees emp = employeesRepository.findById(empNo).get();
+		
+		EmployeesDTO dto = EmployeesDTO.builder()
+				.empNo(emp.getEmpNo())
+				.firstName(emp.getFirstName())
+				.lastName(emp.getLastName())
+				.hireDate(emp.getHireDate())
+				.mailAddress(emp.getMailAddress())
+				.salary(emp.getSalary())
+				.deptNo(emp.getDeptInfo().getDeptNo())
+				.jobNo(emp.getJob().getJobNo())
+				.birthday(emp.getBirthday())
+				.address(emp.getAddress())
+				.phoneNum(emp.getPhoneNum())
+				.gender(emp.getGender())
+				.citizenId(emp.getCitizenId())
+				.build();
+		
+		return dto;
 	}
 	
 	@Override
@@ -90,9 +111,9 @@ public class EmployeesServiceImpl implements EmployeesService {
 	public PageResponseDTO<EmployeesDTO> getEmployeesListPage(PageRequestDTO pageRequestDTO) {
 		
 		Pageable pageable = pageRequestDTO.getPageable(Sort.by("empNo").ascending());
-
+		
 		Page<EmployeesDTO> page = employeesRepository.getEmployeesList(pageable);
-
+		
 		List<EmployeesDTO> dtoList = page.get().toList();
 		
 		long totalCount = page.getTotalElements();

@@ -1,5 +1,6 @@
 package com.fullstack.springboot.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -27,6 +28,9 @@ public class Commute {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long commNo;
+	
+	@CreationTimestamp
+	private LocalDate checkDate;
 	
 	@CreationTimestamp
 	private LocalTime checkInTime;

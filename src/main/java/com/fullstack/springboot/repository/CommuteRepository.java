@@ -14,9 +14,15 @@ public interface CommuteRepository extends JpaRepository<Commute, Long> {
 	@Query("Select new com.fullstack.springboot.dto.CommuteDTO(comm) "
 			+ "from Commute comm "
 			+ "where comm.checkOutTime is null "
-			+ "and FUNCTION('DATE',comm.checkInTime) = CURRENT_DATE "
+			+ "and comm.checkDate = CURRENT_DATE "
 			+ "and comm.employees.empNo = :empNo")
 	CommuteDTO whenCheckingOut(@Param("empNo") Long empNo);
+	
+	@Query("Select new com.fullstack.springboot.dto.CommuteDTO(comm) "
+			+ "from Commute comm "
+			+ "where comm.checkDate = CURRENT_DATE "
+			+ "and comm.employees.empNo = :empNo")
+	CommuteDTO checkingExistency(@Param("empNo") Long empNo);
 	
 	@Query("Select new com.fullstack.springboot.dto.CommuteDTO(comm) from Commute comm where comm.employees.empNo = :empNo")
 	Page<CommuteDTO> getListComm(@Param("empNo") Long empNo, Pageable pageable);
