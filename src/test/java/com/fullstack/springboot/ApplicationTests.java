@@ -449,39 +449,54 @@ class ApplicationTests {
 //			}
 //		});
 	
-	
-	
 
 
-//	void insertBoard() {
-//		IntStream.rangeClosed(1, 100).forEach(i->{
-//			Board board = Board.builder()
-//					.title("제목 " + i)
-//					.contents("글 " + i)
-//					.build();
-//			
-//			
-//			boardRepository.save(board);
-//		});
-//	}
-	
-	
-		void insertReply() {
-			//replyer 는 반드시 member email 중 하나여야 하고, 랜덤하게 생성해서 하나의 게시글에 하나이상의 댓글을 구성하도록 합니다.
 
-				IntStream.rangeClosed(1, 100).forEach(i->{
-				long boardNo = (long)(Math.random() * 100) + 1;
-				Board board = Board.builder().boardNo(boardNo).build();
-				
-				Reply reply = Reply.builder()
-						.text("댓글..." + i)
-						.board(board)
-						.replyer("guest")
+	void insertBoard() {
+		IntStream.rangeClosed(1, 100).forEach(i->{
+			Board board = Board.builder().build();
+			if(i<41) {
+				board = Board.builder()
+					.category("긴급 공지사항")
+					.title("제목 " + i)
+					.contents("글 " + i)
+					.build();
+
+			}else if(i<81) {
+				board = Board.builder()
+						.category("공지사항")
+						.title("제목 " + i)
+						.contents("글 " + i)
 						.build();
-				replyRepository.save(reply);
-			});
-		}
+			}else if(i<121) {
+				board = Board.builder()
+						.category("완료")
+						.title("제목 " + i)
+						.contents("글 " + i)
+						.build();
+			
+			}
+			boardRepository.save(board);
+		});
+	}
 	
+	
+//		void insertReply() {
+//			//replyer 는 반드시 member email 중 하나여야 하고, 랜덤하게 생성해서 하나의 게시글에 하나이상의 댓글을 구성하도록 합니다.
+//
+//				IntStream.rangeClosed(1, 100).forEach(i->{
+//				long boardNo = (long)(Math.random() * 100) + 1;
+//				Board board = Board.builder().boardNo(boardNo).build();
+//				
+//				Reply reply = Reply.builder()
+//						.text("댓글..." + i)
+//						.board(board)
+//						.replyer("guest")
+//						.build();
+//				replyRepository.save(reply);
+//			});
+//		}
+//	
 	
 
 
