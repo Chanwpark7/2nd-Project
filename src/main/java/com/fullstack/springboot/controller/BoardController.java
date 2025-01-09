@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fullstack.springboot.dto.BoardDTO;
@@ -17,7 +18,7 @@ import com.fullstack.springboot.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-@Controller
+@RestController
 @RequestMapping("/board")
 @Log4j2
 @RequiredArgsConstructor
@@ -73,9 +74,20 @@ public class BoardController {
 	
 	//게시글 목록 요청 및 UI 에 모델 연결
 	@GetMapping("/list")
-	public void list(PageRequestDTO pageRequestDTO, Model model) {
+	public String list(PageRequestDTO pageRequestDTO, Model model) {
 		log.error("리스트 요청됨..." + pageRequestDTO);
 		
+		
 		model.addAttribute("result", boardService.getList(pageRequestDTO));
+		return "test";
+		
 	}
+//	@GetMapping("/list")
+//	public void list(PageRequestDTO pageRequestDTO, Model model) {
+//		log.error("리스트 요청됨..." + pageRequestDTO);
+//		
+//		
+//		model.addAttribute("result", boardService.getList(pageRequestDTO));
+//		
+//	}
 }

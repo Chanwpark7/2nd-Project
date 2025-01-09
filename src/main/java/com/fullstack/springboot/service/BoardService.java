@@ -31,7 +31,7 @@ public interface BoardService {
 	//default 메서드로 매퍼 정의..아래는 dto --> entity
 	default Board dtotoEntity(BoardDTO dto) {
 			Employees employees = Employees.builder()
-					.mailAddress(dto.getWriterEmail()).build();
+					.mailAddress(dto.getMailAddress()).build();
 			
 			Board entity = Board.builder()
 					.boardNo(dto.getBoardNo())
@@ -49,8 +49,7 @@ public interface BoardService {
 				.contents(board.getContents())
 				.regdate(board.getRegDate())
 				.moddate(board.getModDate())
-				.writerEmail(employees.getMailAddress())
-				.writerName(employees.getFirstName())
+				.mailAddress(employees.getMailAddress())
 				.replyCount(replyCount.intValue())
 				.build();
 		return boardDTO;

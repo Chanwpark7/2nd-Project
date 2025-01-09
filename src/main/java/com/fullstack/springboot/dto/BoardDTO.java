@@ -20,9 +20,9 @@ public class BoardDTO {
 	private String title;
 	private String contents;
 	private Employees employees;
-	private String mailAddress; // ?
-	private String writerEmail;
-	private String writerName;
+	private String mailAddress; 
+//	private String writerEmail;// ?
+//	private String writerName;
 	private LocalDateTime regdate;
 	private LocalDateTime moddate;
 	private int replyCount;

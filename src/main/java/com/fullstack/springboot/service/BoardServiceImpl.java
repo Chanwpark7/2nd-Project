@@ -61,8 +61,7 @@ public class BoardServiceImpl implements BoardService {
 		return null;
 		
 	}
-	//댓글과 함께 게실글 삭제 처리 구현
-	
+
 	
 	@Transactional
 	@Override
@@ -74,7 +73,7 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	@Override
 	public void modify(BoardDTO boardDTO) {
-		//아래 getRef...() 는 지연 로딩 처리메서드임..따라서, 이 메서드에는 Connection 이 유지되야 하므로, Transa...선언
+		
 		Board board = boardRepository.getReferenceById(boardDTO.getBoardNo());
 		
 		if(board != null) {
