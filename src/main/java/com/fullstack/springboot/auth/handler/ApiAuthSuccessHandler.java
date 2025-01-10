@@ -27,7 +27,7 @@ public class ApiAuthSuccessHandler implements AuthenticationSuccessHandler{
 		Map<String, Object> claims = dto.getClaims();
 		
 		String accessToken = JWTUtil.genToken(claims, 60);
-		String validateToken = JWTUtil.genToken(claims, 60*24);
+		String validateToken = JWTUtil.genToken(claims, 60*12);
 
 		claims.put("accessToken", accessToken);
 		claims.put("refreshToken", validateToken);

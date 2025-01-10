@@ -104,8 +104,8 @@ public class CompanyMailController {
 	public CompanyMailReceivedDTO readMailReceived(@PathVariable("mailNo") String mailNo) {
 		System.out.println("company-mail-received");
 		
+		return companyMailReceivedService.getReceivedByMailNo(Long.valueOf(mailNo));
 		
-		return null;
 	}
 	@GetMapping("/mail/{mailNo}/attcfile")
 	public String getMailAttachFIle(@PathVariable("mailNo") String mailNo) {

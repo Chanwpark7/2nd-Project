@@ -27,7 +27,7 @@ public class JWTFilter extends OncePerRequestFilter {
 		System.out.println("JWT-filter-notFilter");
 		
 		String path = request.getRequestURI();
-		
+		System.out.println("path = " + path);
 		if(path.startsWith("/auth")) {
 			return true;
 		}
