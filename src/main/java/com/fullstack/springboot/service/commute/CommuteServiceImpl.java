@@ -14,6 +14,7 @@ import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResponseDTO;
 import com.fullstack.springboot.entity.Commute;
+import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.repository.CommuteRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -81,7 +82,21 @@ public class CommuteServiceImpl implements CommuteService {
 	
 	@Override
 	public void modifyCommute(Long empNo, CommuteDTO commuteDTO) {
+		Employees employees = Employees.builder()
+				.empNo(commuteDTO.getEmpNo()).build();
 		
-		commuteRepository.save(dtoToEntity(commuteDTO));
+		Commute commute = Commute.builder()
+				.commNo(commuteDTO.getCommNo())
+				.checkDate(commuteDTO.getCheckDate())
+				.checkInTime(commuteDTO.getCheckInTime())
+				.checkOutTime(commuteDTO.getCheckOutTime())
+				.employees(employees)
+				.build();
+		commuteRepository.save(commute);
+	}
+	
+	@Override
+	public CommuteDTO getOne(Long commNo) {
+		return entityToDto(commuteRepository.findById(commNo).get());
 	}
 }

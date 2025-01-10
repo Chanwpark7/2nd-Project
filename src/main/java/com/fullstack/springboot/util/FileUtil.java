@@ -52,7 +52,7 @@ public class FileUtil {
 				Files.copy(file.getInputStream(), path);
 				saveNames.add(genUuid);
 			} catch (Exception e) {
-				// TODO: handle exception
+				e.getMessage();
 			}
 			
 		}
