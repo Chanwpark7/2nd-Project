@@ -17,6 +17,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fullstack.springboot.dto.ChatMessageDTO;
 import com.fullstack.springboot.dto.CompanyChatDTO;
+import com.fullstack.springboot.dto.CompanyChatMemberDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResponseDTO;
@@ -179,6 +181,14 @@ public class ChatController {
 	    } catch (IOException e) {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	    }
+	}
+	
+	//기록 삭제
+	@DeleteMapping("/{senderEmpNo}/{receiverEmpNo}")
+	public List<CompanyChatMemberDTO> removeChat(@PathVariable("senderEmpNo") Long senderEmpNo, @PathVariable("receiverEmpNo")Long receiverEmpNo){
+		String chatNo =generateChatRoomId(senderEmpNo, receiverEmpNo);
+		return companyChatService.leaveChatRoom(chatNo);
+		
 	}
 
 

@@ -20,19 +20,7 @@ public interface CompanyChatService {
 	public String createChatRoom(CompanyChatDTO companyChatDTO);
 	
 	//채팅방 나가기
-	//public List<CompanyChatMemberDTO> leaveChatRoom(long chatNo, long empNo);
-	
-	//채팅방에 employee 추가
-	//public Long addChatMember(CompanyChatDTO companyChatDTO);
-	
-	//사진파일 보내는거...
-	//public void sendImageFile(long chatNo, long empNo, MultipartFile file);
-	
-	//파일 보내는거 .. -> 메일로 보내졌다고 뜨게
-	//public void sendFile(long chatNo, long empNo, MultipartFile file);
-	
-	//채팅왔으면 알림뜨게..... ('msgId 님이 메시지를 보냈습니다.' 이런식으로 뜨도록 )
-	//public void chatAlarm(long chatNo, long empNo, String msgId);
+	public List<CompanyChatMemberDTO> leaveChatRoom(String chatNo);
 
 	//채팅 data 엑셀 파일에 기록
 	public ByteArrayInputStream chatDataToExcel(String chatNo);
