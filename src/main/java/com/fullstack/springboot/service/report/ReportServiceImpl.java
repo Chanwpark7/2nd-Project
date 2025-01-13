@@ -10,22 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.fullstack.springboot.dto.PageRequestDTO;
-import com.fullstack.springboot.dto.PageResponseDTO;
-import com.fullstack.springboot.dto.report.ReportDTO;
-import com.fullstack.springboot.entity.Employees;
-import com.fullstack.springboot.entity.Report;
-import com.fullstack.springboot.entity.ReportFiles;
-import com.fullstack.springboot.repository.ReportRepository;
-
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-
 @Service
-@Log4j2
-@RequiredArgsConstructor
-@Transactional
 public class ReportServiceImpl implements ReportService {
 
 	private final ReportRepository reportRepository;
@@ -187,26 +172,4 @@ public class ReportServiceImpl implements ReportService {
 		return report;
 	}
 	
-	private ReportDTO entityToDTO(Report report) {
-		ReportDTO reportDTO = ReportDTO.builder()
-				.reportNo(report.getReportNo())
-				.deadLine(report.getDeadLine())
-				.reportingDate(report.getReportingDate())
-				.reportStatus(report.getReportStatus())
-				.sender(report.getSender().getEmpNo())
-				.receiver(report.getReceiver().getEmpNo())
-				.build();
-		
-		List<ReportFiles> reportFiles = report.getReportFiles();
-		
-		if(reportFiles == null || reportFiles.size()==0) {
-			return reportDTO;
-		}
-		
-		List<String> fileNameList = reportFiles.stream().map(reportFile->reportFile.getFileName()).toList();
-		
-		reportDTO.setUploadFileNames(fileNameList);
-		
-		return reportDTO;
-	}
 }
