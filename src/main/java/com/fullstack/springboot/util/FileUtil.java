@@ -44,7 +44,7 @@ public class FileUtil {
 		List<String> saveNames = new ArrayList<String>();
 		  
 		for(MultipartFile file : oriFiles) {
-			System.out.println("!!!");
+
 			String genUuid = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
 			Path path = Paths.get(uploadPath, genUuid);
 				
