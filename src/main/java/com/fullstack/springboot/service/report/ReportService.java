@@ -9,7 +9,13 @@ import com.fullstack.springboot.dto.report.ReportDTO;
 @Transactional
 public interface ReportService {
 
-	PageResponseDTO<ReportDTO> getList(Long empNo, PageRequestDTO pageRequestDTO);
+	PageResponseDTO<ReportDTO> getRecivedList(Long empNo, PageRequestDTO pageRequestDTO);
 	
-	Long register(ReportDTO reportDTO);
+	PageResponseDTO<ReportDTO> getSentList(Long empNo, PageRequestDTO pageRequestDTO);
+	
+	Long register(Long empNo, ReportDTO reportDTO);
+	
+	void modify(ReportDTO reportDTO);
+	
+	ReportDTO getOne(Long reportNo);
 }

@@ -51,6 +51,14 @@ public class Report {
 		this.reportStatus = status;
 	}
 	
+	public void changeSender(Long sender) {
+		this.sender = Employees.builder().empNo(sender).build();
+	}
+	
+	public void changeReceiver(Long receiver) {
+		this.receiver = Employees.builder().empNo(receiver).build();
+	}
+	
 	@ElementCollection
 	@Builder.Default
 	private List<ReportFiles> reportFiles = new ArrayList<>();
