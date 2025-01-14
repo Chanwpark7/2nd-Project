@@ -485,10 +485,10 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	    return empNos[0] + "_" + empNos[1];  
 	}
 	
-	
-	
-
-
-
+	@Override
+	public EmployeesDTO getEmpFind(long empNo) {
+		log.warn("eeeee");
+		return employeesRepository.empFind(empNo);
+	}
 	
 }
