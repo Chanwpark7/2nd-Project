@@ -484,6 +484,13 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	    Arrays.sort(empNos); 
 	    return empNos[0] + "_" + empNos[1];  
 	}
+
+
+	@Override
+	public List<CompanyChatDTO> getChatList(long senderEmpNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	@Override
 	public EmployeesDTO getEmpFind(long empNo) {
