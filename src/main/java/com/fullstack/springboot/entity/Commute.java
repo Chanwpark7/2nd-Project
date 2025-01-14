@@ -1,6 +1,10 @@
 package com.fullstack.springboot.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -25,10 +29,22 @@ public class Commute {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long commNo;
 	
-	private LocalDateTime checkInTime;
+	@CreationTimestamp
+	private LocalDate checkDate;
 	
-	private LocalDateTime checkOutTime;
+	@CreationTimestamp
+	private LocalTime checkInTime;
+	
+	private LocalTime checkOutTime;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employees employees;
+	
+	public void changeCheckOut(LocalTime now) {
+		this.checkOutTime = now;
+	}
+	
+	public void changeCommNo(Long commNo) {
+		this.commNo = commNo;
+	}
 }

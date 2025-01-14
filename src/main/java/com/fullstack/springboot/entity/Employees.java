@@ -1,6 +1,7 @@
 package com.fullstack.springboot.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -40,7 +41,7 @@ public class Employees implements Serializable{
 	private String lastName;
 	
 	@CreationTimestamp
-	private LocalDateTime hireDate;
+	private LocalDate hireDate;
 	
 	private String mailAddress;
 	
@@ -52,7 +53,7 @@ public class Employees implements Serializable{
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Job job;
 	
-	private LocalDateTime birthday;
+	private LocalDate birthday;
 	
 	private String address;
 	
@@ -63,6 +64,7 @@ public class Employees implements Serializable{
 	private String citizenId;
 	
 	private String password;
+//dev_mail
 	
 	@Builder.Default
 	@ElementCollection(fetch = FetchType.LAZY)

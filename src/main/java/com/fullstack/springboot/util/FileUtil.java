@@ -3,6 +3,7 @@ package com.fullstack.springboot.util;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -43,7 +44,6 @@ public class FileUtil {
 		List<String> saveNames = new ArrayList<String>();
 		  
 		for(MultipartFile file : oriFiles) {
-			System.out.println("!!!");
 			String genUuid = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
 			Path path = Path.of(uploadPath, genUuid);
 				
@@ -51,7 +51,7 @@ public class FileUtil {
 				Files.copy(file.getInputStream(), path);
 				saveNames.add(genUuid);
 			} catch (Exception e) {
-				// TODO: handle exception
+				e.getMessage();
 			}
 			
 		}
@@ -78,7 +78,9 @@ public class FileUtil {
 		    }
 		    return ResponseEntity.ok().headers(headers).body(resource);
 		  }
-	  
 
+	  public String getUploadPath() { //uploadPath 경로 반환
+		  return uploadPath;
+	  }
 	  
 }

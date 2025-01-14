@@ -8,6 +8,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,11 +26,11 @@ public class OverTime {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long overTimeNo;
 	
-	private LocalDateTime overHours;
+	private Long overHours;
 	
 	private LocalDateTime overTimeDate;
 	
-	@OneToMany(fetch = FetchType.LAZY)
-	private List<Employees> employees;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Employees employees;
 	
 }

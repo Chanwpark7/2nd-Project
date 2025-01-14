@@ -1,12 +1,14 @@
 package com.fullstack.springboot.dto;
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.security.core.userdetails.User;
 
 import com.fullstack.springboot.entity.CompanyAuth;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import com.fullstack.springboot.entity.Employees;
 
 import lombok.AllArgsConstructor;
@@ -18,7 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EmployeesDTO{
+public class EmployeesDTO {
 
 	private Long empNo;
 	
@@ -26,7 +28,9 @@ public class EmployeesDTO{
 	
 	private String lastName;
 	
-	private LocalDateTime hireDate;
+  
+	//private LocalDateTime hireDate;
+	private LocalDate hireDate;
 	
 	private String mailAddress;
 	
@@ -36,7 +40,8 @@ public class EmployeesDTO{
 	
 	private Long jobNo;
 	
-	private LocalDateTime birthday;
+	//private LocalDateTime birthday;
+	private LocalDate birthday;
 	
 	private String address;
 	
