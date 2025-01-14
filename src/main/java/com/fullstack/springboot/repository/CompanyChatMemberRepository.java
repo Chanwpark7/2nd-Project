@@ -20,13 +20,12 @@ public interface CompanyChatMemberRepository extends JpaRepository<CompanyChatMe
 	
 	
 	//만약에 해당 직원 채팅방 강퇴시킬수도 있으니깐
-	@Query("select cm from CompanyChatMember cm where cm.companyChat.chatNo = :chatNo and cm.employees.empNo = :empNo")
-	Optional<CompanyChatMember> getChatOneMember(@Param("chatNo") String chatNo, @Param("empNo") Long empNo);
-
+	@Query("select distinct new com.fullstack.springboot.dto.CompanyChatMemberDTO(cm) from CompanyChatMember cm "
+			+ "inner join CompanyChat c on cm.companyChat.chatNo =:chatNo and cm.employees.empNo =:empNo")
+	List<CompanyChatMemberDTO> getChatOneMember(@Param("chatNo")String chatNo, @Param("empNo")Long empNo);
+	
 	
 	@Query("select new com.fullstack.springboot.dto.CompanyChatMemberDTO(cm) from CompanyChatMember cm "
 			+ "where cm.companyChat.chatNo =:chatNo and cm.employees.empNo =:empNo ")
 	Optional<CompanyChatMemberDTO> getSameList(@Param("chatNo")String chatNo, @Param("empNo")Long empNo);
-
-	
 }

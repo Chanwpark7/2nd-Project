@@ -13,8 +13,8 @@ public interface CompanyChatRepository extends JpaRepository<CompanyChat, String
 
 	//해당 직원이 들어가있는 모든 채팅방 번호 list
 	@Query("select new com.fullstack.springboot.dto.CompanyChatDTO(c) from CompanyChat c join c.companyChatMember cm where "
-			+ " cm.employees.empNo =:senderEmpNo")
-	public List<CompanyChatDTO> getCompanyChatNoAll(@Param("senderEmpNo")Long senderEmpNo);
+			+ " cm.employees.empNo =:empNo")
+	public List<CompanyChatDTO> getCompanyChatNoAll(@Param("empNo")Long empNo);
 	
 
 	//현재 해당 직원이 속해있는 채팅방번호 
