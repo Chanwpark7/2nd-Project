@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -94,7 +96,7 @@ public class ChatController {
 	
 	//채팅보내기
 	@PostMapping("/{senderEmpNo}/{receiverEmpNo}")
-	public ResponseEntity<String> sendChatRoom(@PathVariable("senderEmpNo") long senderEmpNo, @PathVariable("receiverEmpNo") long receiverEmpNo,@RequestBody ChatMessageDTO chatMessageDTO) {
+	public ResponseEntity<Map<String, Object>> sendChatRoom(@PathVariable("senderEmpNo") long senderEmpNo, @PathVariable("receiverEmpNo") long receiverEmpNo,@RequestBody ChatMessageDTO chatMessageDTO) {
 		log.error("----------------"); 
 		int year = LocalDate.now().getYear();
 		String DIRECTORY_PATH = "C:" + File.separator + "chatting" + File.separator + year;
@@ -109,7 +111,8 @@ public class ChatController {
 	    Long empNo = chatDTO.getEmpNo();
 	    String content = chatMessageDTO.getContent();
 	    String sendTime = chatMessageDTO.getSendTime() != null ? chatMessageDTO.getSendTime().toString() : LocalDateTime.now().toString();
-	
+	    
+	    EmployeesDTO empInfo = companyChatService.getEmpFind(receiverEmpNo);
 	    
 	    log.error("senderEmpNo"+senderEmpNo);
 	    log.error("receiverEmpNo"+receiverEmpNo);
@@ -124,7 +127,11 @@ public class ChatController {
 	    log.warn("senderEmpNo"+senderEmpNo);  
 	    log.warn("receiverEmpNo"+receiverEmpNo); 
 	    
-	    return ResponseEntity.ok(content);
+	    Map<String, Object> res = new HashMap<>();
+	    	res.put("message", content);
+	    	res.put("resInfo", empInfo);
+	    
+	    return ResponseEntity.ok(res);
 	}
 	
 

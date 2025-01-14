@@ -492,10 +492,10 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 		return null;
 	}
 	
-	
-	
-
-
-
+	@Override
+	public EmployeesDTO getEmpFind(long empNo) {
+		log.warn("eeeee");
+		return employeesRepository.empFind(empNo);
+	}
 	
 }
