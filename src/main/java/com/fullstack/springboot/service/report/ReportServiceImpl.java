@@ -163,29 +163,29 @@ public class ReportServiceImpl implements ReportService {
 		reportRepository.save(report);
 	}
 	
-	private Report dtoToEntity(ReportDTO reportDTO) {
-		Report report = Report.builder()
-				.reportNo(reportDTO.getReportNo())
-				.deadLine(reportDTO.getDeadLine())
-				.reportingDate(reportDTO.getReportingDate())
-				.reportStatus(reportDTO.getReportStatus())
-				.sender(Employees.builder().empNo(reportDTO.getSender()).build())
-				.receiver(Employees.builder().empNo(reportDTO.getReceiver()).build())
-				.build();
-		
-		//업로드 처리 끝난 파일들의 이름 리스트
-		List<String> uploadFileNames = reportDTO.getUploadFileNames();
-		
-		if(uploadFileNames == null) {
-			return report;
-		}
-		
-		uploadFileNames.stream().forEach(uploadName -> {
-			report.addFileString(uploadName);
-		});
-		
-		return report;
-	}
+//	private Report dtoToEntity(ReportDTO reportDTO) {
+//		Report report = Report.builder()
+//				.reportNo(reportDTO.getReportNo())
+//				.deadLine(reportDTO.getDeadLine())
+//				.reportingDate(reportDTO.getReportingDate())
+//				.reportStatus(reportDTO.getReportStatus())
+//				.sender(Employees.builder().empNo(reportDTO.getSender()).build())
+//				.receiver(Employees.builder().empNo(reportDTO.getReceiver()).build())
+//				.build();
+//		
+//		//업로드 처리 끝난 파일들의 이름 리스트
+//		List<String> uploadFileNames = reportDTO.getUploadFileNames();
+//		
+//		if(uploadFileNames == null) {
+//			return report;
+//		}
+//		
+//		uploadFileNames.stream().forEach(uploadName -> {
+//			report.addFileString(uploadName);
+//		});
+//		
+//		return report;
+//	}
 	
 	private ReportDTO entityToDTO(Report report) {
 		ReportDTO reportDTO = ReportDTO.builder()
