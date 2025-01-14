@@ -18,6 +18,8 @@ public interface CommuteService {
 	
 	public PageResponseDTO<CommuteDTO> getListCommute(Long empNo, PageRequestDTO pageRequestDTO);
 	
+	public CommuteDTO getOne(Long commNo);
+	
 	default Commute dtoToEntity(CommuteDTO commuteDTO) {
 		Employees employees = Employees.builder()
 				.empNo(commuteDTO.getEmpNo()).build();
@@ -35,6 +37,7 @@ public interface CommuteService {
 	default CommuteDTO entityToDto(Commute commute) {
 		CommuteDTO commuteDTO = CommuteDTO.builder()
 				.commNo(commute.getCommNo())
+				.checkDate(commute.getCheckDate())
 				.checkInTime(commute.getCheckInTime())
 				.checkOutTime(commute.getCheckOutTime())
 				.empNo(commute.getEmployees().getEmpNo())
