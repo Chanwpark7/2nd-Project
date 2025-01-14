@@ -1,3 +1,4 @@
+
 package com.fullstack.springboot;
 
 import java.time.LocalDate;
@@ -14,12 +15,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fullstack.springboot.dto.AnnualLeaveDTO;
 import com.fullstack.springboot.dto.BookingDTO;
 import com.fullstack.springboot.dto.CommuteDTO;
-import com.fullstack.springboot.dto.CompanyChatDTO;
 import com.fullstack.springboot.dto.DayOffDTO;
 import com.fullstack.springboot.dto.DeptInfoDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
@@ -34,13 +35,11 @@ import com.fullstack.springboot.entity.RoomList;
 import com.fullstack.springboot.entity.SalaryChart;
 import com.fullstack.springboot.repository.BookingRepository;
 import com.fullstack.springboot.repository.CommuteRepository;
-import com.fullstack.springboot.repository.CompanyChatRepository;
 import com.fullstack.springboot.repository.DeptInfoRepository;
 import com.fullstack.springboot.repository.EmployeesRepository;
 import com.fullstack.springboot.repository.JobRepository;
 import com.fullstack.springboot.repository.RoomListRepository;
 import com.fullstack.springboot.repository.SalaryChartRepository;
-import com.fullstack.springboot.service.CompanyChatService;
 import com.fullstack.springboot.service.EmployeesService;
 import com.fullstack.springboot.service.annualleave.AnnualleaveService;
 import com.fullstack.springboot.service.booking.BookingService;
@@ -102,12 +101,9 @@ class ApplicationTests {
 	
 	@Autowired
 	private DayOffService dayOffService;
-	
+
 	@Autowired
-	private CompanyChatRepository companyChatRepository;
-	
-	@Autowired
-	private CompanyChatService companyChatService;
+	private PasswordEncoder pwencoder;
 	
 	@Test
 //	 void insertDummies() {
@@ -704,23 +700,22 @@ class ApplicationTests {
 //	void getOneTest() {
 //		log.error(Long.parseLong(employeesRepository.getMaxEmpNo().toString()));
 //	}
-
-
-//	void chat() {
-//		List<CompanyChatDTO> res = companyChatRepository.getCompanyChatNoAll(3L);
-//	
-//		for(CompanyChatDTO dto : res) {
-//			log.warn(dto);
-//		}
-//	}
-	
-	void test() {
-		List<EmployeesDTO> res = employeesRepository.empFind(3L);
-		for(EmployeesDTO dto : res) {
-			log.error(dto);
-		}
+	void insert() {
+		Employees employees = Employees.builder()
+				.firstName("admin")
+				.lastName("admin")
+				.mailAddress("chanw"+"@admin.com")
+				.salary(1)
+				.job(Job.builder().jobNo(100L).build())
+				.deptInfo(DeptInfo.builder().deptNo(100L).build())
+				.birthday(LocalDate.of(2000, 1, 1))
+				.address("daejeon")
+				.phoneNum("010-1111-1111")
+				.gender("m")
+				.citizenId("0000000000000")
+				.password(pwencoder.encode("1234"))
+				.build();
+		
+		employeesRepository.save(employees);
 	}
-	
-	
-
 }

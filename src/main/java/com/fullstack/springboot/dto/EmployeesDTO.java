@@ -1,5 +1,11 @@
 package com.fullstack.springboot.dto;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.springframework.security.core.userdetails.User;
+
+import com.fullstack.springboot.entity.CompanyAuth;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -22,6 +28,8 @@ public class EmployeesDTO {
 	
 	private String lastName;
 	
+  
+	//private LocalDateTime hireDate;
 	private LocalDate hireDate;
 	
 	private String mailAddress;
@@ -32,6 +40,7 @@ public class EmployeesDTO {
 	
 	private Long jobNo;
 	
+	//private LocalDateTime birthday;
 	private LocalDate birthday;
 	
 	private String address;
@@ -41,6 +50,8 @@ public class EmployeesDTO {
 	private String gender;
 	
 	private String citizenId;
+	
+	private String password;
 	
 	public EmployeesDTO(Employees employees) {
 		this.empNo = employees.getEmpNo();

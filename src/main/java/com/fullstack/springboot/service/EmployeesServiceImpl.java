@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fullstack.springboot.dto.DayOffDTO;
@@ -31,6 +32,7 @@ public class EmployeesServiceImpl implements EmployeesService {
 	private final EmployeesRepository employeesRepository;
 	private final DeptInfoRepository deptInfoRepository;
 	private final JobRepository jobRepository;
+	private final PasswordEncoder pwEncoder;
 	
 	@Override
 	public EmployeesDTO addEmployees(EmployeesDTO employeesDTO) {
@@ -48,6 +50,7 @@ public class EmployeesServiceImpl implements EmployeesService {
 				.phoneNum(employeesDTO.getPhoneNum())
 				.gender(employeesDTO.getGender())
 				.citizenId(employeesDTO.getCitizenId())
+				.password(pwEncoder.encode(employeesDTO.getPassword()))
 				.build();
 		
 		employeesRepository.save(employees);
@@ -93,6 +96,7 @@ public class EmployeesServiceImpl implements EmployeesService {
 				.phoneNum(employeesDTO.getPhoneNum())
 				.gender(employeesDTO.getGender())
 				.citizenId(employeesDTO.getCitizenId())
+				.password(pwEncoder.encode(employeesDTO.getPassword()))
 				.build();
 		
 		employeesRepository.save(employees);

@@ -37,4 +37,36 @@ public class Report {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employees receiver;
+	
+	public void changeStatus(String status) {
+		this.reportStatus = status;
+	}
+	
+	public void changeSender(Long sender) {
+		this.sender = Employees.builder().empNo(sender).build();
+	}
+	
+	public void changeReceiver(Long receiver) {
+		this.receiver = Employees.builder().empNo(receiver).build();
+	}
+	
+	@ElementCollection
+	@Builder.Default
+	private List<ReportFiles> reportFiles = new ArrayList<>();
+	
+	public void addFile(ReportFiles files) {
+		files.setOrd(this.reportFiles.size());
+		reportFiles.add(files);
+	}
+	
+	public void addFileString(String fileName) {
+		ReportFiles reportFiles = ReportFiles.builder()
+				.fileName(fileName)
+				.build();
+		addFile(reportFiles);
+	}
+	
+	public void clearList() {
+		this.reportFiles.clear();
+	}
 }
