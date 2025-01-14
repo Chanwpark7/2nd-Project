@@ -1,20 +1,28 @@
 package com.fullstack.springboot.repository;
 
+import org.springframework.data.jpa.repository.EntityGraph;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.fullstack.springboot.dto.EmployeesAuthDTO;
+import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.dto.CommuteDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
-import com.fullstack.springboot.entity.Employees;
 
 public interface EmployeesRepository extends JpaRepository<Employees, Long> {
+  
+  @EntityGraph(attributePaths = "roleSet")
+	@Query("select emp from Employees emp where emp.mailAddress = :email")
+	Employees getByEmail(@Param("email") String email);
 
 	@Query("select e from Employees e where e.empNo =:empNo")
 	public Optional<Employees> getEmpNo(@Param("empNo")Long empNo);

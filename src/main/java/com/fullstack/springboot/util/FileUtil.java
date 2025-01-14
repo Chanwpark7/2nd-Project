@@ -44,9 +44,8 @@ public class FileUtil {
 		List<String> saveNames = new ArrayList<String>();
 		  
 		for(MultipartFile file : oriFiles) {
-
 			String genUuid = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
-			Path path = Paths.get(uploadPath, genUuid);
+			Path path = Path.of(uploadPath, genUuid);
 				
 			try {
 				Files.copy(file.getInputStream(), path);
