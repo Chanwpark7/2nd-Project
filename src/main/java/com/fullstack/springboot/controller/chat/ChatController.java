@@ -1,5 +1,6 @@
 package com.fullstack.springboot.controller.chat;
 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,7 +17,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fullstack.springboot.dto.ChatMessageDTO;
 import com.fullstack.springboot.dto.CompanyChatDTO;
-import com.fullstack.springboot.dto.CompanyChatMemberDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResponseDTO;
@@ -36,6 +35,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -51,8 +51,7 @@ public class ChatController {
 	@MessageMapping("/chat/{chatRoomId}")
 	@SendTo("/sub/chat/{chatRoomId}")
 	public ChatMessageDTO sendMessage(@DestinationVariable("chatRoomId") String chatRoomId, ChatMessageDTO message) {
-	 
-	  
+	    message.setSendTime(LocalDateTime.now());
 	    return message;
 	}
 
@@ -110,8 +109,7 @@ public class ChatController {
 	    Long empNo = chatDTO.getEmpNo();
 	    String content = chatMessageDTO.getContent();
 	    String sendTime = chatMessageDTO.getSendTime() != null ? chatMessageDTO.getSendTime().toString() : LocalDateTime.now().toString();
-	    
-	    //companyChatService.getChatList(receiverEmpNo);
+	
 	    
 	    log.error("senderEmpNo"+senderEmpNo);
 	    log.error("receiverEmpNo"+receiverEmpNo);
@@ -129,6 +127,7 @@ public class ChatController {
 	    return ResponseEntity.ok(content);
 	}
 	
+
 	//채팅방 하나로 만들려고. "작은숫자empNo_ 큰숫자empNo"
 	private String generateChatRoomId(long senderEmpNo, long receiverEmpNo) {
 	    return Math.min(senderEmpNo, receiverEmpNo) + "_" + Math.max(senderEmpNo, receiverEmpNo);
@@ -181,19 +180,12 @@ public class ChatController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	    }
 	}
+
+
+
+
 	
-	//기록 삭제
-	@DeleteMapping("/{senderEmpNo}/{receiverEmpNo}")
-	public List<CompanyChatMemberDTO> removeChat(@PathVariable("senderEmpNo") Long senderEmpNo, @PathVariable("receiverEmpNo")Long receiverEmpNo){
-		String chatNo =generateChatRoomId(senderEmpNo, receiverEmpNo);
-		return companyChatService.leaveChatRoom(chatNo);
-		
-	}
+	
 
-	//채팅 리스트
-	@GetMapping("/chatList/{senderEmpNo}")
-	public List<CompanyChatDTO> chatList(@PathVariable("senderEmpNo")Long senderEmpNo){
-		return companyChatService.getChatList(senderEmpNo);
-	}
-
+	
 }

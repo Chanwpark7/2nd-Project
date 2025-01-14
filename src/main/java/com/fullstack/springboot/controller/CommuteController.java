@@ -54,7 +54,15 @@ public class CommuteController {
 	}
 	
 	@PutMapping("/modify/{empNo}")
-	public void putMethodName(@PathVariable(name = "empNo") Long empNo, @RequestBody CommuteDTO commuteDTO) {
+	public Long putMethodName(@PathVariable(name = "empNo") Long empNo, @RequestBody CommuteDTO commuteDTO) {
 		commuteService.modifyCommute(empNo,commuteDTO);
+		
+		return empNo;
 	}
+	
+	@GetMapping("/read/{commNo}")
+	public CommuteDTO getOne(@PathVariable(name = "commNo") Long commNo) {
+		return commuteService.getOne(commNo);
+	}
+	
 }
