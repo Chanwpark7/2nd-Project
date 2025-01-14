@@ -44,7 +44,7 @@ public interface CompanyChatService {
 	public List<CompanyChatDTO> getChatList(long senderEmpNo);
 	
 	//친구 검색
-	//public List<EmployeesDTO> getEmpFind(long empNo);
+	public EmployeesDTO getEmpFind(long empNo);
 	 
 	
 }
