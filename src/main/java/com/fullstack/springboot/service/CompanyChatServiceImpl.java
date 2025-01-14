@@ -125,10 +125,19 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 		}else {
 			log.error("파일이 존재x");
 		}
-	    
-	    List<CompanyChatMemberDTO> remainMem = companyChatMemberRepository.getChatAllMember(chatNo);
+		 List<CompanyChatMemberDTO> remainMem = companyChatMemberRepository.getChatAllMember(chatNo);
 
-	    return remainMem;
+		 for (CompanyChatMemberDTO mem : remainMem) {
+			 	CompanyChatMember member = companyChatMemberRepository.getChatOneMember(chatNo, mem.getEmpNo())
+		                .orElseThrow();
+		        companyChatMemberRepository.delete(member);
+		    }
+
+		    CompanyChat companyChat = companyChatRepository.findById(chatNo)
+		            .orElseThrow();
+		    companyChatRepository.delete(companyChat);
+
+		    return remainMem; 
 	}
 
 
@@ -444,6 +453,21 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	    Arrays.sort(empNos); 
 	    return empNos[0] + "_" + empNos[1];  
 	}
+
+
+	@Override
+	public List<CompanyChatDTO> getChatList(long senderEmpNo) {
+		log.error("CompanyChatService -> getChatList");
+		return companyChatRepository.getCompanyChatNoAll(senderEmpNo);	
+	}
+
+
+	
+//	@Override
+//	public List<EmployeesDTO> getEmpFind(long empNo) {
+//		log.warn("eeeee");
+//		return employeesRepository.empFind(empNo);
+//	}
 	
 	
 }

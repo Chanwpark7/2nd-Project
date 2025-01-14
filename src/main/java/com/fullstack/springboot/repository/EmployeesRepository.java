@@ -22,9 +22,9 @@ public interface EmployeesRepository extends JpaRepository<Employees, Long> {
 	@Query("select new com.fullstack.springboot.dto.EmployeesDTO(e) from Employees e ")
 	public Page<EmployeesDTO> empAllList(Pageable pageable);
 	
-	@Query("select new com.fullstack.springboot.dto.EmployeesDTO(e) from Employees e "
-			+ "where e.firstName like :firstname% or e.lastName like :lastName%")
-	public Page<EmployeesDTO> empLikstList(Pageable pageable);
+	@Query("select distinct new com.fullstack.springboot.dto.EmployeesDTO(e) from Employees e"
+			+ " inner join CompanyChatMember cm on e.empNo =:empNo")
+	public List<EmployeesDTO> empFind(@Param("empNo") Long empNo);
 	
 	@Query("Select new com.fullstack.springboot.dto.EmployeesDTO(emp) from Employees emp")
 	Page<EmployeesDTO> getEmployeesList(Pageable pageable);

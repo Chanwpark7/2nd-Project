@@ -28,7 +28,6 @@ public interface CompanyChatService {
 	//채팅 data 엑셀 파일에서 읽어오기
 	public List<List<String>> chatDataReadToExcel(String filePath, String chatNo) throws Exception;
 	
-	
 	//모든 employee list 가져오기
 	public PageResponseDTO<EmployeesDTO> list(PageRequestDTO pageRequestDTO);
 	
@@ -41,5 +40,11 @@ public interface CompanyChatService {
 	//채팅내용 엑셀파일에 저장하기
 	public void saveChatToExcel(String chatNo, long senderEmpNo, String content, String sendTime); 
 
-
+	//채팅 목록 
+	public List<CompanyChatDTO> getChatList(long senderEmpNo);
+	
+	//친구 검색
+	//public List<EmployeesDTO> getEmpFind(long empNo);
+	
+	
 }

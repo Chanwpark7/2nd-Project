@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fullstack.springboot.dto.AnnualLeaveDTO;
 import com.fullstack.springboot.dto.BookingDTO;
 import com.fullstack.springboot.dto.CommuteDTO;
+import com.fullstack.springboot.dto.CompanyChatDTO;
 import com.fullstack.springboot.dto.DayOffDTO;
 import com.fullstack.springboot.dto.DeptInfoDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
@@ -33,11 +34,13 @@ import com.fullstack.springboot.entity.RoomList;
 import com.fullstack.springboot.entity.SalaryChart;
 import com.fullstack.springboot.repository.BookingRepository;
 import com.fullstack.springboot.repository.CommuteRepository;
+import com.fullstack.springboot.repository.CompanyChatRepository;
 import com.fullstack.springboot.repository.DeptInfoRepository;
 import com.fullstack.springboot.repository.EmployeesRepository;
 import com.fullstack.springboot.repository.JobRepository;
 import com.fullstack.springboot.repository.RoomListRepository;
 import com.fullstack.springboot.repository.SalaryChartRepository;
+import com.fullstack.springboot.service.CompanyChatService;
 import com.fullstack.springboot.service.EmployeesService;
 import com.fullstack.springboot.service.annualleave.AnnualleaveService;
 import com.fullstack.springboot.service.booking.BookingService;
@@ -99,6 +102,12 @@ class ApplicationTests {
 	
 	@Autowired
 	private DayOffService dayOffService;
+	
+	@Autowired
+	private CompanyChatRepository companyChatRepository;
+	
+	@Autowired
+	private CompanyChatService companyChatService;
 	
 	@Test
 //	 void insertDummies() {
@@ -692,7 +701,26 @@ class ApplicationTests {
 //		bookingService.addBooking(bookingDTO);
 //	}
 	
-	void getOneTest() {
-		log.error(Long.parseLong(employeesRepository.getMaxEmpNo().toString()));
+//	void getOneTest() {
+//		log.error(Long.parseLong(employeesRepository.getMaxEmpNo().toString()));
+//	}
+
+
+//	void chat() {
+//		List<CompanyChatDTO> res = companyChatRepository.getCompanyChatNoAll(3L);
+//	
+//		for(CompanyChatDTO dto : res) {
+//			log.warn(dto);
+//		}
+//	}
+	
+	void test() {
+		List<EmployeesDTO> res = employeesRepository.empFind(3L);
+		for(EmployeesDTO dto : res) {
+			log.error(dto);
+		}
 	}
+	
+	
+
 }

@@ -16,11 +16,15 @@ public class CompanyChatMemberDTO {
 	//private long CompanyChatMemberNo;
 	private long empNo;
 	private String chatNo;
+	private String firstName;
+	private String lastName;
 	
 	public CompanyChatMemberDTO(CompanyChatMember cm) {
 		//this.CompanyChatMemberNo = cm.getCompanyChatMemberNo();
 		this.empNo = cm.getEmployees().getEmpNo();
 		this.chatNo = cm.getCompanyChat().getChatNo();
+		this.firstName = cm.getEmployees().getFirstName();
+		this.lastName = cm.getEmployees().getLastName();
 	}
 
 }
