@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fullstack.springboot.dto.AnnualLeaveDTO;
@@ -99,6 +100,9 @@ class ApplicationTests {
 	
 	@Autowired
 	private DayOffService dayOffService;
+
+	@Autowired
+	private PasswordEncoder pwencoder;
 	
 	@Test
 //	 void insertDummies() {
@@ -692,7 +696,25 @@ class ApplicationTests {
 //		bookingService.addBooking(bookingDTO);
 //	}
 	
-	void getOneTest() {
-		log.error(Long.parseLong(employeesRepository.getMaxEmpNo().toString()));
+//	void getOneTest() {
+//		log.error(Long.parseLong(employeesRepository.getMaxEmpNo().toString()));
+//	}
+	void insert() {
+		Employees employees = Employees.builder()
+				.firstName("admin")
+				.lastName("admin")
+				.mailAddress("chanw"+"@admin.com")
+				.salary(1)
+				.job(Job.builder().jobNo(100L).build())
+				.deptInfo(DeptInfo.builder().deptNo(100L).build())
+				.birthday(LocalDate.of(2000, 1, 1))
+				.address("daejeon")
+				.phoneNum("010-1111-1111")
+				.gender("m")
+				.citizenId("0000000000000")
+				.password(pwencoder.encode("1234"))
+				.build();
+		
+		employeesRepository.save(employees);
 	}
 }
