@@ -10,10 +10,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -109,69 +107,40 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	}
 
 
-	//채팅방 나가기
-//	@Override
-//	public List<CompanyChatMemberDTO> leaveChatRoom(long chatNo, long empNo) {
-//	    List<CompanyChatMemberDTO> mem = companyChatMemberRepository.getChatOneMember(chatNo, empNo);
-//	   
-//	    for (CompanyChatMemberDTO dto : mem) {
-//	        companyChatMemberRepository.deleteById(dto.getCompanyChatMemberNo());
-//	    }
-//	    
-//	    List<CompanyChatMemberDTO> remainMem = companyChatMemberRepository.getChatAllMember(chatNo);
-//
-//	    return remainMem;
-//	}
+	//채팅방 나가기 -> 파일 삭제 해버리는 거임 (기록삭제)
+	@Override
+	public List<CompanyChatMemberDTO> leaveChatRoom(String chatNo) {
+	  
+	    int year = LocalDate.now().getYear();
+		String DIRECTORY_PATH = "C:" + File.separator + "chatting" + File.separator + year;
+		String fileName = chatNo + ".xlsx";  
+		File file = new File(DIRECTORY_PATH, fileName);
+		
+		if(file.exists()) {
+			if(file.delete()) {
+				log.error("파일 삭제 성공!");
+			}else {
+				log.error("파일 삭제 실패");
+			}
+		}else {
+			log.error("파일이 존재x");
+		}
+		 List<CompanyChatMemberDTO> remainMem = companyChatMemberRepository.getChatAllMember(chatNo);
 
-	//채팅방 인원 추가
-//	@Override
-//	public Long addChatMember(CompanyChatDTO companyChatDTO) {
-//		CompanyChat companyChat = companyChatRepository.findById(companyChatDTO.getChatNo()).get();
-//		Employees employees = employeesRepository.findById(companyChatDTO.getEmpNo()).get();
-//		
-//		CompanyChatMember companyChatMember = CompanyChatMember.builder()
-//				.companyChat(companyChat)
-//				.employees(employees)
-//				.build();
-//		companyChatMemberRepository.save(companyChatMember);
-//		
-//		return companyChatDTO.getChatNo();
-//	}
+		 for (CompanyChatMemberDTO mem : remainMem) {
+			 	CompanyChatMember member = companyChatMemberRepository.getChatOneMember(chatNo, mem.getEmpNo())
+		                .orElseThrow();
+		        companyChatMemberRepository.delete(member);
+		    }
 
-	//사진 파일 보내기
-//	@Override
-//	public void sendImageFile(long chatNo, long empNo, MultipartFile file) {
-//	    String originalFileName = file.getOriginalFilename();
-//	    String uuid = UUID.randomUUID().toString();
-//	    String savedFileName = uuid + "-" + originalFileName;
-//	    String uploadPath = fileUtil.getUploadPath();
-//	    
-//	    Path savePath = Paths.get(uploadPath, savedFileName);
-//	    
-//	    try {
-//	        if (!Files.exists(savePath.getParent())) {
-//	            Files.createDirectories(savePath.getParent());
-//	        }
-//	        Files.copy(file.getInputStream(), savePath);
-//	    } catch (IOException e) {
-//	        log.error(e.getMessage());
-//	    }
-//	}
+		    CompanyChat companyChat = companyChatRepository.findById(chatNo)
+		            .orElseThrow();
+		    companyChatRepository.delete(companyChat);
 
-	//파일 보내기 (---> 이메일 연동)
-//	@Override
-//	public void sendFile(long chatNo, long empNo, MultipartFile file) {
-//		
-//	}
+		    return remainMem; 
+	}
 
-	
-	//채팅 알람 띄우기
-//	@Override
-//	public void chatAlarm(long chatNo, long empNo, String msgId) {
-//		
-//	}
 
-	
 	//채팅 data Excel 파일에 저장하기
 	@Override
 	public ByteArrayInputStream chatDataToExcel(String chatNo) {
@@ -484,11 +453,21 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	    Arrays.sort(empNos); 
 	    return empNos[0] + "_" + empNos[1];  
 	}
-	
-	
-	
 
 
+	@Override
+	public List<CompanyChatDTO> getChatList(long senderEmpNo) {
+		log.error("CompanyChatService -> getChatList");
+		return companyChatRepository.getCompanyChatNoAll(senderEmpNo);	
+	}
 
+
+	
+//	@Override
+//	public List<EmployeesDTO> getEmpFind(long empNo) {
+//		log.warn("eeeee");
+//		return employeesRepository.empFind(empNo);
+//	}
+	
 	
 }

@@ -20,26 +20,13 @@ public interface CompanyChatService {
 	public String createChatRoom(CompanyChatDTO companyChatDTO);
 	
 	//채팅방 나가기
-	//public List<CompanyChatMemberDTO> leaveChatRoom(long chatNo, long empNo);
-	
-	//채팅방에 employee 추가
-	//public Long addChatMember(CompanyChatDTO companyChatDTO);
-	
-	//사진파일 보내는거...
-	//public void sendImageFile(long chatNo, long empNo, MultipartFile file);
-	
-	//파일 보내는거 .. -> 메일로 보내졌다고 뜨게
-	//public void sendFile(long chatNo, long empNo, MultipartFile file);
-	
-	//채팅왔으면 알림뜨게..... ('msgId 님이 메시지를 보냈습니다.' 이런식으로 뜨도록 )
-	//public void chatAlarm(long chatNo, long empNo, String msgId);
+	public List<CompanyChatMemberDTO> leaveChatRoom(String chatNo);
 
 	//채팅 data 엑셀 파일에 기록
 	public ByteArrayInputStream chatDataToExcel(String chatNo);
 	
 	//채팅 data 엑셀 파일에서 읽어오기
 	public List<List<String>> chatDataReadToExcel(String filePath, String chatNo) throws Exception;
-	
 	
 	//모든 employee list 가져오기
 	public PageResponseDTO<EmployeesDTO> list(PageRequestDTO pageRequestDTO);
@@ -53,5 +40,11 @@ public interface CompanyChatService {
 	//채팅내용 엑셀파일에 저장하기
 	public void saveChatToExcel(String chatNo, long senderEmpNo, String content, String sendTime); 
 
-
+	//채팅 목록 
+	public List<CompanyChatDTO> getChatList(long senderEmpNo);
+	
+	//친구 검색
+	//public List<EmployeesDTO> getEmpFind(long empNo);
+	
+	
 }
