@@ -69,4 +69,7 @@ public interface EmployeesRepository extends JpaRepository<Employees, Long> {
 	
 	@Query("Select FUNCTION('MAX',e.empNo) from Employees e")
 	Object getMaxEmpNo();
+	
+	@Query("Select e from Employees e where e.mailAddress = :mailAddress")
+	Employees getEmpWithMail(@Param("mailAddress") String mailAddress);
 }
