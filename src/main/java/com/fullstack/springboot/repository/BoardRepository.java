@@ -37,4 +37,5 @@ public interface BoardRepository extends JpaRepository<Board, Long>{
 	Board getBoardByBoardNo(@Param("boardNo") Long boardNo);
 	
 
+	
 }

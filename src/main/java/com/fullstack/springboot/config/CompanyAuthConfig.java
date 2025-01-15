@@ -1,3 +1,4 @@
+
 package com.fullstack.springboot.config;
 
 import java.util.Arrays;
@@ -30,14 +31,16 @@ import lombok.extern.log4j.Log4j2;
 @EnableMethodSecurity
 public class CompanyAuthConfig {
 	
+	@Value("${com.fullstack.springboot.company-url}")
+	String companyUrl;
 	
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		System.out.println("company-auth-config-init-filterchain");
 		http.cors(t ->{
 			t.configurationSource(corsConfigurationSource());
@@ -51,10 +54,10 @@ public class CompanyAuthConfig {
 		
 		return http.build();
 	}
-	
 
-	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		
 		corsConfiguration.setAllowedOriginPatterns(Arrays.asList("*"));

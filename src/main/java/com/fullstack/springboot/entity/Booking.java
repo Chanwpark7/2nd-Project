@@ -1,12 +1,16 @@
 package com.fullstack.springboot.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
@@ -25,15 +29,15 @@ public class Booking {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long bookNo;
 	
-	private LocalDateTime bookDate;
+	private LocalDate bookDate;
 	
-	private LocalDateTime start;
+	private LocalTime start;
 	
-	private LocalDateTime end;
+	private LocalTime end;
 	
-	@OneToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private RoomList roomList;
 	
-	@OneToMany
-	private List<Employees> employees;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Employees employees;
 }
