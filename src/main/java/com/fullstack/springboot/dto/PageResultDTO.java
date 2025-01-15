@@ -2,6 +2,7 @@ package com.fullstack.springboot.dto;
 
 import java.util.List;
 import java.util.function.Function;
+
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -22,7 +23,6 @@ public class PageResultDTO<DTO, En> {
 	
 	//현재 페이지 번호
 	private int page;
-	
 	//목록의 사이즈
 	private int size;
 	
@@ -45,6 +45,7 @@ public class PageResultDTO<DTO, En> {
 	}
 	
 	private void makePageList(Pageable pageable) {
+
 		this.page = pageable.getPageNumber()+1;
 		this.size = pageable.getPageSize();
 		

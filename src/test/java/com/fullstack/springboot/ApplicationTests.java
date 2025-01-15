@@ -17,6 +17,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fullstack.springboot.entity.Board;
 import com.fullstack.springboot.dto.AnnualLeaveDTO;
 import com.fullstack.springboot.dto.BookingDTO;
 import com.fullstack.springboot.dto.CommuteDTO;
@@ -30,13 +31,16 @@ import com.fullstack.springboot.entity.Booking;
 import com.fullstack.springboot.entity.DeptInfo;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.entity.Job;
+import com.fullstack.springboot.entity.Reply;
 import com.fullstack.springboot.entity.RoomList;
 import com.fullstack.springboot.entity.SalaryChart;
+import com.fullstack.springboot.repository.BoardRepository;
 import com.fullstack.springboot.repository.BookingRepository;
 import com.fullstack.springboot.repository.CommuteRepository;
 import com.fullstack.springboot.repository.DeptInfoRepository;
 import com.fullstack.springboot.repository.EmployeesRepository;
 import com.fullstack.springboot.repository.JobRepository;
+import com.fullstack.springboot.repository.ReplyRepository;
 import com.fullstack.springboot.repository.RoomListRepository;
 import com.fullstack.springboot.repository.SalaryChartRepository;
 import com.fullstack.springboot.service.EmployeesService;
@@ -75,6 +79,10 @@ class ApplicationTests {
 	private DeptInfoRepository deptInfoRepository;
 	
 	@Autowired
+	private BoardRepository boardRepository;
+	
+	@Autowired ReplyRepository replyRepository;
+
 	private BookingRepository bookingRepository;
 	
 	@Autowired
@@ -717,4 +725,23 @@ class ApplicationTests {
 		
 		employeesRepository.save(employees);
 	}
+	
+	
+//		void insertReply() {
+//			//replyer 는 반드시 member email 중 하나여야 하고, 랜덤하게 생성해서 하나의 게시글에 하나이상의 댓글을 구성하도록 합니다.
+//
+//				IntStream.rangeClosed(1, 100).forEach(i->{
+//				long boardNo = (long)(Math.random() * 100) + 1;
+//				Board board = Board.builder().boardNo(boardNo).build();
+//				
+//				Reply reply = Reply.builder()
+//						.text("댓글..." + i)
+//						.board(board)
+//						.replyer("guest")
+//						.build();
+//				replyRepository.save(reply);
+//			});
+//		}
+//	
+	
 }
