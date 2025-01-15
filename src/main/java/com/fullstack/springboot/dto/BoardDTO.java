@@ -22,8 +22,6 @@ public class BoardDTO {
 	private Employees employees;
 	private String mailAddress; 
 	private String catecory;
-//	private String writerEmail;// ?
-//	private String writerName;
 	private LocalDateTime regdate;
 	private LocalDateTime moddate;
 	private int replyCount;

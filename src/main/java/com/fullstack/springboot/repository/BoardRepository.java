@@ -31,9 +31,10 @@ public interface BoardRepository extends JpaRepository<Board, Long>{
 	@Query(value = "select b, e, count(r) from Board b left join b.employees e left join Reply r On r.board = b group by b", 
 		       countQuery = "select count(b) from Board b")
 		Page<Object[]> getBoardWithReplyCount(Pageable pageable);
-
-	@Query("select b, e, count(r) from Board b left join b.employees e left join Reply r On r.board = b where b.boardNo = :boardNo")
-	Object getBoardByBoardNo(@Param("boardNo") Long boardNo);
+		
+	@Query("select b from Board b where b.boardNo = :boardNo")
+	//@Query("select b, e, count(r) from Board b left join b.employees e left join Reply r On r.board = b where b.boardNo = :boardNo")
+	Board getBoardByBoardNo(@Param("boardNo") Long boardNo);
 	
 
 }

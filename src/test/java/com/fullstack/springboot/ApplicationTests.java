@@ -460,7 +460,7 @@ class ApplicationTests {
 					.category("긴급 공지사항")
 					.title("제목 " + i)
 					.contents("글 " + i)
-					.build();
+					.build();	
 
 			}else if(i<81) {
 				board = Board.builder()

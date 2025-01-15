@@ -1,6 +1,6 @@
 package com.fullstack.springboot.controller;
 
-import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -45,11 +45,16 @@ public class BoardController {
 	
 	//게시물조회 및 수정 연결
 	@GetMapping({"/read","/modify"})
-	public void read(@ModelAttribute("pageRequestDTO") PageRequestDTO requestDTO, @RequestParam("boardNo") Long boardNo, Model model) {
+	public BoardDTO read(@ModelAttribute("pageRequestDTO") PageRequestDTO requestDTO, @RequestParam(value = "boardNo", required = false) Long boardNo, Model model) {
 		log.error("상세 페이지 요청됨 " + boardNo);
+		
+		
 		
 		BoardDTO boardDTO = boardService.getRead(boardNo);
 		model.addAttribute("dto", boardDTO);
+		
+		System.out.println(boardDTO);
+		return boardDTO;
 	}
 	
 	
@@ -73,21 +78,21 @@ public class BoardController {
 	
 	
 	//게시글 목록 요청 및 UI 에 모델 연결
-	@GetMapping("/list")
-	public String list(PageRequestDTO pageRequestDTO, Model model) {
-		log.error("리스트 요청됨..." + pageRequestDTO);
-		
-		
-		model.addAttribute("result", boardService.getList(pageRequestDTO));
-		return "test";
-		
-	}
 //	@GetMapping("/list")
-//	public void list(PageRequestDTO pageRequestDTO, Model model) {
+//	public String list(PageRequestDTO pageRequestDTO, Model model) {
 //		log.error("리스트 요청됨..." + pageRequestDTO);
 //		
 //		
 //		model.addAttribute("result", boardService.getList(pageRequestDTO));
+//		return "test";
 //		
 //	}
+	@GetMapping("/list")
+	public void list(PageRequestDTO pageRequestDTO, Model model) {
+		log.error("리스트 요청됨..." + pageRequestDTO);
+		
+		
+		model.addAttribute("result", boardService.getList(pageRequestDTO));
+		
+	}
 }

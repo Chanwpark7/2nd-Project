@@ -5,6 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -47,10 +52,14 @@ public class Board extends BaseEntity {
 	
 	private String category;
 	
+
 	public void changeTitle(String title) {
 		this.title = title;
 	}
 	public void changeContent(String contents) {
 		this.contents = contents;
 	}
+	
+	
+	
 }

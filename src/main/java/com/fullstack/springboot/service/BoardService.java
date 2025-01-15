@@ -34,7 +34,6 @@ public interface BoardService {
 					.mailAddress(dto.getMailAddress()).build();
 			
 			Board entity = Board.builder()
-					.boardNo(dto.getBoardNo())
 					.title(dto.getTitle())
 					.contents(dto.getContents())
 					.employees(employees)

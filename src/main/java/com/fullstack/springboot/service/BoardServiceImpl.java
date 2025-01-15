@@ -58,8 +58,17 @@ public class BoardServiceImpl implements BoardService {
 //		
 //		//Entity 를 DTO 로 변화.
 //		return entityToDTO((Board)arr[0], (Employees)arr[1], (Long)arr[2]);
-		return null;
-		
+		Board board = boardRepository.getBoardByBoardNo(boardNo);
+		BoardDTO dto = BoardDTO.builder()
+						.boardNo(board.getBoardNo())
+						.catecory(board.getCategory())
+						.contents(board.getContents())
+						.title(board.getTitle())
+						.regdate(board.getRegDate())
+						.moddate(board.getModDate())
+						.employees(board.getEmployees())
+						.build();
+		return dto;
 	}
 
 	
