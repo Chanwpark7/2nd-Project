@@ -14,7 +14,7 @@ import com.fullstack.springboot.entity.RoomList;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-	@Query("Select new com.fullstack.springboot.dto.BookingDTO(bk) from Booking bk")
+	@Query("Select new com.fullstack.springboot.dto.BookingDTO(bk) from Booking bk where bk.bookDate >= curdate()")
 	List<BookingDTO> getBookList();
 
 	@Query("Select new com.fullstack.springboot.dto.BookingDTO(bk) "
