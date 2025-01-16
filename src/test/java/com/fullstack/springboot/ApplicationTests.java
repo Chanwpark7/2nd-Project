@@ -43,6 +43,7 @@ import com.fullstack.springboot.repository.JobRepository;
 import com.fullstack.springboot.repository.ReplyRepository;
 import com.fullstack.springboot.repository.RoomListRepository;
 import com.fullstack.springboot.repository.SalaryChartRepository;
+import com.fullstack.springboot.service.BoardService;
 import com.fullstack.springboot.service.EmployeesService;
 import com.fullstack.springboot.service.annualleave.AnnualleaveService;
 import com.fullstack.springboot.service.booking.BookingService;
@@ -111,6 +112,9 @@ class ApplicationTests {
 
 	@Autowired
 	private PasswordEncoder pwencoder;
+	
+	@Autowired
+	private BoardService boardService;
 	
 	@Test
 //	 void insertDummies() {
@@ -707,41 +711,57 @@ class ApplicationTests {
 //	void getOneTest() {
 //		log.error(Long.parseLong(employeesRepository.getMaxEmpNo().toString()));
 //	}
-	void insert() {
-		Employees employees = Employees.builder()
-				.firstName("admin")
-				.lastName("admin")
-				.mailAddress("chanw"+"@admin.com")
-				.salary(1)
-				.job(Job.builder().jobNo(100L).build())
-				.deptInfo(DeptInfo.builder().deptNo(100L).build())
-				.birthday(LocalDate.of(2000, 1, 1))
-				.address("daejeon")
-				.phoneNum("010-1111-1111")
-				.gender("m")
-				.citizenId("0000000000000")
-				.password(pwencoder.encode("1234"))
-				.build();
-		
-		employeesRepository.save(employees);
-	}
 	
+//	void insert() {
+//		Employees employees = Employees.builder()
+//				.firstName("admin")
+//				.lastName("admin")
+//				.mailAddress("chanw"+"@admin.com")
+//				.salary(1)
+//				.job(Job.builder().jobNo(100L).build())
+//				.deptInfo(DeptInfo.builder().deptNo(100L).build())
+//				.birthday(LocalDate.of(2000, 1, 1))
+//				.address("daejeon")
+//				.phoneNum("010-1111-1111")
+//				.gender("m")
+//				.citizenId("0000000000000")
+//				.password(pwencoder.encode("1234"))
+//				.build();
+//		
+//		employeesRepository.save(employees);
+//	}
+	
+//	void insertDummies() {
+//		IntStream.rangeClosed(1, 20).forEach(value -> {
+//			Board board = Board.builder()
+//					.title(value+"")
+//					.contents(value+"")
+//					.employees(Employees.builder().empNo(2L).build())
+//					.category("긴급")
+//					.build();
+//			boardRepository.save(board);
+//		});
+//		
+//	}
 	
 //		void insertReply() {
 //			//replyer 는 반드시 member email 중 하나여야 하고, 랜덤하게 생성해서 하나의 게시글에 하나이상의 댓글을 구성하도록 합니다.
 //
 //				IntStream.rangeClosed(1, 100).forEach(i->{
-//				long boardNo = (long)(Math.random() * 100) + 1;
+//				long boardNo = (long)(Math.random() * 20) + 1;
 //				Board board = Board.builder().boardNo(boardNo).build();
 //				
 //				Reply reply = Reply.builder()
 //						.text("댓글..." + i)
 //						.board(board)
-//						.replyer("guest")
+//						.replyer("f2l2@ddt.co")
 //						.build();
 //				replyRepository.save(reply);
 //			});
 //		}
-//	
+	
+	void test() {
+		log.error(boardService.getRead(2L));
+	}
 	
 }

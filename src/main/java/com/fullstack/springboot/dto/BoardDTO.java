@@ -19,7 +19,6 @@ public class BoardDTO {
 	private Long boardNo;
 	private String title;
 	private String contents;
-	private Employees employees;
 	private String mailAddress; 
 	private String catecory;
 	private LocalDateTime regdate;

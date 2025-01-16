@@ -10,14 +10,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.fullstack.springboot.dto.BoardDTO;
+import com.fullstack.springboot.dto.board.BoardReadDTO;
 import com.fullstack.springboot.entity.Board;
 
 public interface BoardRepository extends JpaRepository<Board, Long>{
 	
 	
-	@Query("select b.boardNo, b.title, b.employees.mailAddress, b.employees.firstName from Board b "
+	@Query("select new com.fullstack.springboot.dto.board.BoardReadDTO(b.boardNo, b.title, b.contents, b.employees.mailAddress, b.category, b.regDate, b.modDate, count(r)) from Board b left join Reply r On r.board = b "
 			+ "where b.boardNo = :boardNo")
-	Object getBoardWithEmployees(@Param("boardNo") Long boardNo);
+	BoardReadDTO getBoardWithEmployees(@Param("boardNo") Long boardNo);
 	
 	
 	@Query("Select count(u), sum(u.boardNo) from Board u")
