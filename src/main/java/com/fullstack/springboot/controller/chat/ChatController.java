@@ -190,6 +190,14 @@ public class ChatController {
 
 
 
+	@GetMapping("/chatList/{senderEmpNo}")
+	 public ResponseEntity<List<CompanyChatDTO>> getChatList(@PathVariable("senderEmpNo") long senderEmpNo) {
+        System.out.println("Aaaaa");
+        System.out.println(senderEmpNo);
+		List<CompanyChatDTO> chatList = companyChatService.getChatList(senderEmpNo);
+        
+        return ResponseEntity.ok(chatList);  
+    }
 
 	
 	

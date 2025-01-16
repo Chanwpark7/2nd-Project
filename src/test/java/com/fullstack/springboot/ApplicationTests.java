@@ -114,6 +114,9 @@ class ApplicationTests {
 	private PasswordEncoder pwencoder;
 	
 	@Autowired
+	private PasswordEncoder passwordEncoder;
+  
+	@Autowired
 	private BoardService boardService;
 	
 	@Test
@@ -273,6 +276,15 @@ class ApplicationTests {
 //		roomListRepository.save(roomList);
 //	}
 	
+//	void test() {
+//		long salary = (long)(Math.random()*1000)+6500;
+//		Employees employees = Employees.builder().firstName("첫").lastName("다음").mailAddress("aaaa@ddd.com")
+//				.salary(salary).job(Job.builder().jobNo(100L).build()).deptInfo(DeptInfo.builder().deptNo(100L).build())
+//				.birthday(LocalDate.of(2000, 1, 1)).address("seoul").phoneNum("010-1234-5678").gender("m").citizenId("0000000000000")
+//				.password(passwordEncoder.encode("1111")).build();
+//			employeesRepository.save(employees);
+//	}
+//	
 //	void insertDummies() {
 //		IntStream.rangeClosed(1, 100).forEach(i -> {
 //			Employees employees = Employees.builder().build();
@@ -287,11 +299,12 @@ class ApplicationTests {
 //							.salary(salary)
 //							.job(Job.builder().jobNo(100L).build())
 //							.deptInfo(DeptInfo.builder().deptNo(100L).build())
-//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.birthday(LocalDate.of(2000, 1, 1))
 //							.address("seoul")
 //							.phoneNum("010-1111-1111")
 //							.gender("m")
 //							.citizenId("0000000000000")
+//							.password("1111")
 //							.build();
 //				}else if(i<10) {
 //					employees = Employees.builder()
@@ -301,11 +314,12 @@ class ApplicationTests {
 //							.salary(salary)
 //							.job(Job.builder().jobNo(100L).build())
 //							.deptInfo(DeptInfo.builder().deptNo(200L).build())
-//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.birthday(LocalDate.of(2000, 1, 1))
 //							.address("seoul")
 //							.phoneNum("010-1111-1111")
 //							.gender("f")
 //							.citizenId("0000000000000")
+//							.password("1111")
 //							.build();
 //				}else {
 //					employees = Employees.builder()
@@ -315,11 +329,12 @@ class ApplicationTests {
 //							.salary(salary)
 //							.job(Job.builder().jobNo(100L).build())
 //							.deptInfo(DeptInfo.builder().deptNo(300L).build())
-//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.birthday(LocalDate.of(2000, 1, 1))
 //							.address("seoul")
 //							.phoneNum("010-1111-1111")
 //							.gender("m")
 //							.citizenId("0000000000000")
+//							.password("1111")
 //							.build();
 //				}
 //				employeesRepository.save(employees);
@@ -333,11 +348,12 @@ class ApplicationTests {
 //							.salary(salary)
 //							.job(Job.builder().jobNo(200L).build())
 //							.deptInfo(DeptInfo.builder().deptNo(100L).build())
-//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.birthday(LocalDate.of(2000, 1, 1))
 //							.address("daejeon")
 //							.phoneNum("010-1111-1111")
 //							.gender("f")
 //							.citizenId("0000000000000")
+//							.password("1111")
 //							.build();
 //				}else if(i<30) {
 //					employees = Employees.builder()
@@ -347,9 +363,10 @@ class ApplicationTests {
 //							.salary(salary)
 //							.job(Job.builder().jobNo(200L).build())
 //							.deptInfo(DeptInfo.builder().deptNo(200L).build())
-//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.birthday(LocalDate.of(2000, 1, 1))
 //							.address("daejeon")
 //							.phoneNum("010-1111-1111")
+//							.password("1111")
 //							.gender("f")
 //							.citizenId("0000000000000")
 //							.build();
@@ -361,10 +378,11 @@ class ApplicationTests {
 //							.salary(salary)
 //							.job(Job.builder().jobNo(200L).build())
 //							.deptInfo(DeptInfo.builder().deptNo(300L).build())
-//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.birthday(LocalDate.of(2000, 1, 1))
 //							.address("daejeon")
 //							.phoneNum("010-1111-1111")
 //							.gender("m")
+//							.password("1111")
 //							.citizenId("0000000000000")
 //							.build();
 //				}
@@ -379,11 +397,12 @@ class ApplicationTests {
 //							.salary(salary)
 //							.job(Job.builder().jobNo(300L).build())
 //							.deptInfo(DeptInfo.builder().deptNo(100L).build())
-//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.birthday(LocalDate.of(2000, 1, 1))
 //							.address("daegu")
 //							.phoneNum("010-1111-1111")
 //							.gender("m")
 //							.citizenId("0000000000000")
+//							.password("1111")
 //							.build();
 //				}else if(i<50) {
 //					employees = Employees.builder()
@@ -393,10 +412,11 @@ class ApplicationTests {
 //							.salary(salary)
 //							.job(Job.builder().jobNo(300L).build())
 //							.deptInfo(DeptInfo.builder().deptNo(200L).build())
-//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.birthday(LocalDate.of(2000, 1, 1))
 //							.address("daegu")
 //							.phoneNum("010-1111-1111")
 //							.gender("f")
+//							.password("1111")
 //							.citizenId("0000000000000")
 //							.build();
 //				}else {
@@ -407,11 +427,12 @@ class ApplicationTests {
 //							.salary(salary)
 //							.job(Job.builder().jobNo(300L).build())
 //							.deptInfo(DeptInfo.builder().deptNo(300L).build())
-//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.birthday(LocalDate.of(2000, 1, 1))
 //							.address("daegu")
 //							.phoneNum("010-1111-1111")
 //							.gender("f")
 //							.citizenId("0000000000000")
+//							.password("1111")
 //							.build();
 //				}
 //				employeesRepository.save(employees);
@@ -425,11 +446,12 @@ class ApplicationTests {
 //							.salary(salary)
 //							.job(Job.builder().jobNo(400L).build())
 //							.deptInfo(DeptInfo.builder().deptNo(100L).build())
-//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.birthday(LocalDate.of(2000, 1, 1))
 //							.address("busan")
 //							.phoneNum("010-1111-1111")
 //							.gender("m")
 //							.citizenId("0000000000000")
+//							.password("1111")
 //							.build();
 //				}else if(i<70) {
 //					employees = Employees.builder()
@@ -439,10 +461,11 @@ class ApplicationTests {
 //							.salary(salary)
 //							.job(Job.builder().jobNo(400L).build())
 //							.deptInfo(DeptInfo.builder().deptNo(200L).build())
-//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.birthday(LocalDate.of(2000, 1, 1))
 //							.address("busan")
 //							.phoneNum("010-1111-1111")
 //							.gender("f")
+//							.password("1111")
 //							.citizenId("0000000000000")
 //							.build();
 //				}else {
@@ -453,11 +476,12 @@ class ApplicationTests {
 //							.salary(salary)
 //							.job(Job.builder().jobNo(400L).build())
 //							.deptInfo(DeptInfo.builder().deptNo(300L).build())
-//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.birthday(LocalDate.of(2000, 1, 1))
 //							.address("busan")
 //							.phoneNum("010-1111-1111")
 //							.gender("m")
 //							.citizenId("0000000000000")
+//							.password("1111")
 //							.build();
 //				}
 //				employeesRepository.save(employees);
@@ -471,11 +495,12 @@ class ApplicationTests {
 //							.salary(salary)
 //							.job(Job.builder().jobNo(500L).build())
 //							.deptInfo(DeptInfo.builder().deptNo(100L).build())
-//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.birthday(LocalDate.of(2000, 1, 1))
 //							.address("ulsan")
 //							.phoneNum("010-1111-1111")
 //							.gender("m")
 //							.citizenId("0000000000000")
+//							.password("1111")
 //							.build();
 //				}else if(i<90) {
 //					employees = Employees.builder()
@@ -485,11 +510,12 @@ class ApplicationTests {
 //							.salary(salary)
 //							.job(Job.builder().jobNo(500L).build())
 //							.deptInfo(DeptInfo.builder().deptNo(200L).build())
-//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.birthday(LocalDate.of(2000, 1, 1))
 //							.address("ulsan")
 //							.phoneNum("010-1111-1111")
 //							.gender("m")
 //							.citizenId("0000000000000")
+//							.password("1111")
 //							.build();
 //				}else {
 //					employees = Employees.builder()
@@ -499,11 +525,12 @@ class ApplicationTests {
 //							.salary(salary)
 //							.job(Job.builder().jobNo(500L).build())
 //							.deptInfo(DeptInfo.builder().deptNo(300L).build())
-//							.birthday(LocalDateTime.of(2000, 1, 1, 0, 0, 0))
+//							.birthday(LocalDate.of(2000, 1, 1))
 //							.address("ulsan")
 //							.phoneNum("010-1111-1111")
 //							.gender("m")
 //							.citizenId("0000000000000")
+//							.password(pass)
 //							.build();
 //				}
 //				employeesRepository.save(employees);
@@ -763,5 +790,11 @@ class ApplicationTests {
 	void test() {
 		log.error(boardService.getRead(2L));
 	}
-	
+  
+//	void test() {
+//		CommuteDTO dto = commuteRepository.todayCheckTime(205L);
+//		log.error(dto);
+//	}
+
 }
+

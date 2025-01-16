@@ -99,4 +99,10 @@ public class CommuteServiceImpl implements CommuteService {
 	public CommuteDTO getOne(Long commNo) {
 		return entityToDto(commuteRepository.findById(commNo).get());
 	}
+
+	@Override
+	public CommuteDTO todayCheckTime(Long empNo) {
+		log.warn("!!!!!!!!!!!!!!!!");
+		return commuteRepository.todayCheckTime(empNo);
+	}
 }

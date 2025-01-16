@@ -18,7 +18,7 @@ import lombok.extern.log4j.Log4j2;
 public class TokenController {
 	
 	@GetMapping("/auth/refresh")
-	public Map<String, Object> postMethodName(@RequestParam String refreshToken) {
+	public Map<String, Object> postMethodName(@RequestParam("refreshToken") String refreshToken) {
 		//TODO: process POST request
 
 		if(refreshToken == null) {

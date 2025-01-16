@@ -16,6 +16,8 @@ public interface CommuteService {
 	
 	public void checkOut(Long empNo);
 	
+	public CommuteDTO todayCheckTime(Long empNo);
+	
 	public PageResponseDTO<CommuteDTO> getListCommute(Long empNo, PageRequestDTO pageRequestDTO);
 	
 	public CommuteDTO getOne(Long commNo);
