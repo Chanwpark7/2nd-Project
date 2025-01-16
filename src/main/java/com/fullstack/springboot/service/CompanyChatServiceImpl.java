@@ -488,8 +488,8 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 
 	@Override
 	public List<CompanyChatDTO> getChatList(long senderEmpNo) {
-		// TODO Auto-generated method stub
-		return null;
+		log.error("!!!!!!!!!!!!!1111");
+		return companyChatRepository.getCompanyChatNoAll(senderEmpNo);
 	}
 	
 	@Override

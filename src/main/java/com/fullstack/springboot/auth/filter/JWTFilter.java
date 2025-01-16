@@ -31,6 +31,10 @@ public class JWTFilter extends OncePerRequestFilter {
 		if(path.startsWith("/auth")) {
 			return true;
 		}
+		if(path.startsWith("/chat")) {
+			return true;
+		}
+		
 		
 		return false;
 	}
@@ -46,9 +50,11 @@ public class JWTFilter extends OncePerRequestFilter {
 			Map<String, Object> claims = JWTUtil.validateToken(authHeader);
 			String email = (String)(claims.get("email"));
 			String password = (String)(claims.get("password"));
+			Long empNo = Long.valueOf((int)claims.get("empNo")) ;
+			Long deptNo = Long.valueOf((int)claims.get("deptNo")) ;
 			Set<String> roleSet = new HashSet<String>((ArrayList) claims.get("roleSet"));
 			
-			EmployeesAuthDTO dto = new EmployeesAuthDTO(email, password, roleSet);
+			EmployeesAuthDTO dto = new EmployeesAuthDTO(email, password, empNo, deptNo, roleSet);
 			UsernamePasswordAuthenticationToken authToken =
 					new UsernamePasswordAuthenticationToken(dto, password, dto.getAuthorities());
 			SecurityContextHolder.getContext().setAuthentication(authToken);
@@ -56,7 +62,7 @@ public class JWTFilter extends OncePerRequestFilter {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("JWT token error");
-
+			System.out.println(e);
 			Gson gson = new Gson();
 			String msg = gson.toJson(Map.of("error","ERROR_TOKEN_ACCESS"));
 			
