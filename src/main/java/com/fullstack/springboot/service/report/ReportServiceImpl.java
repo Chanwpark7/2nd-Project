@@ -36,7 +36,7 @@ public class ReportServiceImpl implements ReportService {
 		Pageable pageable = PageRequest.of(
 				pageRequestDTO.getPage()-1,
 				pageRequestDTO.getSize(),
-				Sort.by("reportNo").descending()
+				Sort.by("deadLine").ascending()
 			);
 		
 		Employees employees = Employees.builder()
