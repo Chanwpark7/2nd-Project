@@ -38,7 +38,6 @@ public class BookingController {
 	@GetMapping("/list/cr")
 	public PageResponseDTO<BookingDTO> crList(PageRequestDTO pageRequestDTO) {
 		
-		
 		return bookingService.getCRBookingList(pageRequestDTO);
 	}
 	

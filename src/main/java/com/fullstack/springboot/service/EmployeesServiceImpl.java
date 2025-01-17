@@ -154,4 +154,10 @@ public class EmployeesServiceImpl implements EmployeesService {
 		
 		return dto;
 	}
+	
+	@Override
+	public List<EmployeesDTO> addAllList() {
+
+		return employeesRepository.getAllList();
+	}
 }

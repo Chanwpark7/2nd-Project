@@ -41,6 +41,9 @@ public interface EmployeesRepository extends JpaRepository<Employees, Long> {
 	
 	@Query("Select new com.fullstack.springboot.dto.EmployeesDTO(emp) from Employees emp")
 	Page<EmployeesDTO> getEmployeesList(Pageable pageable);
+	
+	@Query("Select new com.fullstack.springboot.dto.EmployeesDTO(emp) from Employees emp")
+	List<EmployeesDTO> getAllList();
 
 	@Query("Select distinct new com.fullstack.springboot.dto.EmployeesDTO(emp) "
 			+ "from Employees emp "

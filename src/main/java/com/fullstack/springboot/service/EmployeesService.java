@@ -19,4 +19,6 @@ public interface EmployeesService {
 	public PageResponseDTO<EmployeesDTO> getEmployeesListPage(PageRequestDTO pageRequestDTO);
 	
 	public EmployeesDTO getOne(Long empNo);
+	
+	public List<EmployeesDTO> addAllList();
 }
