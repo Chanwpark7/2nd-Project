@@ -487,7 +487,7 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 
 
 	@Override
-	public List<CompanyChatDTO> getChatList(long senderEmpNo) {
+	public List<CompanyChatDTO> getChatList(long senderEmpNo) { //잘 받아옴
 		log.error("!!!!!!!!!!!!!1111");
 		return companyChatRepository.getCompanyChatNoAll(senderEmpNo);
 	}

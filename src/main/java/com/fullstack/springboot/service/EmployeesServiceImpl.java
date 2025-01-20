@@ -1,7 +1,11 @@
 package com.fullstack.springboot.service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -154,4 +158,48 @@ public class EmployeesServiceImpl implements EmployeesService {
 		
 		return dto;
 	}
+
+	@Override
+	public long getDDay(long empNo) {
+		Employees employees = employeesRepository.getEmpNo(empNo).orElseThrow();
+		LocalDate hirDate = employees.getHireDate();
+		LocalDate curDate = LocalDate.now();
+		
+		return ChronoUnit.DAYS.between(hirDate, curDate);
+	}
+
+	@Override
+	public PageResponseDTO<EmployeesDTO> getBirthEmp(PageRequestDTO pageRequestDTO) {
+	    Pageable pageable = pageRequestDTO.getPageable(Sort.by("empNo").ascending());
+
+	    Page<EmployeesDTO> page = employeesRepository.getEmployeesList(pageable);
+
+	    List<EmployeesDTO> dtoList = page.get().toList();
+	    long totalCount = page.getTotalElements();
+
+	    LocalDate nowDate = LocalDate.now();
+	    int currentMonth = nowDate.getMonthValue();
+	    int currentDay = nowDate.getDayOfMonth(); 
+
+	    List<EmployeesDTO> birthdayEmployees = dtoList.stream()
+	            .filter(emp -> {
+	                LocalDate birthDate = emp.getBirthday(); 
+	                return birthDate != null && birthDate.getMonthValue() == currentMonth && birthDate.getDayOfMonth() == currentDay;
+	            })
+	            .collect(Collectors.toList());
+
+	    if (birthdayEmployees.isEmpty()) {
+	        return null; 
+	    }
+
+	    return PageResponseDTO.<EmployeesDTO>withAll()
+	            .dtoList(birthdayEmployees)
+	            .totalCount((long) birthdayEmployees.size())
+	            .pageRequestDTO(pageRequestDTO)
+	            .build();
+	}
+
+
+	
+	
 }

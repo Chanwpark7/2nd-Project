@@ -56,4 +56,9 @@ public class AnnualLeaveController {
 
 		annualleaveService.setAnnualleave(employeesDTO.getEmpNo());
 	}
+	
+	@GetMapping("/count/{empNo}")
+	public AnnualLeaveDTO countRead(@PathVariable("empNo")Long empNo) {
+		return annualleaveService.getOne(empNo);
+	}
 }

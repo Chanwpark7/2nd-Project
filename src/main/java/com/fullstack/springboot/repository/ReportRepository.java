@@ -16,4 +16,5 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
 	
 	@Query("Select r, rf from Report r left join r.reportFiles rf where r.sender = :sender and rf.ord = 0")
 	Page<Object[]> selectSentList(@Param("sender") Employees sender, Pageable pageable);
+	
 }
