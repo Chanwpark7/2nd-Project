@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResponseDTO;
-import com.fullstack.springboot.dto.report.ReportDTO;
+import com.fullstack.springboot.dto.ReportDTO;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.entity.Report;
 import com.fullstack.springboot.entity.ReportFiles;
@@ -36,7 +36,7 @@ public class ReportServiceImpl implements ReportService {
 		Pageable pageable = PageRequest.of(
 				pageRequestDTO.getPage()-1,
 				pageRequestDTO.getSize(),
-				Sort.by("reportNo").descending()
+				Sort.by("deadLine").ascending()
 			);
 		
 		Employees employees = Employees.builder()

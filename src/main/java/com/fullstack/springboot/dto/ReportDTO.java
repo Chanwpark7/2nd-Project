@@ -1,4 +1,4 @@
-package com.fullstack.springboot.dto.report;
+package com.fullstack.springboot.dto;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

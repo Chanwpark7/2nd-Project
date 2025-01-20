@@ -19,4 +19,10 @@ public interface EmployeesService {
 	public PageResponseDTO<EmployeesDTO> getEmployeesListPage(PageRequestDTO pageRequestDTO);
 	
 	public EmployeesDTO getOne(Long empNo);
+	
+	public long getDDay(long empNo);
+	
+	public PageResponseDTO<EmployeesDTO> getBirthEmp(PageRequestDTO pageRequestDTO);
+  
+	public List<EmployeesDTO> addAllList();
 }

@@ -2,6 +2,7 @@ package com.fullstack.springboot.repository;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +20,7 @@ import com.fullstack.springboot.dto.CommuteDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
 
 public interface EmployeesRepository extends JpaRepository<Employees, Long> {
-  
+	
   @EntityGraph(attributePaths = "roleSet")
 	@Query("select emp from Employees emp where emp.mailAddress = :email")
 	Employees getByEmail(@Param("email") String email);
@@ -30,12 +31,19 @@ public interface EmployeesRepository extends JpaRepository<Employees, Long> {
 	@Query("select new com.fullstack.springboot.dto.EmployeesDTO(e) from Employees e ")
 	public Page<EmployeesDTO> empAllList(Pageable pageable);
 	
+	@Query("select distinct new com.fullstack.springboot.dto.EmployeesDTO(e) from Employees e"
+			+ " inner join CompanyChatMember cm on e.empNo =:empNo")
+	public EmployeesDTO empFind(@Param("empNo") Long empNo);
+
 	@Query("select new com.fullstack.springboot.dto.EmployeesDTO(e) from Employees e "
 			+ "where e.firstName like :firstname% or e.lastName like :lastName%")
 	public Page<EmployeesDTO> empLikstList(Pageable pageable);
 	
 	@Query("Select new com.fullstack.springboot.dto.EmployeesDTO(emp) from Employees emp")
 	Page<EmployeesDTO> getEmployeesList(Pageable pageable);
+	
+	@Query("Select new com.fullstack.springboot.dto.EmployeesDTO(emp) from Employees emp")
+	List<EmployeesDTO> getAllList();
 
 	@Query("Select distinct new com.fullstack.springboot.dto.EmployeesDTO(emp) "
 			+ "from Employees emp "
@@ -65,4 +73,7 @@ public interface EmployeesRepository extends JpaRepository<Employees, Long> {
 	
 	@Query("Select FUNCTION('MAX',e.empNo) from Employees e")
 	Object getMaxEmpNo();
+	
+	@Query("Select e from Employees e where e.mailAddress = :mailAddress")
+	Employees getEmpWithMail(@Param("mailAddress") String mailAddress);
 }

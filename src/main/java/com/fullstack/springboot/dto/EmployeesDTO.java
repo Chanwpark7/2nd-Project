@@ -51,6 +51,8 @@ public class EmployeesDTO {
 	
 	private String citizenId;
 	
+	private String password;
+	
 	public EmployeesDTO(Employees employees) {
 		this.empNo = employees.getEmpNo();
 		this.firstName = employees.getFirstName();

@@ -484,11 +484,18 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	    Arrays.sort(empNos); 
 	    return empNos[0] + "_" + empNos[1];  
 	}
-	
-	
-	
 
 
-
+	@Override
+	public List<CompanyChatDTO> getChatList(long senderEmpNo) { //잘 받아옴
+		log.error("!!!!!!!!!!!!!1111");
+		return companyChatRepository.getCompanyChatNoAll(senderEmpNo);
+	}
+	
+	@Override
+	public EmployeesDTO getEmpFind(long empNo) {
+		log.warn("eeeee");
+		return employeesRepository.empFind(empNo);
+	}
 	
 }

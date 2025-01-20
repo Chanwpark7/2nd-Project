@@ -20,7 +20,8 @@ public class EmployeesAuthDTO extends User{
 	
 	private String email;
 	private String password;
-	
+	private Long empNo;
+	private Long deptNo;
 	Set<String> roleSet = new HashSet<String>();
 	
 	public EmployeesAuthDTO(Employees emp) {
@@ -29,11 +30,13 @@ public class EmployeesAuthDTO extends User{
 					.map(str -> new SimpleGrantedAuthority("ROLE-"+str))
 					.collect(Collectors.toList()));
 		email = emp.getMailAddress();
+		empNo = emp.getEmpNo();
+		deptNo = emp.getDeptInfo().getDeptNo();
 		password = emp.getPassword();
 		roleSet = emp.getRoleSet().stream().map(str -> str.name()).collect(Collectors.toSet());
 		
 	}
-	public EmployeesAuthDTO(String email, String password, Set<String> roleSet) {
+	public EmployeesAuthDTO(String email, String password,Long empNo, Long deptNo, Set<String> roleSet) {
 		super(email, password,
 				roleSet.stream()
 					.map(str -> new SimpleGrantedAuthority("ROLE-"+str))
@@ -41,6 +44,8 @@ public class EmployeesAuthDTO extends User{
 		this.email = email;
 		this.password = password;
 		this.roleSet = roleSet;
+		this.empNo = empNo;
+		this.deptNo = deptNo;
 		
 	}
 	public Map<String, Object> getClaims(){
@@ -49,6 +54,8 @@ public class EmployeesAuthDTO extends User{
 		claim.put("email", email);
 		claim.put("password", password);
 		claim.put("roleSet", roleSet);
+		claim.put("empNo", empNo);
+		claim.put("deptNo", deptNo);
 		
 		return claim;
 	}

@@ -20,7 +20,7 @@ import com.fullstack.springboot.dto.CommuteDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResponseDTO;
-import com.fullstack.springboot.dto.report.ReportDTO;
+import com.fullstack.springboot.dto.ReportDTO;
 import com.fullstack.springboot.service.EmployeesService;
 import com.fullstack.springboot.service.annualleave.AnnualleaveService;
 import com.fullstack.springboot.service.report.ReportService;

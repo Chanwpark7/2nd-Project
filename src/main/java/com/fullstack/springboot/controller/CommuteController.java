@@ -21,6 +21,8 @@ import com.fullstack.springboot.service.commute.CommuteService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -63,6 +65,12 @@ public class CommuteController {
 	@GetMapping("/read/{commNo}")
 	public CommuteDTO getOne(@PathVariable(name = "commNo") Long commNo) {
 		return commuteService.getOne(commNo);
+	}
+	
+	@GetMapping("/todayCommute/{empNo}")
+	public CommuteDTO todayCommute(@PathVariable(name = "empNo")Long empNo) {
+		System.out.println("!!!");
+		return commuteService.todayCheckTime(empNo);
 	}
 	
 }

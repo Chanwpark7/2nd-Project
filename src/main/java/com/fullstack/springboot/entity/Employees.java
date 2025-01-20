@@ -22,6 +22,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Builder
@@ -64,6 +65,10 @@ public class Employees implements Serializable{
 	private String citizenId;
 	
 	private String password;
+	
+	public void changePw(String password) {
+		this.password = password;
+	}
 //dev_mail
 	
 	@Builder.Default

@@ -4,7 +4,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResponseDTO;
-import com.fullstack.springboot.dto.report.ReportDTO;
+import com.fullstack.springboot.dto.ReportDTO;
 
 @Transactional
 public interface ReportService {

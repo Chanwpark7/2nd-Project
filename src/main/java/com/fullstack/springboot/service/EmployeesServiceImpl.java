@@ -1,12 +1,17 @@
 package com.fullstack.springboot.service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fullstack.springboot.dto.DayOffDTO;
@@ -31,6 +36,7 @@ public class EmployeesServiceImpl implements EmployeesService {
 	private final EmployeesRepository employeesRepository;
 	private final DeptInfoRepository deptInfoRepository;
 	private final JobRepository jobRepository;
+	private final PasswordEncoder pwEncoder;
 	
 	@Override
 	public EmployeesDTO addEmployees(EmployeesDTO employeesDTO) {
@@ -48,6 +54,7 @@ public class EmployeesServiceImpl implements EmployeesService {
 				.phoneNum(employeesDTO.getPhoneNum())
 				.gender(employeesDTO.getGender())
 				.citizenId(employeesDTO.getCitizenId())
+				.password(pwEncoder.encode(employeesDTO.getPassword()))
 				.build();
 		
 		employeesRepository.save(employees);
@@ -93,6 +100,7 @@ public class EmployeesServiceImpl implements EmployeesService {
 				.phoneNum(employeesDTO.getPhoneNum())
 				.gender(employeesDTO.getGender())
 				.citizenId(employeesDTO.getCitizenId())
+				.password(pwEncoder.encode(employeesDTO.getPassword()))
 				.build();
 		
 		employeesRepository.save(employees);
@@ -103,8 +111,11 @@ public class EmployeesServiceImpl implements EmployeesService {
 	@Override
 	public void deleteEmployees(Long empNo) {
 
-		employeesRepository.delete(employeesRepository.findById(empNo).get());
+		Employees employees = employeesRepository.findById(empNo).get();
 		
+		employees.changePw(pwEncoder.encode("deleted"));
+		
+		employeesRepository.save(employees);
 	}
 
 	@Override
@@ -149,5 +160,50 @@ public class EmployeesServiceImpl implements EmployeesService {
 				.build();
 		
 		return dto;
+	}
+	@Override
+	public long getDDay(long empNo) {
+		Employees employees = employeesRepository.getEmpNo(empNo).orElseThrow();
+		LocalDate hirDate = employees.getHireDate();
+		LocalDate curDate = LocalDate.now();
+		
+		return ChronoUnit.DAYS.between(hirDate, curDate);
+	}
+
+	@Override
+	public PageResponseDTO<EmployeesDTO> getBirthEmp(PageRequestDTO pageRequestDTO) {
+	    Pageable pageable = pageRequestDTO.getPageable(Sort.by("empNo").ascending());
+
+	    Page<EmployeesDTO> page = employeesRepository.getEmployeesList(pageable);
+
+	    List<EmployeesDTO> dtoList = page.get().toList();
+	    long totalCount = page.getTotalElements();
+
+	    LocalDate nowDate = LocalDate.now();
+	    int currentMonth = nowDate.getMonthValue();
+	    int currentDay = nowDate.getDayOfMonth(); 
+
+	    List<EmployeesDTO> birthdayEmployees = dtoList.stream()
+	            .filter(emp -> {
+	                LocalDate birthDate = emp.getBirthday(); 
+	                return birthDate != null && birthDate.getMonthValue() == currentMonth && birthDate.getDayOfMonth() == currentDay;
+	            })
+	            .collect(Collectors.toList());
+
+	    if (birthdayEmployees.isEmpty()) {
+	        return null; 
+	    }
+
+	    return PageResponseDTO.<EmployeesDTO>withAll()
+	            .dtoList(birthdayEmployees)
+	            .totalCount((long) birthdayEmployees.size())
+	            .pageRequestDTO(pageRequestDTO)
+	            .build();
+	}
+
+	@Override
+	public List<EmployeesDTO> addAllList() {
+
+		return employeesRepository.getAllList();
 	}
 }

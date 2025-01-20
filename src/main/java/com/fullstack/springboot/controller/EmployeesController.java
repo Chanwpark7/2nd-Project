@@ -1,5 +1,7 @@
 package com.fullstack.springboot.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,6 +62,20 @@ public class EmployeesController {
 	public EmployeesDTO add(@RequestBody EmployeesDTO employeesDTO) {
 
 		return employeesService.addEmployees(employeesDTO);
+	}
+	
+	@GetMapping("/dday/{empNo}")
+	public long getDDay(@PathVariable("empNo")long empNo) {
+		return employeesService.getDDay(empNo);
+	}
+	
+	@GetMapping("/birth")
+	public PageResponseDTO<EmployeesDTO> getBirth(PageRequestDTO pageRequestDTO){
+		return employeesService.getBirthEmp(pageRequestDTO);
+	}
+	@GetMapping("/list/all")
+	public List<EmployeesDTO> getAllList() {
+		return employeesService.addAllList();
 	}
 	
 }

@@ -53,5 +53,8 @@ public interface CompanyChatService {
 	//채팅내용 엑셀파일에 저장하기
 	public void saveChatToExcel(String chatNo, long senderEmpNo, String content, String sendTime); 
 
-
+	//채팅 목록 
+	public List<CompanyChatDTO> getChatList(long senderEmpNo);
+	//친구 검색
+	public EmployeesDTO getEmpFind(long empNo);
 }
