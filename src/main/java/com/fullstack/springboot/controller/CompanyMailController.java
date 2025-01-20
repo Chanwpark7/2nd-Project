@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fullstack.springboot.dto.EmployeeReceiverDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.entity.CompanyMail;
 import com.fullstack.springboot.entity.Employees;
@@ -51,9 +52,16 @@ public class CompanyMailController {
 
 	@PostMapping(path = "/mail", consumes = { "multipart/form-data;charset=UTF-8"})
 	public String regiMail(CompanyMailDTO dto,@RequestParam long sendEmpNo,@RequestParam long[] receiveEmpNo) {
+		
+		List<String> savedName = null;
+		
 		System.out.println("company-mail-sendMail");
 		System.out.println(dto);
 		System.out.println(sendEmpNo);
+		for(long t : receiveEmpNo) {
+			System.out.println(t);
+		}
+		//return null;
 		for(long no : receiveEmpNo) {
 			System.out.println(no);
 		}
@@ -65,14 +73,17 @@ public class CompanyMailController {
 		}
 		dto.setEmployees(empList);
 		dto.setMailNo(companyMailService.register(dto));
-		List<String> savedName = fileUtil.attachFiles(dto.getFiles());
-		System.out.println(dto);
+		if(dto.getFiles() != null) {
+		savedName = fileUtil.attachFiles(dto.getFiles());
 		companyMailAttachFilesService.register(dto, savedName);
+		}
+		System.out.println(dto);
+		
 		companyMailReceivedService.register(CompanyMail.builder().mailNo(dto.getMailNo()).build(), empList);
 		
 		
 		System.out.println("company-mail-sendMail");
-		return null;
+		return "company-mail-sendMail";
 	}
 	@PostMapping("/mail/attach")
 	public String attachMail(@RequestBody CompanyMailDTO dto) {
@@ -140,6 +151,11 @@ public class CompanyMailController {
 		
 		return companyMailService.getMySendListPage(email, pageable, reqDTO);
 	}
+	@GetMapping("/mail/receiver")
+	public List<EmployeeReceiverDTO> findMailReceiver(@RequestParam String email) {
+		return companyMailService.findMailReceiver(email);
+	}
+	
 	
 	@PutMapping("/mail/m")
 	public String modCat(@RequestParam String cat, @RequestParam String sendEmpNo) {

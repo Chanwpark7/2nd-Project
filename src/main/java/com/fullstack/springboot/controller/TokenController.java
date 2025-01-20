@@ -30,16 +30,18 @@ public class TokenController {
 		
 
 		Map<String, Object> claims = JWTUtil.validateToken(refreshToken);
-		
+		try {
 		log.error("refreshToken claims,,," + claims);
 		System.out.println("claims get:" + claims.get("exp"));
 		String newAccessToken = JWTUtil.genToken(claims, 60);
 		String newRefreshToken = checkTime((long)claims.get("exp")) == true ? 
 				JWTUtil.genToken(claims, 60*24) : refreshToken;
-//		
-		
-		//return null;
 		return Map.of("accessToken", newAccessToken, "refreshToken", newRefreshToken);
+//		
+		}catch(Exception e) {
+			return Map.of("error","TOKEN_ERR");
+		}
+		//return null;
 		
 	}
 
