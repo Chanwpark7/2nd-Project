@@ -28,6 +28,7 @@ import com.fullstack.springboot.mail.dto.CompanyMailDTO;
 import com.fullstack.springboot.mail.dto.CompanyMailListRequestDTO;
 import com.fullstack.springboot.mail.dto.CompanyMailReceivedDTO;
 import com.fullstack.springboot.mail.dto.CompanyMailResponseDTO;
+import com.fullstack.springboot.repository.EmployeesRepository;
 import com.fullstack.springboot.service.CompanyMailAttachFilesService;
 import com.fullstack.springboot.service.CompanyMailReceivedService;
 import com.fullstack.springboot.service.CompanyMailService;
@@ -47,11 +48,12 @@ public class CompanyMailController {
 	private final CompanyMailService companyMailService;
 	private final CompanyMailAttachFilesService companyMailAttachFilesService;
 	private final CompanyMailReceivedService companyMailReceivedService;
+	private final EmployeesRepository employeesRepository;
 	
 	private final FileUtil fileUtil;
 
 	@PostMapping(path = "/mail", consumes = { "multipart/form-data;charset=UTF-8"})
-	public String regiMail(CompanyMailDTO dto,@RequestParam long sendEmpNo,@RequestParam long[] receiveEmpNo) {
+	public String regiMail(CompanyMailDTO dto,@RequestParam String sendEmpNo,@RequestParam long[] receiveEmpNo) {
 		
 		List<String> savedName = null;
 		
@@ -66,7 +68,9 @@ public class CompanyMailController {
 			System.out.println(no);
 		}
 		
-		dto.setSender(EmployeesDTO.builder().empNo(sendEmpNo).build());
+		Employees emp = employeesRepository.getByEmail(sendEmpNo);
+		
+		dto.setSender(EmployeesDTO.builder().empNo(emp.getEmpNo()).build());
 		List<EmployeesDTO> empList = new ArrayList<EmployeesDTO>();
 		for(long no : receiveEmpNo) {
 			empList.add(EmployeesDTO.builder().empNo(no).build());
