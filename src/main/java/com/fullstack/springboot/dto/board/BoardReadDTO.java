@@ -47,4 +47,5 @@ public class BoardReadDTO {
 		this.category = category;
 		this.replyCnt = 1;
 	}
+	
 }

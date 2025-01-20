@@ -1,5 +1,6 @@
 package com.fullstack.springboot;
 
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,34 +18,45 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fullstack.springboot.entity.AnnualLeave;
 import com.fullstack.springboot.entity.Board;
 import com.fullstack.springboot.dto.AnnualLeaveDTO;
 import com.fullstack.springboot.dto.BookingDTO;
 import com.fullstack.springboot.dto.CommuteDTO;
+import com.fullstack.springboot.dto.CompanyChatDTO;
 import com.fullstack.springboot.dto.DayOffDTO;
 import com.fullstack.springboot.dto.DeptInfoDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.dto.JobDTO;
+import com.fullstack.springboot.dto.MenuDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResponseDTO;
 import com.fullstack.springboot.entity.Booking;
+import com.fullstack.springboot.entity.DayOff;
 import com.fullstack.springboot.entity.DeptInfo;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.entity.Job;
+import com.fullstack.springboot.entity.Menu;
 import com.fullstack.springboot.entity.Reply;
 import com.fullstack.springboot.entity.RoomList;
 import com.fullstack.springboot.entity.SalaryChart;
+import com.fullstack.springboot.repository.AnnualleaveRepository;
 import com.fullstack.springboot.repository.BoardRepository;
 import com.fullstack.springboot.repository.BookingRepository;
 import com.fullstack.springboot.repository.CommuteRepository;
+import com.fullstack.springboot.repository.CompanyChatRepository;
+import com.fullstack.springboot.repository.DayOffRepository;
 import com.fullstack.springboot.repository.DeptInfoRepository;
 import com.fullstack.springboot.repository.EmployeesRepository;
 import com.fullstack.springboot.repository.JobRepository;
+import com.fullstack.springboot.repository.MenuRepositoy;
 import com.fullstack.springboot.repository.ReplyRepository;
 import com.fullstack.springboot.repository.RoomListRepository;
 import com.fullstack.springboot.repository.SalaryChartRepository;
 import com.fullstack.springboot.service.BoardService;
+import com.fullstack.springboot.service.CompanyChatService;
 import com.fullstack.springboot.service.EmployeesService;
+import com.fullstack.springboot.service.MenuService;
 import com.fullstack.springboot.service.annualleave.AnnualleaveService;
 import com.fullstack.springboot.service.booking.BookingService;
 import com.fullstack.springboot.service.commute.CommuteService;
@@ -118,6 +130,26 @@ class ApplicationTests {
   
 	@Autowired
 	private BoardService boardService;
+	
+
+	@Autowired
+	private DayOffRepository dayOffRepository;
+	
+	@Autowired
+	private AnnualleaveRepository annualleaveRepository;
+	
+	@Autowired
+	private MenuRepositoy menuRepositoy;
+	
+	@Autowired
+	private MenuService menuService;
+	
+	@Autowired
+	private CompanyChatRepository companyChatRepository;
+	
+	@Autowired
+	private CompanyChatService companyChatService;
+	
 	
 	@Test
 //	 void insertDummies() {
@@ -722,6 +754,7 @@ class ApplicationTests {
 //		
 //		log.error(page.getPageRequestDTO().getPageable(Sort.by("empNo")));
 //	}
+
 	
 //	void addBookingService() {
 //		BookingDTO bookingDTO = BookingDTO.builder()
@@ -787,14 +820,97 @@ class ApplicationTests {
 //			});
 //		}
 	
-	void test() {
-		log.error(boardService.getRead(2L));
-	}
-  
+//	void test() {
+//		log.error(boardService.getRead(2L));
+//	}
+//  
 //	void test() {
 //		CommuteDTO dto = commuteRepository.todayCheckTime(205L);
 //		log.error(dto);
 //	}
 
+//	void ins() {
+//		Employees employees = Employees.builder().empNo(205L).build();
+//		AnnualLeave annualLeave = AnnualLeave.builder()
+//				.employees(employees)
+//				.antecedent(1)
+//				.hours(0)
+//				.build();
+//		annualleaveRepository.save(annualLeave);
+//	}
+	
+	void tes() {
+		List<CompanyChatDTO> dto = companyChatService.getChatList(205L);
+		for(CompanyChatDTO res : dto) {
+			System.out.println(res);
+		}
+	}
+	
+//	void tes() {
+//		DayOff dayOff = DayOff.builder().dayOffDate(LocalDate.now()).offHours(2L).employees(Employees.builder().empNo(205L).build()).build();
+//		System.out.println("성공");
+//		dayOffRepository.save(dayOff);
+//	}
+	
+	
+//	void tes() {
+//		Employees employees = Employees.builder().empNo(205L).build();
+//		Menu menu = Menu.builder().dessert("하겐다즈")
+//				.mainMenu("스파게티")
+//				.firSideDish("양송이 스프")
+//				.secSideDish("마늘바게트")
+//				.thirdSideDish("피클")
+//				.employees(employees)
+//				.menuDate(LocalDate.now()).build();
+//		
+//		menuRepositoy.save(menu);
+//	}
+	
+//	@Transactional
+//	void tes() {
+//		MenuDTO menuDTO = MenuDTO.builder().dessert("하겐다즈").mainMenu("떡볶이").firSideDish("단무지").secSideDish("치즈스틱")
+//				.thirdSideDish("야채튀김").menuDate(LocalDate.now()).empNo(205L).build();
+//		menuService.addMenu(menuDTO);
+//	}
+	
+//	void tess() {
+//		System.out.println(menuService.getOne(1L));
+//	}
+	
+//	void tes() {
+//		
+//		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+//				.page(1)
+//				.size(10)
+//				.build();
+//		
+//		PageResponseDTO<EmployeesDTO> dto = employeesService.getBirthEmp(pageRequestDTO);
+//		for(EmployeesDTO res : dto.getDtoList()) {
+//			System.out.println(dto);
+//		}
+//	}
+	
+	
+//	void ttt() {
+//		List<MenuDTO> dto = menuRepositoy.getMenuList();
+//		for(MenuDTO res : dto) {
+//			System.out.println(res);
+//		}
+//	}
+//	
+
+
+//	void tes() {
+//		System.out.println( employeesService.getDDay(205L));
+//		log.error(employeesService.getDDay(205L));	
+//		}
+//
+//	void tes() {
+//		LocalDate now = LocalDate.now();
+//		System.out.println(now);
+//		MenuDTO dto = menuRepositoy.getTodayMenu(now);
+//		System.out.println("성공?");
+//		System.out.println(dto);
+//	}	
 }
 

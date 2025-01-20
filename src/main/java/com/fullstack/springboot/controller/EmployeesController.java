@@ -64,10 +64,18 @@ public class EmployeesController {
 		return employeesService.addEmployees(employeesDTO);
 	}
 	
+	@GetMapping("/dday/{empNo}")
+	public long getDDay(@PathVariable("empNo")long empNo) {
+		return employeesService.getDDay(empNo);
+	}
+	
+	@GetMapping("/birth")
+	public PageResponseDTO<EmployeesDTO> getBirth(PageRequestDTO pageRequestDTO){
+		return employeesService.getBirthEmp(pageRequestDTO);
+	}
 	@GetMapping("/list/all")
 	public List<EmployeesDTO> getAllList() {
 		return employeesService.addAllList();
 	}
-	
 	
 }
