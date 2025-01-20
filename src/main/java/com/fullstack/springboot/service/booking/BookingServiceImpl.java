@@ -124,4 +124,5 @@ public class BookingServiceImpl implements BookingService {
 		
 		bookingRepository.save(booking);
 	}
+	
 }

@@ -30,9 +30,13 @@ public class DayOffServiceImpl implements DayOffService {
 	
 	@Override
 	public void addDayOff(DayOffDTO dayOffDTO) {
-		dayOffRepository.save(dtoToEntity(dayOffDTO));
-		
-		annualleaveService.changeHours(dayOffDTO.getEmpNo(), dayOffDTO.getOffHours());
+		Long hours = annualleaveService.getOne(dayOffDTO.getEmpNo()).getHours();
+		if(dayOffDTO.getOffHours()<hours&&dayOffDTO.getOffHours()>0) {
+			
+			dayOffRepository.save(dtoToEntity(dayOffDTO));
+			
+			annualleaveService.changeHours(dayOffDTO.getEmpNo(), dayOffDTO.getOffHours());
+		}
 	}
 
 //	@Override

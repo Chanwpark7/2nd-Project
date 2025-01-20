@@ -111,8 +111,11 @@ public class EmployeesServiceImpl implements EmployeesService {
 	@Override
 	public void deleteEmployees(Long empNo) {
 
-		employeesRepository.delete(employeesRepository.findById(empNo).get());
+		Employees employees = employeesRepository.findById(empNo).get();
 		
+		employees.changePw(pwEncoder.encode("deleted"));
+		
+		employeesRepository.save(employees);
 	}
 
 	@Override
@@ -158,7 +161,6 @@ public class EmployeesServiceImpl implements EmployeesService {
 		
 		return dto;
 	}
-
 	@Override
 	public long getDDay(long empNo) {
 		Employees employees = employeesRepository.getEmpNo(empNo).orElseThrow();
@@ -199,7 +201,9 @@ public class EmployeesServiceImpl implements EmployeesService {
 	            .build();
 	}
 
+	@Override
+	public List<EmployeesDTO> addAllList() {
 
-	
-	
+		return employeesRepository.getAllList();
+	}
 }
