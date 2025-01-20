@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 
+import com.fullstack.springboot.dto.EmployeeReceiverDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.entity.CompanyMail;
 import com.fullstack.springboot.entity.Employees;
@@ -27,7 +28,7 @@ public interface CompanyMailService {
 	
 	String modifyMailCat(Long sendEmpNo,String cat);
 	
-	
+	List<EmployeeReceiverDTO> findMailReceiver(String email);
 	
 	default CompanyMail mailDtoToEntity(CompanyMailDTO dto) {
 		return CompanyMail.builder()

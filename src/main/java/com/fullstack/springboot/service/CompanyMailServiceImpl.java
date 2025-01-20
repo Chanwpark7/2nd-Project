@@ -11,7 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.fullstack.springboot.dto.EmployeeReceiverDTO;
+import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.entity.CompanyMail;
+import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.mail.dto.CompanyMailDTO;
 import com.fullstack.springboot.mail.dto.CompanyMailListRequestDTO;
 import com.fullstack.springboot.mail.dto.CompanyMailResponseDTO;
@@ -125,6 +128,17 @@ public class CompanyMailServiceImpl implements CompanyMailService {
 			return "modCat_success";
 		}
 		return "modCat_fail";
+	}
+	
+	@Override
+	public List<EmployeeReceiverDTO> findMailReceiver(String email) {
+		String param = email + '%';
+		List<Employees> empList = companyMailRepository.findReceivers(param);
+		List<EmployeeReceiverDTO> dtoList = new ArrayList<EmployeeReceiverDTO>();
+		for(Employees emp : empList) {
+			dtoList.add(new EmployeeReceiverDTO(emp));
+		}
+		return dtoList;
 	}
 	
 	
