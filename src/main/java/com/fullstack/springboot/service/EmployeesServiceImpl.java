@@ -107,8 +107,11 @@ public class EmployeesServiceImpl implements EmployeesService {
 	@Override
 	public void deleteEmployees(Long empNo) {
 
-		employeesRepository.delete(employeesRepository.findById(empNo).get());
+		Employees employees = employeesRepository.findById(empNo).get();
 		
+		employees.changePw(pwEncoder.encode("deleted"));
+		
+		employeesRepository.save(employees);
 	}
 
 	@Override
