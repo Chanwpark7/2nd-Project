@@ -46,7 +46,7 @@ public class BoardServiceImpl implements BoardService {
 				.title(dto.getTitle())
 				.contents(dto.getContents())
 				.employees(employees)
-				.category(dto.getCatecory())
+				.category(dto.getCategory())
 				.build();
 		
 		boardRepository.save(board);
@@ -82,7 +82,7 @@ public class BoardServiceImpl implements BoardService {
 				.title(obj.getTitle())
 				.contents(obj.getContents())
 				.mailAddress(obj.getEmpDto().getMailAddress())
-				.catecory(obj.getCategory())
+				.category(obj.getCategory())
 				.regdate(obj.getRegdate())
 				.moddate(obj.getModdate())
 				.replyCount((int)obj.getReplyCnt())
@@ -107,7 +107,7 @@ public class BoardServiceImpl implements BoardService {
 		if(board != null) {
 			board.changeContent(boardDTO.getContents());
 			board.changeTitle(boardDTO.getTitle());
-			board.changeCategory(boardDTO.getCatecory());
+			board.changeCategory(boardDTO.getCategory());
 			
 			boardRepository.save(board);
 		}

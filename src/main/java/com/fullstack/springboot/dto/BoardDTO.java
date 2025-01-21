@@ -20,7 +20,7 @@ public class BoardDTO {
 	private String title;
 	private String contents;
 	private String mailAddress; 
-	private String catecory;
+	private String category;
 	private LocalDateTime regdate;
 	private LocalDateTime moddate;
 	private int replyCount;
