@@ -57,6 +57,7 @@ public class ReportServiceImpl implements ReportService {
 					.reportStatus(report.getReportStatus())
 					.sender(report.getSender().getEmpNo())
 					.receiver(report.getReceiver().getEmpNo())
+					.finalReceiver(report.getFinalReceiver().getEmpNo())
 					.build();
 			
 			String imageStr = reportFiles.getFileName();
@@ -89,6 +90,7 @@ public class ReportServiceImpl implements ReportService {
 		
 		Page<Object[]> result = reportRepository.selectSentList(employees, pageable);
 		
+		
 		List<ReportDTO> dtoList = result.get().map(arr -> {
 			
 			Report report = (Report) arr[0];
@@ -101,11 +103,11 @@ public class ReportServiceImpl implements ReportService {
 					.reportStatus(report.getReportStatus())
 					.sender(report.getSender().getEmpNo())
 					.receiver(report.getReceiver().getEmpNo())
+					.finalReceiver(report.getFinalReceiver().getEmpNo())
 					.build();
 			
 			String imageStr = reportFiles.getFileName();
 			reportDTO.setUploadFileNames(List.of(imageStr));
-			
 			return reportDTO;
 		}).collect(Collectors.toList());
 		
@@ -128,6 +130,7 @@ public class ReportServiceImpl implements ReportService {
 				.reportStatus(reportDTO.getReportStatus())
 				.sender(Employees.builder().empNo(reportDTO.getSender()).build())
 				.receiver(Employees.builder().empNo(reportDTO.getReceiver()).build())
+				.finalReceiver(Employees.builder().empNo(reportDTO.getFinalReceiver()).build())
 				.build();
 		
 		//업로드 처리 끝난 파일들의 이름 리스트
@@ -195,6 +198,7 @@ public class ReportServiceImpl implements ReportService {
 				.reportStatus(report.getReportStatus())
 				.sender(report.getSender().getEmpNo())
 				.receiver(report.getReceiver().getEmpNo())
+				.finalReceiver(report.getFinalReceiver().getEmpNo())
 				.build();
 		
 		List<ReportFiles> reportFiles = report.getReportFiles();

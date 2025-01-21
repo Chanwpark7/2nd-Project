@@ -64,6 +64,7 @@ import com.fullstack.springboot.service.commute.CommuteService;
 import com.fullstack.springboot.service.dayoff.DayOffService;
 import com.fullstack.springboot.service.deptinfo.DeptInfoService;
 import com.fullstack.springboot.service.job.JobService;
+import com.fullstack.springboot.service.report.ReportService;
 import com.fullstack.springboot.service.roomlist.RoomListService;
 
 import jakarta.persistence.Version;
@@ -152,8 +153,10 @@ class ApplicationTests {
 	private CompanyChatService companyChatService;
 	
 	
-	
+	@Autowired
+	private ReportService reportService;
 
+	@Test
 //	void insertDummies() {
 //		DeptInfo deptInfo = DeptInfo.builder()
 //				.deptNo(100L)
@@ -689,24 +692,39 @@ class ApplicationTests {
 //		log.error(Long.parseLong(employeesRepository.getMaxEmpNo().toString()));
 //	}
 	
-//	void insert() {
-//		Employees employees = Employees.builder()
-//				.firstName("admin")
-//				.lastName("admin")
-//				.mailAddress("chanw"+"@admin.com")
-//				.salary(1)
-//				.job(Job.builder().jobNo(100L).build())
-//				.deptInfo(DeptInfo.builder().deptNo(100L).build())
-//				.birthday(LocalDate.of(2000, 1, 1))
-//				.address("daejeon")
-//				.phoneNum("010-1111-1111")
-//				.gender("m")
-//				.citizenId("0000000000000")
-//				.password(pwencoder.encode("1234"))
-//				.build();
-//		
-//		employeesRepository.save(employees);
-//	}
+	void insert() {
+		Job job = Job.builder()
+				.jobNo(999L)
+				.jobTitle("admin")
+				.build();
+		
+		jobRepository.save(job);
+		
+		DeptInfo deptInfo = DeptInfo.builder()
+				.deptNo(999L)
+				.deptName("admin")
+				.deptAddress("admin")
+				.build();
+		
+		deptInfoRepository.save(deptInfo);
+		
+		Employees employees = Employees.builder()
+				.firstName("admin")
+				.lastName("admin")
+				.mailAddress("admin")
+				.salary(1)
+				.job(Job.builder().jobNo(999L).build())
+				.deptInfo(DeptInfo.builder().deptNo(999L).build())
+				.birthday(LocalDate.of(2000, 1, 1))
+				.address("admin")
+				.phoneNum("010-1111-1111")
+				.gender("m")
+				.citizenId("0000000000000")
+				.password(pwencoder.encode("1234"))
+				.build();
+		
+		employeesRepository.save(employees);
+	}
 	
 //	void insertDummies() {
 //		IntStream.rangeClosed(1, 20).forEach(value -> {
@@ -756,12 +774,15 @@ class ApplicationTests {
 //		annualleaveRepository.save(annualLeave);
 //	}
 	
-	void tes() {
-		List<CompanyChatDTO> dto = companyChatService.getChatList(205L);
-		for(CompanyChatDTO res : dto) {
-			System.out.println(res);
-		}
-	}
+//	void tes() {
+//		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+//				.page(1)
+//				.size(10)
+//				.build();
+//		Employees employees = Employees.builder().empNo(110L).build();
+//		
+//		log.error(reportService.getSentList(110L, pageRequestDTO));
+//	}
 	
 //	void tes() {
 //		DayOff dayOff = DayOff.builder().dayOffDate(LocalDate.now()).offHours(2L).employees(Employees.builder().empNo(205L).build()).build();

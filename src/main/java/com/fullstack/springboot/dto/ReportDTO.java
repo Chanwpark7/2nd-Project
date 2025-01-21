@@ -29,6 +29,8 @@ public class ReportDTO {
 	
 	private Long receiver;
 	
+	private Long finalReceiver;
+	
 	@Builder.Default
 	private List<MultipartFile> files = new ArrayList<>();
 	

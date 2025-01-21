@@ -46,6 +46,9 @@ public class Report {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employees receiver;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Employees finalReceiver;
 	
 	public void changeStatus(String status) {
 		this.reportStatus = status;
