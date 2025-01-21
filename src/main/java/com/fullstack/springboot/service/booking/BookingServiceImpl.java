@@ -49,9 +49,7 @@ public class BookingServiceImpl implements BookingService {
 		List<BookingDTO> res = new ArrayList<BookingDTO>();
 		
 		for(BookingDTO ares : result) {
-			if(ares.getRoomNo()<200L&&ares.getRoomNo()>100) {
-				res.add(ares);
-			}
+			res.add(ares);
 		}
 		
 		int start = (int) pageable.getOffset();
