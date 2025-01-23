@@ -28,4 +28,14 @@ public interface CompanyChatMemberRepository extends JpaRepository<CompanyChatMe
 	@Query("select new com.fullstack.springboot.dto.CompanyChatMemberDTO(cm) from CompanyChatMember cm "
 			+ "where cm.companyChat.chatNo =:chatNo and cm.employees.empNo =:empNo ")
 	Optional<CompanyChatMemberDTO> getSameList(@Param("chatNo")String chatNo, @Param("empNo")Long empNo);
+	
+	
+	@Query("select new com.fullstack.springboot.dto.CompanyChatMemberDTO(cm) from CompanyChatMember cm where cm.employees.empNo =:empNo")
+	Long getEmp(@Param("empNo")Long empNo);
+	
+	@Query("delete from CompanyChatMember cm where cm.employees.empNo =:empNo")
+	Long delEmp(@Param("empNo")Long empNo);
+	
+	@Query("select ccm from CompanyChatMember ccm where ccm.employees.empNo =:empNo and ccm.companyChat.chatNo=:chatNo")
+	CompanyChatMember getByMemberEmpNo(@Param("empNo")Long empNo, @Param("chatNo")String chatNo);
 }

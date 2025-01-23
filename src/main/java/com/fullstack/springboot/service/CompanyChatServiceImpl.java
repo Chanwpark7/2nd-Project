@@ -32,6 +32,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fullstack.springboot.dto.ChatMessageDTO;
 import com.fullstack.springboot.dto.CompanyChatDTO;
@@ -109,19 +110,36 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	}
 
 
-	//채팅방 나가기
-//	@Override
-//	public List<CompanyChatMemberDTO> leaveChatRoom(long chatNo, long empNo) {
-//	    List<CompanyChatMemberDTO> mem = companyChatMemberRepository.getChatOneMember(chatNo, empNo);
-//	   
-//	    for (CompanyChatMemberDTO dto : mem) {
-//	        companyChatMemberRepository.deleteById(dto.getCompanyChatMemberNo());
-//	    }
-//	    
-//	    List<CompanyChatMemberDTO> remainMem = companyChatMemberRepository.getChatAllMember(chatNo);
-//
-//	    return remainMem;
-//	}
+	//채팅방 나가기 -> 파일 삭제 해버리는 거임 (기록삭제)
+	@Override
+	@Transactional
+	public List<CompanyChatMemberDTO> leaveChatRoom(String chatNo, Long receiverEmpNo, Long senderEmpNo) {
+	    try {
+
+    		companyChatMemberRepository.delete(companyChatMemberRepository.getByMemberEmpNo(senderEmpNo,chatNo));
+    		companyChatMemberRepository.delete(companyChatMemberRepository.getByMemberEmpNo(receiverEmpNo,chatNo));
+
+	        
+	        companyChatRepository.deleteById(chatNo);
+
+	        // 파일 삭제
+	        int year = LocalDate.now().getYear();
+	        String DIRECTORY_PATH = "C:" + File.separator + "chatting" + File.separator + year;
+	        String fileName = chatNo + ".xlsx";  
+	        File file = new File(DIRECTORY_PATH, fileName);
+	        if (file.exists()) {
+	            file.delete();
+	            log.warn("파일 삭제 완료");
+	        }
+
+	        return companyChatMemberRepository.getChatAllMember(chatNo);
+	    } catch (Exception e) {
+	        System.out.println(e.getMessage());
+	    }
+	    
+	    return companyChatMemberRepository.getChatAllMember(chatNo);
+	}
+
 
 	//채팅방 인원 추가
 //	@Override
