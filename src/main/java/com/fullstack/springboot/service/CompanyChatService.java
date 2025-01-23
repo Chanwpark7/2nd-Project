@@ -20,7 +20,7 @@ public interface CompanyChatService {
 	public String createChatRoom(CompanyChatDTO companyChatDTO);
 	
 	//채팅방 나가기
-	//public List<CompanyChatMemberDTO> leaveChatRoom(long chatNo, long empNo);
+	public List<CompanyChatMemberDTO> leaveChatRoom(String chatNo, Long receiverEmpNo, Long senderEmpNo);
 	
 	//채팅방에 employee 추가
 	//public Long addChatMember(CompanyChatDTO companyChatDTO);

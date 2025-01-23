@@ -19,6 +19,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -198,6 +199,16 @@ public class ChatController {
         
         return ResponseEntity.ok(chatList);  
     }
+
+	@DeleteMapping("/{senderEmpNo}/{receiverEmpNo}")
+	public Map<String, String> remove(@PathVariable("senderEmpNo")Long senderEmpNo, @PathVariable("receiverEmpNo")Long receiverEmpNo){
+		String chatNo =generateChatRoomId(senderEmpNo, receiverEmpNo);
+		log.warn(chatNo); //맞음
+		companyChatService.leaveChatRoom(chatNo, senderEmpNo,receiverEmpNo);
+		
+		return Map.of("Result","Success");
+	}
+	
 
 	
 	
