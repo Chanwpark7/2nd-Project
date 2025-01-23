@@ -49,6 +49,7 @@ public interface BoardService {
 				.contents(board.getContents())
 				.regdate(board.getRegDate())
 				.moddate(board.getModDate())
+				.category(board.getCategory())
 				.mailAddress(employees.getMailAddress())
 				.replyCount(replyCount.intValue())
 				.build();
