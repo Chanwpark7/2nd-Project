@@ -44,9 +44,6 @@ public class Board extends BaseEntity {
 	@Column(length = 100, nullable = false)
 	private String contents;
 	
-	@OneToMany(fetch = FetchType.LAZY)
-	private List<BoardFileList> boardFileList;
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employees employees;
 	
