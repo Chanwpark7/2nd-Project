@@ -50,7 +50,7 @@ public class CommuteController {
 //	}
 	
 	@PostMapping("/set/{empNo}")
-	public Long checkIn(@PathVariable(name = "empNo") Long empNo) {
+	public String checkIn(@PathVariable(name = "empNo") Long empNo) {
 
 		return commuteService.addCommute(empNo);
 	}

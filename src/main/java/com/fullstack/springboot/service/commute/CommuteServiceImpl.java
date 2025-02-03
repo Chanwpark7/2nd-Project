@@ -28,18 +28,18 @@ public class CommuteServiceImpl implements CommuteService {
 	private final CommuteRepository commuteRepository;
 	
 	@Override
-	public Long addCommute(Long empNo) {
+	public String addCommute(Long empNo) {
 		CommuteDTO commuteDTO = commuteRepository.whenCheckingOut(empNo);
 		
 		if(commuteDTO == null) {
 			if(commuteRepository.checkingExistency(empNo)==null) {
 				commuteRepository.save(dtoToEntity(CommuteDTO.builder().empNo(empNo).build()));
 				
-				return empNo;
-			}
+				return empNo.toString();
+			};
 		};
 		
-		return null;
+		return "fail";
 	}
 	
 	@Override

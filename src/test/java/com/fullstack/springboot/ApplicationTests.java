@@ -40,7 +40,6 @@ import com.fullstack.springboot.entity.Job;
 import com.fullstack.springboot.entity.Menu;
 import com.fullstack.springboot.entity.Reply;
 import com.fullstack.springboot.entity.RoomList;
-import com.fullstack.springboot.entity.SalaryChart;
 import com.fullstack.springboot.repository.AnnualleaveRepository;
 import com.fullstack.springboot.repository.BoardRepository;
 import com.fullstack.springboot.repository.BookingRepository;
@@ -53,7 +52,6 @@ import com.fullstack.springboot.repository.JobRepository;
 import com.fullstack.springboot.repository.MenuRepositoy;
 import com.fullstack.springboot.repository.ReplyRepository;
 import com.fullstack.springboot.repository.RoomListRepository;
-import com.fullstack.springboot.repository.SalaryChartRepository;
 import com.fullstack.springboot.service.BoardService;
 import com.fullstack.springboot.service.CompanyChatService;
 import com.fullstack.springboot.service.EmployeesService;
@@ -81,8 +79,6 @@ class ApplicationTests {
 	@Autowired
 	private JobRepository jobRepository;
 	
-	@Autowired
-	private SalaryChartRepository salaryChartRepository;
 	
 	@Autowired
 	private RoomListRepository roomListRepository;

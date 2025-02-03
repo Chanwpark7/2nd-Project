@@ -10,7 +10,7 @@ import com.fullstack.springboot.entity.Employees;
 
 public interface CommuteService {
 
-	public Long addCommute(Long empNo);
+	public String addCommute(Long empNo);
 
 	public void modifyCommute(Long empNo, CommuteDTO commuteDTO);
 	
