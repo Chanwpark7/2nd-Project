@@ -41,10 +41,10 @@ public class BookingController {
 		return bookingService.getCRBookingList(pageRequestDTO);
 	}
 	
-	@GetMapping("/list/wr")
-	public PageResponseDTO<BookingDTO> wrList(PageRequestDTO pageRequestDTO) {
+	@GetMapping("/list/date")
+	public List<BookingDTO> wrList(@RequestBody String bookDate) {
 		
-		return bookingService.getWRBookingList(pageRequestDTO);
+		return bookingService.getBookingListAtDate(bookDate);
 	}
 	
 	@GetMapping("/read/{bookNo}")

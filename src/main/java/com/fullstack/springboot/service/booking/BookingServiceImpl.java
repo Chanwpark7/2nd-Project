@@ -1,5 +1,7 @@
 package com.fullstack.springboot.service.booking;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +31,12 @@ import lombok.extern.log4j.Log4j2;
 public class BookingServiceImpl implements BookingService {
 
 	private final BookingRepository bookingRepository;
+	
+	@Override
+	public List<BookingDTO> getBookingListAtDate(String bookDate) {
+		
+		return bookingRepository.getBookListAtDate(LocalDate.parse(bookDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+	}
 	
 	@Override
 	public Long addBooking(BookingDTO bookingDTO) {

@@ -94,6 +94,7 @@ class ApplicationTests {
 	
 	@Autowired ReplyRepository replyRepository;
 
+	@Autowired
 	private BookingRepository bookingRepository;
 	
 	@Autowired
@@ -152,7 +153,7 @@ class ApplicationTests {
 	@Autowired
 	private ReportService reportService;
 
-	@Test
+//	@Test
 //	void insertDummies() {
 //		DeptInfo deptInfo = DeptInfo.builder()
 //				.deptNo(100L)
@@ -688,39 +689,39 @@ class ApplicationTests {
 //		log.error(Long.parseLong(employeesRepository.getMaxEmpNo().toString()));
 //	}
 	
-	void insert() {
-		Job job = Job.builder()
-				.jobNo(999L)
-				.jobTitle("admin")
-				.build();
-		
-		jobRepository.save(job);
-		
-		DeptInfo deptInfo = DeptInfo.builder()
-				.deptNo(999L)
-				.deptName("admin")
-				.deptAddress("admin")
-				.build();
-		
-		deptInfoRepository.save(deptInfo);
-		
-		Employees employees = Employees.builder()
-				.firstName("admin")
-				.lastName("admin")
-				.mailAddress("admin")
-				.salary(1)
-				.job(Job.builder().jobNo(999L).build())
-				.deptInfo(DeptInfo.builder().deptNo(999L).build())
-				.birthday(LocalDate.of(2000, 1, 1))
-				.address("admin")
-				.phoneNum("010-1111-1111")
-				.gender("m")
-				.citizenId("0000000000000")
-				.password(pwencoder.encode("1234"))
-				.build();
-		
-		employeesRepository.save(employees);
-	}
+//	void insert() {
+//		Job job = Job.builder()
+//				.jobNo(999L)
+//				.jobTitle("admin")
+//				.build();
+//		
+//		jobRepository.save(job);
+//		
+//		DeptInfo deptInfo = DeptInfo.builder()
+//				.deptNo(999L)
+//				.deptName("admin")
+//				.deptAddress("admin")
+//				.build();
+//		
+//		deptInfoRepository.save(deptInfo);
+//		
+//		Employees employees = Employees.builder()
+//				.firstName("admin")
+//				.lastName("admin")
+//				.mailAddress("admin")
+//				.salary(1)
+//				.job(Job.builder().jobNo(999L).build())
+//				.deptInfo(DeptInfo.builder().deptNo(999L).build())
+//				.birthday(LocalDate.of(2000, 1, 1))
+//				.address("admin")
+//				.phoneNum("010-1111-1111")
+//				.gender("m")
+//				.citizenId("0000000000000")
+//				.password(pwencoder.encode("1234"))
+//				.build();
+//		
+//		employeesRepository.save(employees);
+//	}
 	
 //	void insertDummies() {
 //		IntStream.rangeClosed(1, 20).forEach(value -> {
@@ -847,5 +848,9 @@ class ApplicationTests {
 //		System.out.println(dto);
 //	}	
 
+	@Test
+	void test() {
+		log.error(bookingRepository.getBookListAtDate(LocalDate.of(2025, 2, 14)));
+	}
 }
 

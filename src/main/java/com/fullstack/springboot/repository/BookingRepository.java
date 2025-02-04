@@ -1,5 +1,6 @@
 package com.fullstack.springboot.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -16,6 +17,9 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
 	@Query("Select new com.fullstack.springboot.dto.BookingDTO(bk) from Booking bk where bk.bookDate >= curdate()")
 	List<BookingDTO> getBookList();
+	
+	@Query("Select new com.fullstack.springboot.dto.BookingDTO(bk) from Booking bk where bk.bookDate = :bookDate")
+	List<BookingDTO> getBookListAtDate(@Param("bookDate") LocalDate bookDate);
 
 	@Query("Select new com.fullstack.springboot.dto.BookingDTO(bk) "
 			+ "from Booking bk "
