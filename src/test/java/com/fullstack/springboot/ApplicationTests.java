@@ -850,7 +850,7 @@ class ApplicationTests {
 
 	@Test
 	void test() {
-		log.error(bookingRepository.getBookListAtDate(LocalDate.of(2025, 2, 14)));
+		log.error(bookingService.getBookingListAtDate("2025-02-12",111L));
 	}
 }
 

@@ -39,6 +39,12 @@ public class BookingServiceImpl implements BookingService {
 	}
 	
 	@Override
+	public List<BookingDTO> getBookingListAtDate(String bookDate, Long roomNo) {
+		
+		return bookingRepository.getBookListAtDateWithRoomNo(LocalDate.parse(bookDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")),RoomList.builder().roomNo(roomNo).build());
+	}
+	
+	@Override
 	public Long addBooking(BookingDTO bookingDTO) {
 		
 		Booking booking = dtoToEntity(bookingDTO);
@@ -48,11 +54,11 @@ public class BookingServiceImpl implements BookingService {
 	}
 	
 	@Override
-	public PageResponseDTO<BookingDTO> getCRBookingList(PageRequestDTO pageRequestDTO) {
+	public PageResponseDTO<BookingDTO> getCRBookingList(String bookDate,PageRequestDTO pageRequestDTO) {
 		
 		Pageable pageable = pageRequestDTO.getPageable(Sort.by("bookNo").descending());
 		
-		List<BookingDTO> result = bookingRepository.getBookList();
+		List<BookingDTO> result = bookingRepository.getBookListAtDate(LocalDate.parse(bookDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		
 		List<BookingDTO> res = new ArrayList<BookingDTO>();
 		

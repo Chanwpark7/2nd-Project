@@ -35,16 +35,22 @@ public class BookingController {
 
 	private final BookingService bookingService;
 	
-	@GetMapping("/list/cr")
-	public PageResponseDTO<BookingDTO> crList(PageRequestDTO pageRequestDTO) {
+	@GetMapping("/list/cr/{bookDate}")
+	public PageResponseDTO<BookingDTO> crList(@PathVariable(name="bookDate") String bookDate, PageRequestDTO pageRequestDTO) {
 		
-		return bookingService.getCRBookingList(pageRequestDTO);
+		return bookingService.getCRBookingList(bookDate,pageRequestDTO);
 	}
 	
-	@GetMapping("/list/date")
-	public List<BookingDTO> wrList(@RequestBody String bookDate) {
+	@GetMapping("/list/date/{bookDate}")
+	public List<BookingDTO> listAtDate(@PathVariable(name="bookDate") String bookDate) {
 		
 		return bookingService.getBookingListAtDate(bookDate);
+	}
+	
+	@GetMapping("/list/date/{bookDate}/{roomNo}")
+	public List<BookingDTO> listAtDateWithRoomNo(@PathVariable(name="bookDate") String bookDate, @PathVariable(name="roomNo") Long roomNo) {
+		
+		return bookingService.getBookingListAtDate(bookDate,roomNo);
 	}
 	
 	@GetMapping("/read/{bookNo}")

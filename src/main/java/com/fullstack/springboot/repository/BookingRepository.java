@@ -20,6 +20,9 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 	
 	@Query("Select new com.fullstack.springboot.dto.BookingDTO(bk) from Booking bk where bk.bookDate = :bookDate")
 	List<BookingDTO> getBookListAtDate(@Param("bookDate") LocalDate bookDate);
+	
+	@Query("Select new com.fullstack.springboot.dto.BookingDTO(bk) from Booking bk where bk.bookDate = :bookDate and bk.roomList = :roomNo")
+	List<BookingDTO> getBookListAtDateWithRoomNo(@Param("bookDate") LocalDate bookDate, @Param("roomNo") RoomList roomNo);
 
 	@Query("Select new com.fullstack.springboot.dto.BookingDTO(bk) "
 			+ "from Booking bk "

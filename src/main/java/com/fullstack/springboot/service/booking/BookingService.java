@@ -21,8 +21,10 @@ public interface BookingService {
 	public Long addBooking(BookingDTO bookingDTO);
 	
 	public List<BookingDTO> getBookingListAtDate(String bookDate);
+
+	public List<BookingDTO> getBookingListAtDate(String bookDate, Long roomNo);
 	
-	public PageResponseDTO<BookingDTO> getCRBookingList(PageRequestDTO pageRequestDTO);
+	public PageResponseDTO<BookingDTO> getCRBookingList(String bookDate, PageRequestDTO pageRequestDTO);
 	
 	public PageResponseDTO<BookingDTO> getWRBookingList(PageRequestDTO pageRequestDTO);
 	
