@@ -35,7 +35,6 @@ public class CommandLineRun implements CommandLineRunner{
 		if(!jobRepository.findById(999L).isEmpty()) {
 			return;
 		}
-		System.out.println("!!!");
 		Job job = Job.builder()
 				.jobNo(999L)
 				.jobTitle("admin")
@@ -55,12 +54,12 @@ public class CommandLineRun implements CommandLineRunner{
 				.firstName("admin")
 				.lastName("admin")
 				.mailAddress("admin")
-				.salary(1)
+				.salary(0)
 				.job(Job.builder().jobNo(job.getJobNo()).build())
 				.deptInfo(DeptInfo.builder().deptNo(deptInfo.getDeptNo()).build())
 				.birthday(LocalDate.of(2000, 1, 1))
 				.address("admin")
-				.phoneNum("010-1111-1111")
+				.phoneNum("01011111111")
 				.gender("m")
 				.citizenId("0000000000000")
 				.password(passwordEncoder.encode("admin"))
