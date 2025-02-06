@@ -51,8 +51,8 @@ public class CommandLineRun implements CommandLineRunner{
 		deptInfoRepository.save(deptInfo);
 		
 		Employees employees = Employees.builder()
-				.firstName("admin")
-				.lastName("admin")
+				.firstName("관리자")
+				.lastName("계정")
 				.mailAddress("admin")
 				.salary(0)
 				.job(Job.builder().jobNo(job.getJobNo()).build())
