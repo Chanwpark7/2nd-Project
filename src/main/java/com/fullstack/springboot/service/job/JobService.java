@@ -1,9 +1,11 @@
 package com.fullstack.springboot.service.job;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 
+import com.fullstack.springboot.dto.CompanyChatDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.dto.JobDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
@@ -22,6 +24,10 @@ public interface JobService {
 	public JobDTO getOne(Long jobNo);
 	
 	public PageResponseDTO<EmployeesDTO> getEmployeesListPageByJobNo(PageRequestDTO pageRequestDTO, Long jobNo);
+	
+//	public String createExcelFile(JobDTO jobDTO);
+	
+//	public List<List<String>> dataFromExcel(String filePath) throws Exception;
 	
 	default Job dtoToEntity(JobDTO jobDTO) {
 		Job job = Job.builder()
