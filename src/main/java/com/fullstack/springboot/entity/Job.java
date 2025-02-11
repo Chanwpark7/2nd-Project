@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 public class Job {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long jobNo;
 	
 	private String jobTitle;
