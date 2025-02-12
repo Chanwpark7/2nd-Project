@@ -32,7 +32,7 @@ public class CommandLineRun implements CommandLineRunner{
 	
 	@Override
 	public void run(String... args) throws Exception {
-		if(!jobRepository.findById(999L).isEmpty()) {
+		if(!jobRepository.findById(1L).isEmpty()) {
 			return;
 		}
 		Job job = Job.builder()
