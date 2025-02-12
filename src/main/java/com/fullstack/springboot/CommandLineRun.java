@@ -36,14 +36,12 @@ public class CommandLineRun implements CommandLineRunner{
 			return;
 		}
 		Job job = Job.builder()
-				.jobNo(999L)
 				.jobTitle("admin")
 				.build();
 		
 		jobRepository.save(job);
 		
 		DeptInfo deptInfo = DeptInfo.builder()
-				.deptNo(999L)
 				.deptName("admin")
 				.deptAddress("admin")
 				.build();
