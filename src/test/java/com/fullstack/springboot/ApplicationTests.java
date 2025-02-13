@@ -850,7 +850,8 @@ class ApplicationTests {
 
 	@Test
 	void test() {
-		log.error(bookingService.getBookingListAtDate("2025-02-12",111L));
+		Long num = deptInfoRepository.getDeptInfoWithName("12").getDeptNo();
+		log.error(num);
 	}
 }
 

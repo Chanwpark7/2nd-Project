@@ -208,10 +208,4 @@ public class ChatController {
 		
 		return Map.of("Result","Success");
 	}
-	
-
-	
-	
-
-	
 }
