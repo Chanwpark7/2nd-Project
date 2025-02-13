@@ -32,7 +32,9 @@ import com.fullstack.springboot.dto.CompanyChatDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResponseDTO;
+import com.fullstack.springboot.service.CompanyChatFilesService;
 import com.fullstack.springboot.service.CompanyChatService;
+import com.fullstack.springboot.util.FileUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -49,6 +51,8 @@ public class ChatController {
 	
 	private final SimpMessagingTemplate template;
 	private final CompanyChatService companyChatService;
+	private final CompanyChatFilesService companyChatFilesService;
+	private final FileUtil fileUtil;
 	
 	//클라이언트한테 채팅내용 가져오기
 	@MessageMapping("/chat/{chatRoomId}")
@@ -124,6 +128,11 @@ public class ChatController {
 	    companyChatService.createFileAndFolder(chatNo,senderEmpNo,receiverEmpNo,content,sendTime); //파일 및 폴더 생성
 	    
 	    companyChatService.sendChat(chatNo, senderEmpNo, receiverEmpNo, chatMessageDTO, sendTime); //채팅보내기
+	    
+	    List<String> savedName = null;
+	    savedName = fileUtil.attachFiles(chatDTO.getFiles());
+	    
+	    companyChatFilesService.register(chatDTO, savedName);
 	        
 	    log.warn("senderEmpNo"+senderEmpNo);  
 	    log.warn("receiverEmpNo"+receiverEmpNo); 

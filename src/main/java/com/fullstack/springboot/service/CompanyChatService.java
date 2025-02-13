@@ -22,14 +22,9 @@ public interface CompanyChatService {
 	//채팅방 나가기
 	public List<CompanyChatMemberDTO> leaveChatRoom(String chatNo, Long receiverEmpNo, Long senderEmpNo);
 	
-	//채팅방에 employee 추가
-	//public Long addChatMember(CompanyChatDTO companyChatDTO);
 	
-	//사진파일 보내는거...
-	//public void sendImageFile(long chatNo, long empNo, MultipartFile file);
-	
-	//파일 보내는거 .. -> 메일로 보내졌다고 뜨게
-	//public void sendFile(long chatNo, long empNo, MultipartFile file);
+	//파일 보내는거 
+	public void sendFile(String chatNo, long empNo, MultipartFile file);
 	
 	//채팅왔으면 알림뜨게..... ('msgId 님이 메시지를 보냈습니다.' 이런식으로 뜨도록 )
 	//public void chatAlarm(long chatNo, long empNo, String msgId);
