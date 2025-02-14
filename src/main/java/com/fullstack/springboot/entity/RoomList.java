@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 public class RoomList {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long roomNo;
 	
 	private String roomName;
