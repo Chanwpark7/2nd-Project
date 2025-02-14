@@ -94,4 +94,11 @@ public class EmployeesController {
 		employeesService.downloadExcelForm(res);
 	}
 	
+	@PostMapping("/check")
+	public Long getMethodName(@RequestBody EmployeesDTO employeesDTO) {
+		log.error(employeesDTO);
+		return employeesService.checkIfMailExist(employeesDTO.getMailAddress());
+	}
+	
+	
 }

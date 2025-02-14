@@ -32,4 +32,6 @@ public interface EmployeesService {
 	public void downloadExcelForm(HttpServletResponse res);
 	
 	public int readExcelFile(MultipartFile file);
+	
+	public Long checkIfMailExist(String mailAdress);
 }

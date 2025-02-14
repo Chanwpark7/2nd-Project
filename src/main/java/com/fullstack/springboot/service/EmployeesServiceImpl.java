@@ -328,9 +328,11 @@ public class EmployeesServiceImpl implements EmployeesService {
 			for(int rowIndex = 1;rowIndex<=lastRowNum;rowIndex++) {
 				Row cells = sheet.getRow(rowIndex);
 				employeesDTO = createDTOFromCells(cells);
+				
 				if(employeesRepository.getByEmail(employeesDTO.getMailAddress())!=null) {
 					continue;
 				}
+				
 				addEmployees(employeesDTO);
 				annualleaveService.setAnnualleave(employeesRepository.getByEmail(employeesDTO.getMailAddress()).getEmpNo());
 				count++;
@@ -342,6 +344,15 @@ public class EmployeesServiceImpl implements EmployeesService {
 		}
 
 		return count;
+	}
+	
+	@Override
+	public Long checkIfMailExist(String mailAdress) {
+		if(employeesRepository.getByEmail(mailAdress)!=null) {
+			return employeesRepository.getByEmail(mailAdress).getEmpNo();
+		}else {
+			return 0L;
+		}
 	}
 	
 	private EmployeesDTO createDTOFromCells(Row cells) {
