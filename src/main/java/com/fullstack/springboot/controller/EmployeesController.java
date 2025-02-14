@@ -69,10 +69,10 @@ public class EmployeesController {
 	}
 	
 	@PostMapping("/add/excel")
-	public String addFiles(@RequestBody List<MultipartFile> files) {
-		employeesService.readExcelFile(files.get(0));
+	public int addFiles(@RequestBody List<MultipartFile> files) {
+		int added = employeesService.readExcelFile(files.get(0));
 		
-		return null;
+		return added;
 	}
 	
 	@GetMapping("/dday/{empNo}")

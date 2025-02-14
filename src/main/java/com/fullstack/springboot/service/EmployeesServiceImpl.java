@@ -39,6 +39,7 @@ import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.repository.DeptInfoRepository;
 import com.fullstack.springboot.repository.EmployeesRepository;
 import com.fullstack.springboot.repository.JobRepository;
+import com.fullstack.springboot.service.annualleave.AnnualleaveService;
 
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
@@ -56,6 +57,7 @@ public class EmployeesServiceImpl implements EmployeesService {
 	private final DeptInfoRepository deptInfoRepository;
 	private final JobRepository jobRepository;
 	private final PasswordEncoder pwEncoder;
+	private final AnnualleaveService annualleaveService;
 	
 	@Override
 	public EmployeesDTO addEmployees(EmployeesDTO employeesDTO) {
@@ -261,6 +263,7 @@ public class EmployeesServiceImpl implements EmployeesService {
 		int rowIndex = 0;
 		int cellIndex = 0;
 		Row headerRow = sheet.createRow(rowIndex++);
+		
 		Cell headerCell1 = headerRow.createCell(cellIndex++);
 		headerCell1.setCellValue("성");
 		
@@ -297,8 +300,6 @@ public class EmployeesServiceImpl implements EmployeesService {
 		Cell headerCell12 = headerRow.createCell(cellIndex++);
 		headerCell12.setCellValue("비밀번호");
 		
-		
-		
 		res.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
         res.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+fileName+".xlsx");
 
@@ -312,7 +313,9 @@ public class EmployeesServiceImpl implements EmployeesService {
 	}
 	
 	@Override
-	public void readExcelFile(MultipartFile file) {
+	public int readExcelFile(MultipartFile file) {
+		
+		int count = 0;
 		
 		try {
 			Workbook workbook = new XSSFWorkbook(file.getInputStream());
@@ -326,12 +329,16 @@ public class EmployeesServiceImpl implements EmployeesService {
 				Row cells = sheet.getRow(rowIndex);
 				employeesDTO = createDTOFromCells(cells);
 				addEmployees(employeesDTO);
+				annualleaveService.setAnnualleave(employeesRepository.getByEmail(employeesDTO.getMailAddress()).getEmpNo());
+				count++;
 			}
+
+			return count;
 		} catch (Exception e) {
 			e.getMessage();
 		}
-		
-		//log.error(file);
+
+		return count;
 	}
 	
 	private EmployeesDTO createDTOFromCells(Row cells) {
@@ -359,7 +366,7 @@ public class EmployeesServiceImpl implements EmployeesService {
 				.phoneNum(getStringCellValue(cells, 8))
 				.gender(gen)
 				.citizenId(getStringCellValue(cells, 10))
-				.password(pwEncoder.encode(getStringCellValue(cells, 11)))
+				.password(getStringCellValue(cells, 11))
 				.build();
 		
 		return employeesDTO;
@@ -371,7 +378,7 @@ public class EmployeesServiceImpl implements EmployeesService {
 			if(cell.getCellType()==CellType.STRING) {
 				return cell.getStringCellValue();
 			}
-			else {
+			else if(cell.getCellType()==CellType.NUMERIC){
 				Double num = cell.getNumericCellValue();
 				Long number = num.longValue();
 				return number.toString();

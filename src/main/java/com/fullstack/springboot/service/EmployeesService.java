@@ -31,5 +31,5 @@ public interface EmployeesService {
 	
 	public void downloadExcelForm(HttpServletResponse res);
 	
-	public void readExcelFile(MultipartFile file);
+	public int readExcelFile(MultipartFile file);
 }
