@@ -38,6 +38,9 @@ public class JWTFilter extends OncePerRequestFilter {
 		if(path.startsWith("/api/report")) {
 			return true;
 		}
+		if(path.startsWith("/api/employees/download/form")) {
+			return true;
+		}
 		
 		
 		return false;

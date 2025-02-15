@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 public class DeptInfo {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long deptNo;
 	
 	private String deptName;

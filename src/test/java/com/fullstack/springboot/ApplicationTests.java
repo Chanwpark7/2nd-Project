@@ -875,9 +875,5 @@ class ApplicationTests {
 //		System.out.println(dto);
 //	}	
 
-//	@Test
-//	void test() {
-//		log.error(bookingService.getBookingListAtDate("2025-02-12",111L));
-//	}
 }
 

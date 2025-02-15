@@ -32,18 +32,16 @@ public class CommandLineRun implements CommandLineRunner{
 	
 	@Override
 	public void run(String... args) throws Exception {
-		if(!jobRepository.findById(999L).isEmpty()) {
+		if(!jobRepository.findById(1L).isEmpty()) {
 			return;
 		}
 		Job job = Job.builder()
-				.jobNo(999L)
 				.jobTitle("admin")
 				.build();
 		
 		jobRepository.save(job);
 		
 		DeptInfo deptInfo = DeptInfo.builder()
-				.deptNo(999L)
 				.deptName("admin")
 				.deptAddress("admin")
 				.build();
