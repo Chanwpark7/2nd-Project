@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fullstack.springboot.entity.AnnualLeave;
@@ -28,6 +29,7 @@ import com.fullstack.springboot.dto.CompanyChatDTO;
 import com.fullstack.springboot.dto.DayOffDTO;
 import com.fullstack.springboot.dto.DeptInfoDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
+import com.fullstack.springboot.dto.EmployeesImageDTO;
 import com.fullstack.springboot.dto.JobDTO;
 import com.fullstack.springboot.dto.MenuDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
@@ -47,6 +49,7 @@ import com.fullstack.springboot.repository.CommuteRepository;
 import com.fullstack.springboot.repository.CompanyChatRepository;
 import com.fullstack.springboot.repository.DayOffRepository;
 import com.fullstack.springboot.repository.DeptInfoRepository;
+import com.fullstack.springboot.repository.EmployeesImageRepository;
 import com.fullstack.springboot.repository.EmployeesRepository;
 import com.fullstack.springboot.repository.JobRepository;
 import com.fullstack.springboot.repository.MenuRepositoy;
@@ -54,6 +57,7 @@ import com.fullstack.springboot.repository.ReplyRepository;
 import com.fullstack.springboot.repository.RoomListRepository;
 import com.fullstack.springboot.service.BoardService;
 import com.fullstack.springboot.service.CompanyChatService;
+import com.fullstack.springboot.service.EmployeesImageService;
 import com.fullstack.springboot.service.EmployeesService;
 import com.fullstack.springboot.service.MenuService;
 import com.fullstack.springboot.service.annualleave.AnnualleaveService;
@@ -149,6 +153,11 @@ class ApplicationTests {
 	@Autowired
 	private CompanyChatService companyChatService;
 	
+	@Autowired
+	private EmployeesImageRepository employeesImageRepository;
+	
+	@Autowired
+	private EmployeesImageService employeesImageService;
 	
 	@Autowired
 	private ReportService reportService;
@@ -225,14 +234,32 @@ class ApplicationTests {
 //		roomListRepository.save(roomList);
 //	}
 	
+//	@Test
 //	void test() {
 //		long salary = (long)(Math.random()*1000)+6500;
-//		Employees employees = Employees.builder().firstName("첫").lastName("다음").mailAddress("aaaa@ddd.com")
-//				.salary(salary).job(Job.builder().jobNo(100L).build()).deptInfo(DeptInfo.builder().deptNo(100L).build())
+//		Employees employees = Employees.builder().firstName("관").lastName("리자").mailAddress("aaaa@ddd.com")
+//				.salary(salary).job(Job.builder().jobNo(999L).build()).deptInfo(DeptInfo.builder().deptNo(999L).build())
 //				.birthday(LocalDate.of(2000, 1, 1)).address("seoul").phoneNum("010-1234-5678").gender("m").citizenId("0000000000000")
 //				.password(passwordEncoder.encode("1111")).build();
 //			employeesRepository.save(employees);
 //	}
+	
+//	@Transactional
+//	@Test
+//	void tes() {
+//		System.out.println(employeesImageRepository.getOneEmpImg(1L));
+//	}
+	
+	@Test
+	void tes() {
+		EmployeesImageDTO dto = EmployeesImageDTO.builder()
+				//.empImgNo(null)
+				.empNo(2L)				
+				.url("D:\\kdt_study\\이미지\\이미지2.jpg")
+				.build();
+		employeesImageService.register(dto);
+		System.out.println("성공");
+	}
 //	
 //	void insertDummies() {
 //		IntStream.rangeClosed(1, 100).forEach(i -> {
@@ -848,10 +875,5 @@ class ApplicationTests {
 //		System.out.println(dto);
 //	}	
 
-	@Test
-	void test() {
-		Long num = deptInfoRepository.getDeptInfoWithName("12").getDeptNo();
-		log.error(num);
-	}
 }
 

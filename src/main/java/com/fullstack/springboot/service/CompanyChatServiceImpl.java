@@ -33,6 +33,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fullstack.springboot.dto.ChatMessageDTO;
 import com.fullstack.springboot.dto.CompanyChatDTO;
@@ -141,53 +142,6 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	}
 
 
-	//채팅방 인원 추가
-//	@Override
-//	public Long addChatMember(CompanyChatDTO companyChatDTO) {
-//		CompanyChat companyChat = companyChatRepository.findById(companyChatDTO.getChatNo()).get();
-//		Employees employees = employeesRepository.findById(companyChatDTO.getEmpNo()).get();
-//		
-//		CompanyChatMember companyChatMember = CompanyChatMember.builder()
-//				.companyChat(companyChat)
-//				.employees(employees)
-//				.build();
-//		companyChatMemberRepository.save(companyChatMember);
-//		
-//		return companyChatDTO.getChatNo();
-//	}
-
-	//사진 파일 보내기
-//	@Override
-//	public void sendImageFile(long chatNo, long empNo, MultipartFile file) {
-//	    String originalFileName = file.getOriginalFilename();
-//	    String uuid = UUID.randomUUID().toString();
-//	    String savedFileName = uuid + "-" + originalFileName;
-//	    String uploadPath = fileUtil.getUploadPath();
-//	    
-//	    Path savePath = Paths.get(uploadPath, savedFileName);
-//	    
-//	    try {
-//	        if (!Files.exists(savePath.getParent())) {
-//	            Files.createDirectories(savePath.getParent());
-//	        }
-//	        Files.copy(file.getInputStream(), savePath);
-//	    } catch (IOException e) {
-//	        log.error(e.getMessage());
-//	    }
-//	}
-
-	//파일 보내기 (---> 이메일 연동)
-//	@Override
-//	public void sendFile(long chatNo, long empNo, MultipartFile file) {
-//		
-//	}
-
-	
-	//채팅 알람 띄우기
-//	@Override
-//	public void chatAlarm(long chatNo, long empNo, String msgId) {
-//		
-//	}
 
 	
 	//채팅 data Excel 파일에 저장하기
@@ -514,6 +468,14 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	public EmployeesDTO getEmpFind(long empNo) {
 		log.warn("eeeee");
 		return employeesRepository.empFind(empNo);
+	}
+
+
+	@Override
+	public void sendFile(String chatNo, long empNo, MultipartFile file) {
+		System.out.println("sendFile");
+		
+		
 	}
 	
 }

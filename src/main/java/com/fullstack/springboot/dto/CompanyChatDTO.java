@@ -1,5 +1,9 @@
 package com.fullstack.springboot.dto;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import com.fullstack.springboot.entity.CompanyChat;
 
 import lombok.AllArgsConstructor;
@@ -17,6 +21,7 @@ public class CompanyChatDTO {
 	private long empNo;
 	private long senderEmpNo;
     private long receiverEmpNo;
+    private List<MultipartFile> files;
 	
 	public CompanyChatDTO(CompanyChat c) {
 		this.chatNo = c.getChatNo();
