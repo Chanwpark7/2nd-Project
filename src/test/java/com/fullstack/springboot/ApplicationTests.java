@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
@@ -41,6 +42,8 @@ import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.entity.Job;
 import com.fullstack.springboot.entity.Menu;
 import com.fullstack.springboot.entity.Reply;
+import com.fullstack.springboot.entity.Report;
+import com.fullstack.springboot.entity.ReportHistory;
 import com.fullstack.springboot.entity.RoomList;
 import com.fullstack.springboot.repository.AnnualleaveRepository;
 import com.fullstack.springboot.repository.BoardRepository;
@@ -54,6 +57,8 @@ import com.fullstack.springboot.repository.EmployeesRepository;
 import com.fullstack.springboot.repository.JobRepository;
 import com.fullstack.springboot.repository.MenuRepositoy;
 import com.fullstack.springboot.repository.ReplyRepository;
+import com.fullstack.springboot.repository.ReportHistoryRepository;
+import com.fullstack.springboot.repository.ReportRepository;
 import com.fullstack.springboot.repository.RoomListRepository;
 import com.fullstack.springboot.service.BoardService;
 import com.fullstack.springboot.service.CompanyChatService;
@@ -83,6 +88,8 @@ class ApplicationTests {
 	@Autowired
 	private JobRepository jobRepository;
 	
+	@Autowired
+	private ReportRepository reportRepository;
 	
 	@Autowired
 	private RoomListRepository roomListRepository;
@@ -100,6 +107,9 @@ class ApplicationTests {
 
 	@Autowired
 	private BookingRepository bookingRepository;
+
+	@Autowired
+	private ReportHistoryRepository reportHistoryRepository;
 	
 	@Autowired
 	private BookingService bookingService;
@@ -250,17 +260,17 @@ class ApplicationTests {
 //		System.out.println(employeesImageRepository.getOneEmpImg(1L));
 //	}
 	
-	@Test
-	void tes() {
-		EmployeesImageDTO dto = EmployeesImageDTO.builder()
-				//.empImgNo(null)
-				.empNo(2L)				
-				.url("D:\\kdt_study\\이미지\\이미지2.jpg")
-				.build();
-		employeesImageService.register(dto);
-		System.out.println("성공");
-	}
-//	
+//	@Test
+//	void tes() {
+//		EmployeesImageDTO dto = EmployeesImageDTO.builder()
+//				//.empImgNo(null)
+//				.empNo(2L)				
+//				.url("D:\\kdt_study\\이미지\\이미지2.jpg")
+//				.build();
+//		employeesImageService.register(dto);
+//		System.out.println("성공");
+//	}
+////	
 //	void insertDummies() {
 //		IntStream.rangeClosed(1, 100).forEach(i -> {
 //			Employees employees = Employees.builder().build();
@@ -875,5 +885,27 @@ class ApplicationTests {
 //		System.out.println(dto);
 //	}	
 
+	@Test
+	@Transactional
+	void test1() {
+//		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+//		.page(1)
+//		.size(10)
+//		.build();
+//		Pageable pageable = pageRequestDTO.getPageable(Sort.by("deadLine").descending());
+//		Employees employees = Employees.builder().empNo(1L).build();
+//		List<ReportHistory> list = reportRepository.selectReceivedAllList(employees, pageable).get().map(arr -> {
+//			ReportHistory reportHistory = (ReportHistory)arr[1];
+//			return reportHistory;
+//		}).collect(Collectors.toList());
+		Report report = Report.builder()
+				.reportNo(1L)
+				.build();
+		
+		List<ReportHistory> list = reportHistoryRepository.getRHList(report);
+		for(ReportHistory com : list) {
+			log.error(com.getRhNo());
+		};
+	}
 }
 

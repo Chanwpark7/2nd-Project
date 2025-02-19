@@ -1,5 +1,6 @@
 package com.fullstack.springboot.service.report;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,6 +17,8 @@ import com.fullstack.springboot.dto.ReportDTO;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.entity.Report;
 import com.fullstack.springboot.entity.ReportFiles;
+import com.fullstack.springboot.entity.ReportHistory;
+import com.fullstack.springboot.repository.ReportHistoryRepository;
 import com.fullstack.springboot.repository.ReportRepository;
 
 import jakarta.transaction.Transactional;
@@ -29,6 +32,7 @@ import lombok.extern.log4j.Log4j2;
 public class ReportServiceImpl implements ReportService {
 
 	private final ReportRepository reportRepository;
+	private final ReportHistoryRepository reportHistoryRepository;
 	
 	@Override
 	public PageResponseDTO<ReportDTO> getRecivedList(Long empNo, PageRequestDTO pageRequestDTO) {
@@ -48,20 +52,26 @@ public class ReportServiceImpl implements ReportService {
 		List<ReportDTO> dtoList = result.get().map(arr -> {
 			
 			Report report = (Report) arr[0];
-			ReportFiles reportFiles = (ReportFiles)arr[1];
+			ReportHistory reportHistory = (ReportHistory)arr[1];
+			ReportFiles reportFiles = (ReportFiles)arr[2];
+
+			List<Long> receivers = new ArrayList<Long>();
+			receivers.add(reportHistory.getReceiver().getEmpNo());
 			
 			ReportDTO reportDTO = ReportDTO.builder()
 					.reportNo(report.getReportNo())
 					.deadLine(report.getDeadLine())
+					.title(report.getTitle())
+					.contents(report.getContents())
 					.reportingDate(report.getReportingDate())
 					.reportStatus(report.getReportStatus())
 					.sender(report.getSender().getEmpNo())
-					.receiver(report.getReceiver().getEmpNo())
-					.finalReceiver(report.getFinalReceiver().getEmpNo())
+					.receivers(receivers)
 					.build();
 			
 			String imageStr = reportFiles.getFileName();
 			reportDTO.setUploadFileNames(List.of(imageStr));
+			
 			
 			return reportDTO;
 		}).collect(Collectors.toList());
@@ -94,16 +104,21 @@ public class ReportServiceImpl implements ReportService {
 		List<ReportDTO> dtoList = result.get().map(arr -> {
 			
 			Report report = (Report) arr[0];
-			ReportFiles reportFiles = (ReportFiles)arr[1];
+			ReportHistory reportHistory = (ReportHistory)arr[1];
+			ReportFiles reportFiles = (ReportFiles)arr[2];
+
+			List<Long> receivers = new ArrayList<Long>();
+			receivers.add(reportHistory.getReceiver().getEmpNo());
 			
 			ReportDTO reportDTO = ReportDTO.builder()
 					.reportNo(report.getReportNo())
 					.deadLine(report.getDeadLine())
+					.title(report.getTitle())
+					.contents(report.getContents())
 					.reportingDate(report.getReportingDate())
 					.reportStatus(report.getReportStatus())
 					.sender(report.getSender().getEmpNo())
-					.receiver(report.getReceiver().getEmpNo())
-					.finalReceiver(report.getFinalReceiver().getEmpNo())
+					.receivers(receivers)
 					.build();
 			
 			String imageStr = reportFiles.getFileName();
@@ -127,21 +142,32 @@ public class ReportServiceImpl implements ReportService {
 		
 		Report report = Report.builder()
 				.deadLine(reportDTO.getDeadLine())
+				.title(reportDTO.getTitle())
+				.contents(reportDTO.getContents())
 				.reportStatus(reportDTO.getReportStatus())
 				.sender(Employees.builder().empNo(reportDTO.getSender()).build())
-				.receiver(Employees.builder().empNo(reportDTO.getReceiver()).build())
-				.finalReceiver(Employees.builder().empNo(reportDTO.getFinalReceiver()).build())
 				.build();
 		
 		//업로드 처리 끝난 파일들의 이름 리스트
 		List<String> uploadFileNames = reportDTO.getUploadFileNames();
-		log.error(uploadFileNames);
 		if(uploadFileNames != null) {
 			uploadFileNames.stream().forEach(uploadName -> {
 				report.addFileString(uploadName);
 			});
 		}
 		
+		List<Long> receivers = reportDTO.getReceivers();
+		if(receivers!=null) {
+			receivers.stream().forEach(receiver->{
+				ReportHistory reportHistory = ReportHistory.builder()
+						.status("대기")
+						.report(report)
+						.receiver(Employees.builder().empNo(receiver).build())
+						.build();
+				
+				reportHistoryRepository.save(reportHistory);
+			});
+		}
 		Report result = reportRepository.save(report);
 		
 		return 1L;
@@ -154,16 +180,45 @@ public class ReportServiceImpl implements ReportService {
 	}
 	
 	@Override
-	public void modify(ReportDTO reportDTO) {
+	public String modify(ReportDTO reportDTO) {
 		Optional<Report> result = reportRepository.findById(reportDTO.getReportNo());
 		
 		Report report = result.orElseThrow();
 		
-		report.changeReceiver(reportDTO.getReceiver());
-		report.changeSender(reportDTO.getSender());
-		report.changeStatus(reportDTO.getReportStatus());
 		
-		reportRepository.save(report);
+		if(reportDTO.getReportStatus().equals("반려")) {
+
+			report.changeStatus(reportDTO.getReportStatus());
+			
+			reportRepository.save(report);
+
+			reportHistoryRepository.getRHList(report).forEach(receiver->{
+				receiver.changeStatus(report.getReportStatus());
+				
+				reportHistoryRepository.save(receiver);
+			});
+			
+			return "반려되었습니다.";
+		}else {
+			
+			List<ReportHistory> list = reportHistoryRepository.getRHList(report);
+			
+			if(list.size()==1) {
+				report.changeStatus("완료");
+				reportRepository.save(report);
+				list.forEach(receiver->{
+					receiver.changeStatus("승인");
+					reportHistoryRepository.save(receiver);
+				});
+			}else {
+				ReportHistory reportHistory = reportHistoryRepository.findById(reportHistoryRepository.getOneRH(report)).get();
+				
+				reportHistory.changeStatus("승인");
+				reportHistoryRepository.save(reportHistory);
+			}
+			
+			return "승인되었습니다.";
+		}
 	}
 	
 //	private Report dtoToEntity(ReportDTO reportDTO) {
@@ -191,14 +246,20 @@ public class ReportServiceImpl implements ReportService {
 //	}
 	
 	private ReportDTO entityToDTO(Report report) {
+
+		List<Long> receivers = new ArrayList<Long>();
+		
+		receivers.add(reportHistoryRepository.getOneRH(report));
+		
 		ReportDTO reportDTO = ReportDTO.builder()
 				.reportNo(report.getReportNo())
 				.deadLine(report.getDeadLine())
+				.title(report.getTitle())
+				.contents(report.getContents())
 				.reportingDate(report.getReportingDate())
 				.reportStatus(report.getReportStatus())
 				.sender(report.getSender().getEmpNo())
-				.receiver(report.getReceiver().getEmpNo())
-				.finalReceiver(report.getFinalReceiver().getEmpNo())
+				.receivers(receivers)
 				.build();
 		
 		List<ReportFiles> reportFiles = report.getReportFiles();

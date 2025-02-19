@@ -76,9 +76,9 @@ public class ReportController {
 	
 	
 	@PutMapping("/modify/{reportNo}")
-	public void putMethodName(@PathVariable(name = "reportNo") Long reportNo, @RequestBody ReportDTO reportDTO) {
-	    
-		reportService.modify(reportDTO);
+	public String putMethodName(@PathVariable(name = "reportNo") Long reportNo, @RequestBody ReportDTO reportDTO) {
+	    log.error(reportDTO);
+		return reportService.modify(reportDTO);
 		
 	}
 	
