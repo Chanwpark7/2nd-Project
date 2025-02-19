@@ -1,9 +1,12 @@
 package com.fullstack.springboot.dto;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.security.core.userdetails.User;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fullstack.springboot.entity.CompanyAuth;
 import java.time.LocalDate;
@@ -18,8 +21,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 public class EmployeesDTO {
 
 	private Long empNo;
@@ -52,6 +55,8 @@ public class EmployeesDTO {
 	private String citizenId;
 	
 	private String password;
+	
+	
 	
 	public EmployeesDTO(Employees employees) {
 		this.empNo = employees.getEmpNo();

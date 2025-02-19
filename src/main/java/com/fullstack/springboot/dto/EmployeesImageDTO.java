@@ -26,8 +26,9 @@ public class EmployeesImageDTO {
 	
 	private String url;
 	
+
 	private String uuid;
-	
+
 	private List<MultipartFile> files = new ArrayList<>();
 	
 	private List<String> uploadFileNames = new ArrayList<>();

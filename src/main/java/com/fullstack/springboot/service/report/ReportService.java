@@ -15,7 +15,7 @@ public interface ReportService {
 	
 	Long register(Long empNo, ReportDTO reportDTO);
 	
-	void modify(ReportDTO reportDTO);
+	String modify(ReportDTO reportDTO);
 	
 	ReportDTO getOne(Long reportNo);
 }

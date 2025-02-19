@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fullstack.springboot.entity.CompanyChat;
 import com.fullstack.springboot.entity.CompanyChatFiles;
 
+
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,7 @@ public class CompanyChatFilesDTO {
 	private String attachOriginName;
 	
 	private String attachUUID;
+
 	
 	private List<MultipartFile> files = new ArrayList<>();
 	
@@ -40,4 +42,5 @@ public class CompanyChatFilesDTO {
 		this.attachUUID = cf.getAttachUUID();
 	}
 	
+
 }

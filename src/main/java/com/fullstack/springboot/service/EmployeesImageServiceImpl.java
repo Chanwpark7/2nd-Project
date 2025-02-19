@@ -1,6 +1,7 @@
 package com.fullstack.springboot.service;
 
 import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -11,7 +12,9 @@ import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.entity.EmployeesImage;
 import com.fullstack.springboot.repository.EmployeesImageRepository;
 import com.fullstack.springboot.repository.EmployeesRepository;
+
 import com.fullstack.springboot.util.FileUtil;
+
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -23,6 +26,7 @@ public class EmployeesImageServiceImpl implements EmployeesImageService {
 	
 	private final EmployeesImageRepository employeesImageRepository;
 	private final EmployeesRepository employeesRepository;
+
 	private final FileUtil fileUtil;
 	
 	@Override
@@ -36,18 +40,22 @@ public class EmployeesImageServiceImpl implements EmployeesImageService {
 	
 
 
+
 	@Override
 	public EmployeesImageDTO getOne(long empNo) {
 		EmployeesImage employeesImage = employeesImageRepository.getOneEmpImg(empNo);
+
 		
 		if(employeesImage == null) {
 			System.out.println("이미지 null");
 		}
 		
+
 		Employees employees = employeesImage.getEmployees();
 		return entityToDto(employeesImage, employees);
 	
 	}
+
 	
 	
 	
@@ -71,6 +79,7 @@ public class EmployeesImageServiceImpl implements EmployeesImageService {
 	    employeesImageRepository.save(newImage);  
 	    log.info("이미지 수정 완 service");
 	}
+
 
 
 

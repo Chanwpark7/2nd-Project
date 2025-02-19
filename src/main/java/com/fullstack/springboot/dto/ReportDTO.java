@@ -20,6 +20,10 @@ public class ReportDTO {
 	private Long reportNo;
 	
 	private LocalDate deadLine;
+
+	private String title;
+	
+	private String contents;
 	
 	private LocalDate reportingDate;
 	
@@ -27,9 +31,7 @@ public class ReportDTO {
 	
 	private Long sender;
 	
-	private Long receiver;
-	
-	private Long finalReceiver;
+	private List<Long> receivers;
 	
 	@Builder.Default
 	private List<MultipartFile> files = new ArrayList<>();

@@ -478,6 +478,14 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 		log.warn("eeeee");
 		return employeesRepository.empFind(empNo);
 	}
+
+
+	@Override
+	public void sendFile(String chatNo, long empNo, MultipartFile file) {
+		System.out.println("sendFile");
+		
+		
+	}
 	
 
 	

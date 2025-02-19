@@ -31,9 +31,15 @@ public class RoomListServiceImpl implements RoomListService{
 	private final BookingRepository bookingRepository;
 	
 	@Override
-	public RoomListDTO createOrModifyRoom(RoomListDTO roomListDTO) {
-
+	public RoomListDTO createRoom(RoomListDTO roomListDTO) {
 		roomListRepository.save(dtoToEntity(roomListDTO));
+		
+		return roomListDTO;
+	}
+	
+	@Override
+	public RoomListDTO ModifyRoom(RoomListDTO roomListDTO) {
+		roomListRepository.save(dtoToEntityWithRoomNo(roomListDTO));
 		
 		return roomListDTO;
 	}

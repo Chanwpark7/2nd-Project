@@ -1,5 +1,6 @@
 package com.fullstack.springboot.controller;
 
+
 import java.io.File;
 import java.util.List;
 
@@ -22,11 +23,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fullstack.springboot.dto.EmployeesImageDTO;
 import com.fullstack.springboot.entity.EmployeesImage;
 import com.fullstack.springboot.repository.EmployeesImageRepository;
+
 import com.fullstack.springboot.service.EmployeesImageService;
 import com.fullstack.springboot.util.FileUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+
 
 
 @RestController
@@ -36,6 +39,7 @@ import lombok.extern.log4j.Log4j2;
 @CrossOrigin(origins = "http://localhost:3000")
 public class EmployeesImageController {
 	
+
 	@Value("${com.fullstack.springboot.uploadPath}")
 	private String uploadPath;
 	
@@ -55,12 +59,14 @@ public class EmployeesImageController {
 	
 	
 	
+
 	@GetMapping("/read/{empNo}")
 	public EmployeesImageDTO read(@PathVariable("empNo")long empNo) {
 		log.warn("여기 실행됨"); //나옴
 		return employeesImageService.getOne(empNo);
 	}
 	
+
 
 	@GetMapping("/view/{uuid}")
 	public ResponseEntity<Resource> viewImg(@PathVariable(name="uuid") String uuid) {

@@ -22,6 +22,7 @@ public interface CompanyChatService {
 	//채팅방 나가기
 	public List<CompanyChatMemberDTO> leaveChatRoom(String chatNo, Long receiverEmpNo, Long senderEmpNo);
 	
+
 	//채팅 data 엑셀 파일에 기록
 	public ByteArrayInputStream chatDataToExcel(String chatNo);
 	

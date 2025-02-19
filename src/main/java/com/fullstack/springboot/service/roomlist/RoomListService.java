@@ -10,7 +10,9 @@ import com.fullstack.springboot.entity.RoomList;
 
 public interface RoomListService {
 
-	public RoomListDTO createOrModifyRoom(RoomListDTO roomListDTO);
+	public RoomListDTO createRoom(RoomListDTO roomListDTO);
+	
+	public RoomListDTO ModifyRoom(RoomListDTO roomListDTO);
 	
 	public void deleteRoom(Long roomNo);
 	
@@ -21,6 +23,15 @@ public interface RoomListService {
 	public PageResponseDTO<BookingDTO> getBookingListPageByRoomNo(PageRequestDTO pageRequestDTO, Long roomNo);
 	
 	default RoomList dtoToEntity(RoomListDTO roomListDTO) {
+		RoomList roomList = RoomList.builder()
+				.roomName(roomListDTO.getRoomName())
+				.location(roomListDTO.getLocation())
+				.build();
+		
+		return roomList;
+	}
+	
+	default RoomList dtoToEntityWithRoomNo(RoomListDTO roomListDTO) {
 		RoomList roomList = RoomList.builder()
 				.roomNo(roomListDTO.getRoomNo())
 				.roomName(roomListDTO.getRoomName())

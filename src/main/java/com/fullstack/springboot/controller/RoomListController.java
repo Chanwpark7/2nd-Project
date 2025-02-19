@@ -48,8 +48,7 @@ public class RoomListController {
 	
 	@PutMapping("/{roomNo}")
 	public String modify(@PathVariable(name = "roomNo") Long roomNo, @RequestBody RoomListDTO roomListDTO) {
-		
-		roomListService.createOrModifyRoom(roomListDTO);
+		roomListService.ModifyRoom(roomListDTO);
 		return "success";
 	}
 	
@@ -60,6 +59,6 @@ public class RoomListController {
 	
 	@PostMapping("/add")
 	public void postMethodName(@RequestBody RoomListDTO roomListDTO) {
-		roomListService.createOrModifyRoom(roomListDTO);
+		roomListService.createRoom(roomListDTO);
 	}
 }

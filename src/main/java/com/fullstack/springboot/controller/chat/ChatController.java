@@ -48,7 +48,9 @@ import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.dto.EmployeesImageDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResponseDTO;
+
 import com.fullstack.springboot.repository.CompanyChatFilesRepository;
+
 import com.fullstack.springboot.service.CompanyChatFilesService;
 import com.fullstack.springboot.service.CompanyChatService;
 import com.fullstack.springboot.util.FileUtil;
@@ -73,7 +75,9 @@ public class ChatController {
 	private final CompanyChatService companyChatService;
 	private final CompanyChatFilesService companyChatFilesService;
 	private final FileUtil fileUtil;
+
 	private final CompanyChatFilesRepository chatFilesRepository;
+
 	
 	//클라이언트한테 채팅내용 가져오기
 	@MessageMapping("/chat/{chatRoomId}")
@@ -181,8 +185,9 @@ public class ChatController {
 	    	    
 	    companyChatService.createFileAndFolder(chatNo,senderEmpNo,receiverEmpNo,content,sendTime, chatMessageDTO.getFileUrl()); //파일 및 폴더 생성
 	    
+
 	    companyChatService.sendChat(chatNo, senderEmpNo, receiverEmpNo, chatMessageDTO, sendTime, chatMessageDTO.getFileUrl()); //채팅보내기
-	        
+
 	    
 	    
 	    log.warn("senderEmpNo"+senderEmpNo);  
@@ -316,6 +321,7 @@ public class ChatController {
 		
 		return Map.of("Result","Success");
 	}
+
 	
 	@GetMapping("/view/{attachUUID}")
 	public ResponseEntity<Resource> viewImg(@PathVariable(name="attachUUID") String attachUUID) {
@@ -364,5 +370,6 @@ public class ChatController {
 	        return ResponseEntity.notFound().build(); 
 	    }
 	}
+
 
 }

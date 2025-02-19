@@ -36,6 +36,10 @@ public class Report {
 	
 	private LocalDate deadLine;
 	
+	private String title;
+	
+	private String contents;
+	
 	@CreationTimestamp
 	private LocalDate reportingDate;
 	
@@ -44,22 +48,12 @@ public class Report {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employees sender;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Employees receiver;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Employees finalReceiver;
-	
 	public void changeStatus(String status) {
 		this.reportStatus = status;
 	}
 	
 	public void changeSender(Long sender) {
 		this.sender = Employees.builder().empNo(sender).build();
-	}
-	
-	public void changeReceiver(Long receiver) {
-		this.receiver = Employees.builder().empNo(receiver).build();
 	}
 	
 	@ElementCollection
