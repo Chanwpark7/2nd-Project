@@ -27,4 +27,7 @@ public class EmployeesImage {
 	private Employees employees;
 	
 	private String url;
+
+	private String uuid;
 }
+

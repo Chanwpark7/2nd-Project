@@ -10,4 +10,5 @@ public interface EmployeesImageRepository extends JpaRepository<EmployeesImage, 
 
 	@Query("select ei from EmployeesImage ei where ei.employees.empNo =:empNo")
 	EmployeesImage getOneEmpImg(@Param("empNo")long empNo);
+
 }

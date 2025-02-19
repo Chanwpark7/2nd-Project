@@ -22,12 +22,6 @@ public interface CompanyChatService {
 	//채팅방 나가기
 	public List<CompanyChatMemberDTO> leaveChatRoom(String chatNo, Long receiverEmpNo, Long senderEmpNo);
 	
-	
-	//파일 보내는거 
-	public void sendFile(String chatNo, long empNo, MultipartFile file);
-	
-	//채팅왔으면 알림뜨게..... ('msgId 님이 메시지를 보냈습니다.' 이런식으로 뜨도록 )
-	//public void chatAlarm(long chatNo, long empNo, String msgId);
 
 	//채팅 data 엑셀 파일에 기록
 	public ByteArrayInputStream chatDataToExcel(String chatNo);
@@ -40,13 +34,13 @@ public interface CompanyChatService {
 	public PageResponseDTO<EmployeesDTO> list(PageRequestDTO pageRequestDTO);
 	
 	//파일생성 (폴더 / 파일)
-	public void createFileAndFolder(String chatNo, long senderEmpNo, long receiverEmpNo, String content, String sendTime) ;
+	public void createFileAndFolder(String chatNo, long senderEmpNo, long receiverEmpNo, String content, String sendTime, String attachUUID) ;
 	
 	//채팅 보내기
-	public void sendChat(String chatNo, long senderEmpNo,long receiverEmpNo, ChatMessageDTO messageObj, String sendTime) ;
+	public void sendChat(String chatNo, long senderEmpNo,long receiverEmpNo, ChatMessageDTO messageObj, String sendTime,  String attachUUID) ;
 	
 	//채팅내용 엑셀파일에 저장하기
-	public void saveChatToExcel(String chatNo, long senderEmpNo, String content, String sendTime); 
+	public void saveChatToExcel(String chatNo, long senderEmpNo, String content, String sendTime, String attachUUID); 
 
 	//채팅 목록 
 	public List<CompanyChatDTO> getChatList(long senderEmpNo);

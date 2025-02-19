@@ -4,20 +4,32 @@ package com.fullstack.springboot.controller.chat;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,13 +37,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fullstack.springboot.dto.ChatMessageDTO;
 import com.fullstack.springboot.dto.CompanyChatDTO;
+import com.fullstack.springboot.dto.CompanyChatFilesDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
+import com.fullstack.springboot.dto.EmployeesImageDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResponseDTO;
+
+import com.fullstack.springboot.repository.CompanyChatFilesRepository;
+
 import com.fullstack.springboot.service.CompanyChatFilesService;
 import com.fullstack.springboot.service.CompanyChatService;
 import com.fullstack.springboot.util.FileUtil;
@@ -48,11 +67,17 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 @Log4j2
 @RequestMapping("/chat")
 public class ChatController {
+
+	@Value("${com.fullstack.springboot.uploadPath}")
+	private String uploadPath;
 	
 	private final SimpMessagingTemplate template;
 	private final CompanyChatService companyChatService;
 	private final CompanyChatFilesService companyChatFilesService;
 	private final FileUtil fileUtil;
+
+	private final CompanyChatFilesRepository chatFilesRepository;
+
 	
 	//클라이언트한테 채팅내용 가져오기
 	@MessageMapping("/chat/{chatRoomId}")
@@ -62,6 +87,7 @@ public class ChatController {
 	    return message;
 	}
 
+	
 	@MessageMapping("/messages")
 	public ChatMessageDTO send(@RequestBody ChatMessageDTO chatMessageDTO) {
 		log.error("chatMessageDTO " + chatMessageDTO);
@@ -80,6 +106,38 @@ public class ChatController {
 	    template.convertAndSend("/sub/chat/" + chatRoomId, chatMessageDTO);
 	    return chatMessageDTO;
 	}
+
+	
+	
+//	@MessageMapping("/messages")
+//	public ChatMessageDTO send(@RequestBody ChatMessageDTO chatMessageDTO) {
+//	    log.error("chatMessageDTO " + chatMessageDTO);
+//
+//	    if (chatMessageDTO.getFileUrl() == null && chatMessageDTO.getFile() != null) {
+//	        String fileUrl = uploadFile(chatMessageDTO.getFile(), chatMessageDTO.getChatNo()).getBody();  
+//	        chatMessageDTO.setFileUrl(fileUrl); 
+//	    }
+//
+//	    if (chatMessageDTO.getSendTime() == null) {
+//	        chatMessageDTO.setSendTime(LocalDateTime.now());
+//	    }
+//
+//	    if (chatMessageDTO.getReceiver() == null) {
+//	        chatMessageDTO.setReceiver(" ");
+//	    }
+//
+//	    String chatRoomId = generateChatRoomId(chatMessageDTO.getSender(), chatMessageDTO.getReceiver());
+//	    log.error("chatRoomId" + chatRoomId);
+//
+//	    template.convertAndSend("/sub/chat/" + chatRoomId, chatMessageDTO);
+//	    return chatMessageDTO;
+//	}
+	
+//	private ChatMessageDTO uploadFile(MultipartFile file, String chatNo) {
+//		
+//		
+//		
+//	}
 	
 	//채팅방 하나로 만들려고. "작은숫자empNo_ 큰숫자empNo"
 	public String generateChatRoomId(String sender, String receiver) {
@@ -125,15 +183,13 @@ public class ChatController {
 	        
 	    companyChatService.createChatRoom(chatDTO); //채팅방 생성
 	    	    
-	    companyChatService.createFileAndFolder(chatNo,senderEmpNo,receiverEmpNo,content,sendTime); //파일 및 폴더 생성
+	    companyChatService.createFileAndFolder(chatNo,senderEmpNo,receiverEmpNo,content,sendTime, chatMessageDTO.getFileUrl()); //파일 및 폴더 생성
 	    
-	    companyChatService.sendChat(chatNo, senderEmpNo, receiverEmpNo, chatMessageDTO, sendTime); //채팅보내기
+
+	    companyChatService.sendChat(chatNo, senderEmpNo, receiverEmpNo, chatMessageDTO, sendTime, chatMessageDTO.getFileUrl()); //채팅보내기
+
 	    
-	    List<String> savedName = null;
-	    savedName = fileUtil.attachFiles(chatDTO.getFiles());
 	    
-	    companyChatFilesService.register(chatDTO, savedName);
-	        
 	    log.warn("senderEmpNo"+senderEmpNo);  
 	    log.warn("receiverEmpNo"+receiverEmpNo); 
 	    
@@ -143,7 +199,55 @@ public class ChatController {
 	    
 	    return ResponseEntity.ok(res);
 	}
+//	
+//	@PostMapping("/file/{chatNo}")
+//	public ResponseEntity<String> sendFile(@PathVariable("chatNo") String chatNo, 
+//            @RequestParam("files") List<MultipartFile> files,
+//            CompanyChatFilesDTO companyChatFilesDTO) {
+//		log.info("reg "+ companyChatFilesDTO );
+//		List<String> uploadFileNames = fileUtil.attachFiles(files);
+//		
+//		companyChatFilesDTO.setUploadFileNames(uploadFileNames);
+//		companyChatFilesDTO.setChatNo(chatNo);
+//		
+//		companyChatFilesService.sendFile(companyChatFilesDTO);
+////		saveChatToExcel(companyChatFilesDTO.getChatNo(), senderEmpNo, messageObj.getContent(), sendTime);
+//		return ResponseEntity.ok("성공");
+//	}
 	
+	@PostMapping("/file/{chatNo}/{empNo}")
+	public ResponseEntity<String> sendFile(@PathVariable("chatNo") String chatNo, @PathVariable("empNo")long empNo,
+			ChatMessageDTO messageObj,
+	        @RequestParam("files") List<MultipartFile> files, 
+	        CompanyChatFilesDTO companyChatFilesDTO) {
+	    log.info("reg "+ companyChatFilesDTO);
+
+	    List<String> uploadFileNames = fileUtil.attachFiles(files);
+
+	    List<String> fileUrls = new ArrayList<>();
+	    for (String fileName : uploadFileNames) {
+	        String fileUrl = "/uploads/" + fileName;
+	        fileUrls.add(fileUrl);  
+	    }
+	    
+	    CompanyChatDTO chatDTO = new CompanyChatDTO();
+	    
+	    String content = messageObj.getContent();
+	    String sendTime = messageObj.getSendTime() != null ? messageObj.getSendTime().toString() : LocalDateTime.now().toString();
+	    
+	    companyChatFilesDTO.setUploadFileNames(uploadFileNames);
+	    companyChatFilesDTO.setChatNo(chatNo);
+
+	    companyChatFilesService.sendFile(companyChatFilesDTO);
+	    System.out.println("gggggggggggggg" + companyChatFilesDTO.getUploadFileNames());
+	    String fileNames = String.join(",", uploadFileNames);
+//	    return ResponseEntity.ok(String.join(",", fileUrls));
+	    
+	    companyChatService.saveChatToExcel(companyChatFilesDTO.getChatNo(), empNo, messageObj.getContent(), sendTime, fileNames);
+	    
+	    return ResponseEntity.ok(fileNames);
+	}
+
 
 	//채팅방 하나로 만들려고. "작은숫자empNo_ 큰숫자empNo"
 	private String generateChatRoomId(long senderEmpNo, long receiverEmpNo) {
@@ -217,4 +321,55 @@ public class ChatController {
 		
 		return Map.of("Result","Success");
 	}
+
+	
+	@GetMapping("/view/{attachUUID}")
+	public ResponseEntity<Resource> viewImg(@PathVariable(name="attachUUID") String attachUUID) {
+	    String filePath = uploadPath + File.separator + attachUUID;
+	    System.out.println("uuu =>   " + attachUUID);
+	    
+	    if (!new File(filePath).exists()) {
+	        return ResponseEntity.notFound().build();
+	    }
+	    
+	     System.out.println("~~~~~~~~~~~` " + fileUtil.getFile(filePath));
+	   
+	    log.error("이걸 실행중~~~~~");
+	    log.error(fileUtil.getFile(filePath));
+	    log.error(fileUtil.getFile(attachUUID));
+	    return fileUtil.getFile(attachUUID);
+	}
+	
+	
+	@GetMapping("/fileDetail/{attachOriginName}")
+	public List<CompanyChatFilesDTO> getFileDetail(@PathVariable("attachOriginName")String attachOriginName) {
+		System.out.println("attach => " + attachOriginName);
+
+		return chatFilesRepository.getImg(attachOriginName);
+	}
+	
+	@GetMapping("/viewFile/{attachUUID}")
+	public ResponseEntity<Resource> viewFile(@PathVariable(name="attachUUID") String attachUUID) {
+	 
+	    String filePath = uploadPath + File.separator + attachUUID;
+	    System.out.println("uuu =>   " + attachUUID);
+
+	    File file = new File(filePath);
+	    if (!file.exists()) {
+	        return ResponseEntity.notFound().build(); 
+	    }
+
+	    Resource resource = new FileSystemResource(file);
+
+	    if (resource.exists()) {
+	        return ResponseEntity.ok()
+	                .contentType(MediaType.APPLICATION_OCTET_STREAM) 
+	                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"") 
+	                .body(resource); 
+	    } else {
+	        return ResponseEntity.notFound().build(); 
+	    }
+	}
+
+
 }

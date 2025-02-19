@@ -1,5 +1,7 @@
 package com.fullstack.springboot.service;
 
+import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -11,6 +13,9 @@ import com.fullstack.springboot.entity.EmployeesImage;
 import com.fullstack.springboot.repository.EmployeesImageRepository;
 import com.fullstack.springboot.repository.EmployeesRepository;
 
+import com.fullstack.springboot.util.FileUtil;
+
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -21,27 +26,61 @@ public class EmployeesImageServiceImpl implements EmployeesImageService {
 	
 	private final EmployeesImageRepository employeesImageRepository;
 	private final EmployeesRepository employeesRepository;
+
+	private final FileUtil fileUtil;
 	
 	@Override
 	public Long register(EmployeesImageDTO imageDTO) {
-		System.out.println("service =-------------------------------");
-		log.error(imageDTO); //여기까지 잘 나옴
 		EmployeesImage image = dtoToEntity(imageDTO);
-		System.out.println(image);
 		image.setEmployees(employeesRepository.findById(imageDTO.getEmpNo()).get());
-		EmployeesImage res = employeesImageRepository.save(image); 
-		System.out.println("성공");
-		System.out.println("222222service =-------------------------------");
+		EmployeesImage res =  employeesImageRepository.save(image);
 		return res.getEmpImgNo();
 	}
+	
+	
+
+
 
 	@Override
 	public EmployeesImageDTO getOne(long empNo) {
 		EmployeesImage employeesImage = employeesImageRepository.getOneEmpImg(empNo);
-	
+
+		
+		if(employeesImage == null) {
+			System.out.println("이미지 null");
+		}
+		
+
 		Employees employees = employeesImage.getEmployees();
 		return entityToDto(employeesImage, employees);
 	
 	}
+
+	
+	
+	
+	@Override
+	public void update(long empNo, List<String> newFileNames, EmployeesImageDTO employeesImageDTO) {
+	    EmployeesImage existingImage = employeesImageRepository.getOneEmpImg(empNo);
+
+	    if (existingImage != null) {
+	        log.info("기존 사진 삭제 " + existingImage.getUuid());
+	        fileUtil.deleteFile(existingImage.getUuid());  
+	        employeesImageRepository.delete(existingImage); 
+	    }
+
+	    EmployeesImage newImage = new EmployeesImage();
+	    newImage.setUuid(newFileNames.get(0));  
+	    newImage.setUrl(employeesImageDTO.getUrl());
+
+	    Employees employee = employeesRepository.findById(empNo).get();
+	    newImage.setEmployees(employee);
+
+	    employeesImageRepository.save(newImage);  
+	    log.info("이미지 수정 완 service");
+	}
+
+
+
 
 }

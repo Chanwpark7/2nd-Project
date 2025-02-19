@@ -28,4 +28,5 @@ public interface CompanyChatRepository extends JpaRepository<CompanyChat, String
 	public List<CompanyChat> findBySenderEmpNoAndReceiverEmpNo(@Param("senderEmpNo") long senderEmpNo, @Param("receiverEmpNo") long receiverEmpNo);
 
 
+	public CompanyChat findByChatNo(String chatNo);
 }

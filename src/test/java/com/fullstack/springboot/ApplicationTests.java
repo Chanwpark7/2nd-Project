@@ -49,6 +49,7 @@ import com.fullstack.springboot.repository.AnnualleaveRepository;
 import com.fullstack.springboot.repository.BoardRepository;
 import com.fullstack.springboot.repository.BookingRepository;
 import com.fullstack.springboot.repository.CommuteRepository;
+import com.fullstack.springboot.repository.CompanyChatFilesRepository;
 import com.fullstack.springboot.repository.CompanyChatRepository;
 import com.fullstack.springboot.repository.DayOffRepository;
 import com.fullstack.springboot.repository.DeptInfoRepository;
@@ -163,11 +164,9 @@ class ApplicationTests {
 	@Autowired
 	private CompanyChatService companyChatService;
 	
-	@Autowired
-	private EmployeesImageRepository employeesImageRepository;
-	
-	@Autowired
-	private EmployeesImageService employeesImageService;
+
+	private CompanyChatFilesRepository companyChatFilesRepository;
+
 	
 	@Autowired
 	private ReportService reportService;
@@ -885,27 +884,36 @@ class ApplicationTests {
 //		System.out.println(dto);
 //	}	
 
-	@Test
-	@Transactional
-	void test1() {
-//		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
-//		.page(1)
-//		.size(10)
-//		.build();
-//		Pageable pageable = pageRequestDTO.getPageable(Sort.by("deadLine").descending());
-//		Employees employees = Employees.builder().empNo(1L).build();
-//		List<ReportHistory> list = reportRepository.selectReceivedAllList(employees, pageable).get().map(arr -> {
-//			ReportHistory reportHistory = (ReportHistory)arr[1];
-//			return reportHistory;
-//		}).collect(Collectors.toList());
-		Report report = Report.builder()
-				.reportNo(1L)
-				.build();
-		
-		List<ReportHistory> list = reportHistoryRepository.getRHList(report);
-		for(ReportHistory com : list) {
-			log.error(com.getRhNo());
-		};
+//	@Test
+//	void test() {
+//		log.error(bookingService.getBookingListAtDate("2025-02-12",111L));
+//	}
+	
+//	@Test
+//	void tes() {
+//		Employees employees = Employees.builder()
+//				.firstName("일")
+//				.lastName("이삼")
+//				.mailAddress("aa@abc.com")
+//				.salary(1)
+//				.job(Job.builder().jobNo(999L).build())
+//				.deptInfo(DeptInfo.builder().deptNo(999L).build())
+//				.birthday(LocalDate.of(2000, 1, 1))
+//				.address("서울")
+//				.phoneNum("010-1111-1111")
+//				.gender("m")
+//				.citizenId("0000000000000")
+//				.password(pwencoder.encode("1111"))
+//				.build();
+//		
+//		employeesRepository.save(employees);
+//	}
+	
+	
+	void tes() {
+		String attachOrginName = "seoul.jpg";
+		System.out.println(companyChatFilesRepository.getImg(attachOrginName));
+
 	}
 }
 
