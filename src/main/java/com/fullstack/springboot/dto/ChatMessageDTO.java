@@ -2,6 +2,8 @@ package com.fullstack.springboot.dto;
 
 import java.time.LocalDateTime;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,4 +20,15 @@ public class ChatMessageDTO {
 	private String receiver;
 	private LocalDateTime sendTime;
 	
+	
+	/*
+	 * 여기서부터 추가됨
+	 */
+	private String fileUrl;
+	private MultipartFile file;
+	private String chatNo;
+	
+	/*
+	 * 여기까지
+	 */
 }

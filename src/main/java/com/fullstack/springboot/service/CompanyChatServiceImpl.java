@@ -33,6 +33,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fullstack.springboot.dto.ChatMessageDTO;
 import com.fullstack.springboot.dto.CompanyChatDTO;
@@ -102,8 +103,9 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	    long receiverEmpNo = receiver.getEmpNo(); 
 	    String message = chatMessageDTO.getContent();
 	    String sendTime = "";
-	      
-	    createFileAndFolder(chatNo, senderEmpNo, receiverEmpNo, message, sendTime);
+	    String attachUUID = ""; 
+	    
+	    createFileAndFolder(chatNo, senderEmpNo, receiverEmpNo, message, sendTime, attachUUID);
 	    
 	    companyChatDTO.setChatNo(companyChat.getChatNo()); 
 	    return companyChat.getChatNo();
@@ -141,53 +143,6 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	}
 
 
-	//채팅방 인원 추가
-//	@Override
-//	public Long addChatMember(CompanyChatDTO companyChatDTO) {
-//		CompanyChat companyChat = companyChatRepository.findById(companyChatDTO.getChatNo()).get();
-//		Employees employees = employeesRepository.findById(companyChatDTO.getEmpNo()).get();
-//		
-//		CompanyChatMember companyChatMember = CompanyChatMember.builder()
-//				.companyChat(companyChat)
-//				.employees(employees)
-//				.build();
-//		companyChatMemberRepository.save(companyChatMember);
-//		
-//		return companyChatDTO.getChatNo();
-//	}
-
-	//사진 파일 보내기
-//	@Override
-//	public void sendImageFile(long chatNo, long empNo, MultipartFile file) {
-//	    String originalFileName = file.getOriginalFilename();
-//	    String uuid = UUID.randomUUID().toString();
-//	    String savedFileName = uuid + "-" + originalFileName;
-//	    String uploadPath = fileUtil.getUploadPath();
-//	    
-//	    Path savePath = Paths.get(uploadPath, savedFileName);
-//	    
-//	    try {
-//	        if (!Files.exists(savePath.getParent())) {
-//	            Files.createDirectories(savePath.getParent());
-//	        }
-//	        Files.copy(file.getInputStream(), savePath);
-//	    } catch (IOException e) {
-//	        log.error(e.getMessage());
-//	    }
-//	}
-
-	//파일 보내기 (---> 이메일 연동)
-//	@Override
-//	public void sendFile(long chatNo, long empNo, MultipartFile file) {
-//		
-//	}
-
-	
-	//채팅 알람 띄우기
-//	@Override
-//	public void chatAlarm(long chatNo, long empNo, String msgId) {
-//		
-//	}
 
 	
 	//채팅 data Excel 파일에 저장하기
@@ -264,6 +219,7 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	    headers.add("날짜/시간");
 	    headers.add("사용자");
 	    headers.add("메시지 내용");
+	    headers.add("uuid");
 	    return headers;
 	}
 
@@ -309,6 +265,7 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	        String sender = rowData.get(0);  
 	        String message = rowData.get(1);
 	        String sentTime = rowData.get(2); 
+	        String attachUUID = rowData.get(3);
 	       System.out.println(sender +  " " + message + " ( " +  sentTime + " ) ");
 	    }
 	    
@@ -341,7 +298,7 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 
 	//파일 및 폴더 생성
 	@Override
-	public void createFileAndFolder(String chatNo, long senderEmpNo, long receiverEmpNo, String content, String sendTime) {
+	public void createFileAndFolder(String chatNo, long senderEmpNo, long receiverEmpNo, String content, String sendTime, String attachUUID) {
 	    String chatRoomId = generateChatRoomId(senderEmpNo, receiverEmpNo);
 
 	    int year = LocalDate.now().getYear();
@@ -386,6 +343,7 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	            headerRow.createCell(0).setCellValue("Sender");
 	            headerRow.createCell(1).setCellValue("SendMessage");
 	            headerRow.createCell(2).setCellValue("SendTime");
+	            headerRow.createCell(3).setCellValue("UUID");
 	        }
 
 	        int lastRowNum = sheet.getLastRowNum();
@@ -394,6 +352,7 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	        dataRow.createCell(0).setCellValue(senderEmpNo);
 	        dataRow.createCell(1).setCellValue(content);
 	        dataRow.createCell(2).setCellValue(sendTime);
+	        dataRow.createCell(3).setCellValue(attachUUID);
 
 	        try (FileOutputStream fileOut = new FileOutputStream(file)) {
 	            workbook.write(fileOut);  
@@ -414,7 +373,7 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 
 	//채팅 보내기
 	@Override
-	public void sendChat(String chatNo, long senderEmpNo, long receiverEmpNo, ChatMessageDTO messageObj, String sendTime) {
+	public void sendChat(String chatNo, long senderEmpNo, long receiverEmpNo, ChatMessageDTO messageObj, String sendTime, String attachUUID) {
 		List<CompanyChat> companyChats = companyChatRepository.findBySenderEmpNoAndReceiverEmpNo(senderEmpNo, receiverEmpNo);
 
 	    CompanyChat companyChat = companyChats.isEmpty() ? null : companyChats.get(0);
@@ -432,7 +391,7 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	        companyChatMemberRepository.save(receiverMember);
 	    } else {
 	    	
-	        saveChatToExcel(companyChat.getChatNo(), senderEmpNo, messageObj.getContent(), sendTime);
+	        saveChatToExcel(companyChat.getChatNo(), senderEmpNo, messageObj.getContent(), sendTime, attachUUID);
 	    }
 	}
 
@@ -448,7 +407,7 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	}
 
 	//채팅 내용 저장하기
-	public void saveChatToExcel(String chatNo, long senderEmpNo, String content, String sendTime) {
+	public void saveChatToExcel(String chatNo, long senderEmpNo, String content, String sendTime, String attachUUID) {
 	    String currMonth = new SimpleDateFormat("yyyy-MM").format(new Date());
 	    String yearDirPath = "C:" + File.separator + "chatting" + File.separator + LocalDate.now().getYear();
 	
@@ -473,6 +432,9 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	        headerRow.createCell(0).setCellValue("보낸사람");
 	        headerRow.createCell(1).setCellValue("보낸메시지");
 	        headerRow.createCell(2).setCellValue("보낸시간");
+	        //추가 -> 
+	        headerRow.createCell(3).setCellValue("UUID");
+	        // -< 추가
 	    }
 
 
@@ -480,6 +442,7 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	    dataRow.createCell(0).setCellValue(senderEmpNo);
 	    dataRow.createCell(1).setCellValue(content);  
 	    dataRow.createCell(2).setCellValue(sendTime); 
+	    dataRow.createCell(3).setCellValue(attachUUID);
 
 	    
 	    try (FileOutputStream fileOut = new FileOutputStream(file)) {
@@ -515,5 +478,8 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 		log.warn("eeeee");
 		return employeesRepository.empFind(empNo);
 	}
+	
+
+	
 	
 }

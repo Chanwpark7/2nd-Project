@@ -35,6 +35,9 @@ public class JWTFilter extends OncePerRequestFilter {
 		if(path.startsWith("/chat")) {
 			return true;
 		}
+		if(path.startsWith("/api/empImage/view")) {
+			return true;
+		}
 		
 		
 		return false;

@@ -1,6 +1,7 @@
 package com.fullstack.springboot.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -83,4 +84,15 @@ public class FileUtil {
 		  return uploadPath;
 	  }
 	  
+	  public void deleteFile(String uuid) {
+		  Path path = Path.of(uploadPath, uuid);
+		  try {
+			Files.delete(path);
+			System.out.println("삭제성공~");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	  }
 }

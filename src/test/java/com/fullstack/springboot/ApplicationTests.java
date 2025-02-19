@@ -44,6 +44,7 @@ import com.fullstack.springboot.repository.AnnualleaveRepository;
 import com.fullstack.springboot.repository.BoardRepository;
 import com.fullstack.springboot.repository.BookingRepository;
 import com.fullstack.springboot.repository.CommuteRepository;
+import com.fullstack.springboot.repository.CompanyChatFilesRepository;
 import com.fullstack.springboot.repository.CompanyChatRepository;
 import com.fullstack.springboot.repository.DayOffRepository;
 import com.fullstack.springboot.repository.DeptInfoRepository;
@@ -149,6 +150,8 @@ class ApplicationTests {
 	@Autowired
 	private CompanyChatService companyChatService;
 	
+	@Autowired
+	private CompanyChatFilesRepository companyChatFilesRepository;
 	
 	@Autowired
 	private ReportService reportService;
@@ -848,9 +851,35 @@ class ApplicationTests {
 //		System.out.println(dto);
 //	}	
 
+//	@Test
+//	void test() {
+//		log.error(bookingService.getBookingListAtDate("2025-02-12",111L));
+//	}
+	
+//	@Test
+//	void tes() {
+//		Employees employees = Employees.builder()
+//				.firstName("일")
+//				.lastName("이삼")
+//				.mailAddress("aa@abc.com")
+//				.salary(1)
+//				.job(Job.builder().jobNo(999L).build())
+//				.deptInfo(DeptInfo.builder().deptNo(999L).build())
+//				.birthday(LocalDate.of(2000, 1, 1))
+//				.address("서울")
+//				.phoneNum("010-1111-1111")
+//				.gender("m")
+//				.citizenId("0000000000000")
+//				.password(pwencoder.encode("1111"))
+//				.build();
+//		
+//		employeesRepository.save(employees);
+//	}
+	
 	@Test
-	void test() {
-		log.error(bookingService.getBookingListAtDate("2025-02-12",111L));
+	void tes() {
+		String attachOrginName = "seoul.jpg";
+		System.out.println(companyChatFilesRepository.getImg(attachOrginName));
 	}
 }
 
