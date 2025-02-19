@@ -249,7 +249,7 @@ public class ReportServiceImpl implements ReportService {
 
 		List<Long> receivers = new ArrayList<Long>();
 		
-		receivers.add(reportHistoryRepository.getOneRH(report));
+		receivers.add(reportHistoryRepository.findById(reportHistoryRepository.getOneRH(report)).get().getReceiver().getEmpNo());
 		
 		ReportDTO reportDTO = ReportDTO.builder()
 				.reportNo(report.getReportNo())

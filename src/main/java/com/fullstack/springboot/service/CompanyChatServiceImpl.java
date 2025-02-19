@@ -480,12 +480,12 @@ public class CompanyChatServiceImpl implements CompanyChatService {
 	}
 
 
-	@Override
-	public void sendFile(String chatNo, long empNo, MultipartFile file) {
-		System.out.println("sendFile");
-		
-		
-	}
+//	@Override
+//	public void sendFile(String chatNo, long empNo, MultipartFile file) {
+//		System.out.println("sendFile");
+//		
+//		
+//	}
 	
 
 	
