@@ -1,5 +1,6 @@
 package com.fullstack.springboot.service.dayoff;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.fullstack.springboot.dto.BookingDTO;
 import com.fullstack.springboot.dto.DayOffDTO;
+import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResponseDTO;
 import com.fullstack.springboot.entity.DayOff;
@@ -102,6 +104,15 @@ public class DayOffServiceImpl implements DayOffService {
 	public DayOffDTO getOne(Long dayOffNo) {
 
 		return entityToDto(dayOffRepository.findById(dayOffNo).get());
+	}
+
+	@Override
+	public List<DayOffDTO> getTodayDayOffList(LocalDate dayOffDate) {
+		
+		System.out.println("dayoffService");
+		System.out.println( dayOffRepository.getTodayDayOffList(dayOffDate));
+		dayOffDate = LocalDate.now();
+		return dayOffRepository.getTodayDayOffList(dayOffDate);
 	}
 
 }

@@ -31,6 +31,12 @@ public class EmpScheduleController {
 
 	private final EmpScheduleService service;
 
+	@PostMapping("/resAll")
+	public void allReg(@RequestBody EmpScheduleDTO empScheduleDTO) {
+		System.out.println("!!!!!=>[> " + empScheduleDTO);
+		service.addAllSchedule(empScheduleDTO);
+	}
+	
 	@PostMapping("/register/{empNo}")
 	public Map<String, Long> register(@RequestBody EmpScheduleDTO empScheduleDTO, @PathVariable("empNo")Long empNo){
 		Long empSchNo = service.register(empScheduleDTO);

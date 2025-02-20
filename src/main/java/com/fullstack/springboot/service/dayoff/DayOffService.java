@@ -1,5 +1,8 @@
 package com.fullstack.springboot.service.dayoff;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import com.fullstack.springboot.dto.DayOffDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResponseDTO;
@@ -18,6 +21,8 @@ public interface DayOffService {
 	public void modifyDayOff(DayOffDTO dayOffDTO);
 	
 	public PageResponseDTO<DayOffDTO> getList(PageRequestDTO pageRequestDTO);
+	
+	public List<DayOffDTO> getTodayDayOffList(LocalDate dayOffDate);
 	
 	public DayOffDTO getOne(Long dayOffNo);
 	
