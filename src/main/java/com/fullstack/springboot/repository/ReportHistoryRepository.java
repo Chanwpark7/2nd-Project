@@ -19,6 +19,10 @@ public interface ReportHistoryRepository extends JpaRepository<ReportHistory, Lo
 			+ "and rh.report = :report")
 	Long getOneRH(@Param("report") Report report);
 	
+	@Query("SELECT MAX(rh.rhNo) FROM ReportHistory rh "
+			+ "where rh.report = :report")
+	Long getMaxRH(@Param("report") Report report);
+	
 	@Query("SELECT rh FROM ReportHistory rh "
 			+ "where rh.status = '대기' "
 			+ "and rh.report = :report")

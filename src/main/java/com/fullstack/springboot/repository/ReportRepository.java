@@ -14,29 +14,24 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
 
 	@Query("Select r, rh, rf from Report r "
 			+ "left join ReportHistory rh on r = rh.report "
-			+ "left join r.reportFiles rf "
-			+ "where r.deadLine >= curdate() "
-			+ "and rh.receiver = :receiver "
-			+ "and rf.ord = 0 "
+			+ "left join r.reportFiles rf on rf.ord = 0 "
+			+ "where rh.receiver = :receiver "
 			+ "AND rh.rhNo = (SELECT MIN(subRh.rhNo) FROM ReportHistory subRh WHERE subRh.report = r and subRh.status = '대기' ) "
 			+ "order by r.reportStatus desc")
 	Page<Object[]> selectReceivedList(@Param("receiver") Employees receiver, Pageable pageable);
 	
 	@Query("Select r, rh, rf from Report r "
 			+ "left join ReportHistory rh on r = rh.report "
-			+ "left join r.reportFiles rf "
-			+ "where r.deadLine >= curdate() "
-			+ "and rh.receiver = :receiver "
-			+ "and rf.ord = 0 "
+			+ "left join r.reportFiles rf on rf.ord = 0 "
+			+ "where rh.receiver = :receiver "
 			+ "order by r.reportStatus desc")
 	Page<Object[]> selectReceivedAllList(@Param("receiver") Employees receiver, Pageable pageable);
 	
 	@Query("Select r, rh, rf from Report r "
 			+ "left join ReportHistory rh on r = rh.report "
-			+ "left join r.reportFiles rf "
+			+ "left join r.reportFiles rf on rf.ord = 0 "
 			+ "where r.sender = :sender "
 			+ "AND rh.rhNo = (SELECT MIN(subRh.rhNo) FROM ReportHistory subRh WHERE subRh.report = r and subRh.status = '대기' ) "
-			+ "or rh.rhNo = (SELECT MIN(subRh.rhNo) FROM ReportHistory subRh WHERE subRh.report = r and r.reportStatus = '완료' ) "
-			+ "and rf.ord = 0")
+			+ "or rh.rhNo = (SELECT MIN(subRh.rhNo) FROM ReportHistory subRh WHERE subRh.report = r and r.reportStatus = '완료' ) ")
 	Page<Object[]> selectSentList(@Param("sender") Employees sender, Pageable pageable);
 }
