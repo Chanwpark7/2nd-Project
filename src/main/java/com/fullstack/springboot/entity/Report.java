@@ -48,6 +48,8 @@ public class Report {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employees sender;
 	
+	private Boolean isDayOff;
+	
 	public void changeStatus(String status) {
 		this.reportStatus = status;
 	}

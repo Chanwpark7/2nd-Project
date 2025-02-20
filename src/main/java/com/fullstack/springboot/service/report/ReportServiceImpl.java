@@ -1,5 +1,6 @@
 package com.fullstack.springboot.service.report;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.fullstack.springboot.dto.DayOffDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResponseDTO;
 import com.fullstack.springboot.dto.ReportDTO;
@@ -20,6 +22,7 @@ import com.fullstack.springboot.entity.ReportFiles;
 import com.fullstack.springboot.entity.ReportHistory;
 import com.fullstack.springboot.repository.ReportHistoryRepository;
 import com.fullstack.springboot.repository.ReportRepository;
+import com.fullstack.springboot.service.dayoff.DayOffService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +36,8 @@ public class ReportServiceImpl implements ReportService {
 
 	private final ReportRepository reportRepository;
 	private final ReportHistoryRepository reportHistoryRepository;
+	private final DayOffService dayOffService;
+	
 	
 	@Override
 	public PageResponseDTO<ReportDTO> getRecivedList(Long empNo, PageRequestDTO pageRequestDTO) {
@@ -67,7 +72,13 @@ public class ReportServiceImpl implements ReportService {
 					.reportStatus(report.getReportStatus())
 					.sender(report.getSender().getEmpNo())
 					.receivers(receivers)
+					.isDayOff(report.getIsDayOff())
 					.build();
+
+			if(reportFiles == null) {
+				return reportDTO;
+			}
+			
 			
 			String imageStr = reportFiles.getFileName();
 			reportDTO.setUploadFileNames(List.of(imageStr));
@@ -119,10 +130,13 @@ public class ReportServiceImpl implements ReportService {
 					.reportStatus(report.getReportStatus())
 					.sender(report.getSender().getEmpNo())
 					.receivers(receivers)
+					.isDayOff(report.getIsDayOff())
 					.build();
 			
-			String imageStr = reportFiles.getFileName();
-			reportDTO.setUploadFileNames(List.of(imageStr));
+			if(reportFiles!=null) {
+				String imageStr = reportFiles.getFileName();
+				reportDTO.setUploadFileNames(List.of(imageStr));
+			}
 			return reportDTO;
 		}).collect(Collectors.toList());
 		
@@ -146,6 +160,7 @@ public class ReportServiceImpl implements ReportService {
 				.contents(reportDTO.getContents())
 				.reportStatus(reportDTO.getReportStatus())
 				.sender(Employees.builder().empNo(reportDTO.getSender()).build())
+				.isDayOff(reportDTO.getIsDayOff())
 				.build();
 		
 		//업로드 처리 끝난 파일들의 이름 리스트
@@ -210,6 +225,17 @@ public class ReportServiceImpl implements ReportService {
 					receiver.changeStatus("승인");
 					reportHistoryRepository.save(receiver);
 				});
+				
+				if(report.getIsDayOff()) {
+					
+					DayOffDTO dayOffDTO = DayOffDTO.builder()
+							.offHours(Long.parseLong(report.getContents()))
+							.dayOffDate(LocalDate.parse(report.getTitle()))
+							.empNo(report.getSender().getEmpNo())
+							.build();
+					
+					dayOffService.addDayOff(dayOffDTO);
+				};
 			}else {
 				ReportHistory reportHistory = reportHistoryRepository.findById(reportHistoryRepository.getOneRH(report)).get();
 				
@@ -248,8 +274,12 @@ public class ReportServiceImpl implements ReportService {
 	private ReportDTO entityToDTO(Report report) {
 
 		List<Long> receivers = new ArrayList<Long>();
+		if(report.getReportStatus().equals("진행중")) {
+			receivers.add(reportHistoryRepository.findById(reportHistoryRepository.getOneRH(report)).get().getReceiver().getEmpNo());
+		}else {
+			receivers.add(reportHistoryRepository.findById(reportHistoryRepository.getMaxRH(report)).get().getReceiver().getEmpNo());
+		}
 		
-		receivers.add(reportHistoryRepository.findById(reportHistoryRepository.getOneRH(report)).get().getReceiver().getEmpNo());
 		
 		ReportDTO reportDTO = ReportDTO.builder()
 				.reportNo(report.getReportNo())

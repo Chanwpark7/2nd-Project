@@ -33,6 +33,8 @@ public class ReportDTO {
 	
 	private List<Long> receivers;
 	
+	private Boolean isDayOff;	
+	
 	@Builder.Default
 	private List<MultipartFile> files = new ArrayList<>();
 	
