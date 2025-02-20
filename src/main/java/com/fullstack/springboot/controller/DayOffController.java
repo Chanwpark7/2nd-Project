@@ -6,12 +6,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fullstack.springboot.dto.DayOffDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResponseDTO;
+import com.fullstack.springboot.entity.DayOff;
 import com.fullstack.springboot.service.commute.CommuteService;
 import com.fullstack.springboot.service.dayoff.DayOffService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -58,5 +60,10 @@ public class DayOffController {
 	public void add(@RequestBody DayOffDTO	dayOffDTO) {
 
 		dayOffService.addDayOff(dayOffDTO);
+	}
+	
+	@GetMapping("/todayList/{dayOffDate}")
+	public List<DayOffDTO> getTodayDayOffList(@PathVariable("dayOffDate") LocalDate dayOffDate){
+		return dayOffService.getTodayDayOffList(dayOffDate);
 	}
 }

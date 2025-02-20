@@ -21,7 +21,9 @@ import com.fullstack.springboot.dto.EmployeesDTO;
 
 public interface EmployeesRepository extends JpaRepository<Employees, Long> {
 	
-  @EntityGraph(attributePaths = "roleSet")
+	
+	
+	@EntityGraph(attributePaths = "roleSet")
 	@Query("select emp from Employees emp where emp.mailAddress = :email")
 	Employees getByEmail(@Param("email") String email);
 
@@ -76,4 +78,5 @@ public interface EmployeesRepository extends JpaRepository<Employees, Long> {
 	
 	@Query("Select e from Employees e where e.mailAddress = :mailAddress")
 	Employees getEmpWithMail(@Param("mailAddress") String mailAddress);
+	
 }

@@ -1,5 +1,6 @@
 package com.fullstack.springboot.repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,4 +23,7 @@ public interface DayOffRepository extends JpaRepository<DayOff, Long> {
 	
 	@Query("Select new com.fullstack.springboot.dto.DayOffDTO(do) from DayOff do")
 	public Page<DayOffDTO> getList(Pageable pageable);
+	
+	@Query("select new com.fullstack.springboot.dto.DayOffDTO(do) from DayOff do join Employees e on do.employees.empNo = e.empNo where do.dayOffDate =:dayOffDate")
+	public List<DayOffDTO> getTodayDayOffList(@Param("dayOffDate") LocalDate dayOffDate);
 }

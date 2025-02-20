@@ -24,6 +24,8 @@ public interface EmpScheduleService {
 	// 일정 등록
 	public Long register(EmpScheduleDTO empScheduleDTO);
 	
+	public void addAllSchedule(EmpScheduleDTO empScheduleDTO);
+	
 	// 글 한개 가져오기
 	public EmpScheduleDTO getEmpScheduleById(Long empNo, Long empSchNo);
 	

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fullstack.springboot.dto.EmpScheduleDTO;
+import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.entity.EmpSchedule;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.repository.EmpScheuleRepository;
@@ -77,6 +78,27 @@ public class EmpScheduleServiceImpl implements EmpScheduleService {
 		return getEmpScheduleList(empNo);
 	}
 	
+	@Override
+	public void addAllSchedule(EmpScheduleDTO empScheduleDTO) {
+	    List<EmployeesDTO> employeesList = employeesRepository.getAllList(); 
+
+	    for (EmployeesDTO employee : employeesList) {
+	        EmpScheduleDTO scheduleDTO = EmpScheduleDTO.builder()
+	            .empSchNo(empScheduleDTO.getEmpSchNo()) 
+	            .empNo(employee.getEmpNo()) 
+	            .startDate(empScheduleDTO.getStartDate())
+	            .endDate(empScheduleDTO.getEndDate())
+	            .scheduleText(empScheduleDTO.getScheduleText())
+	            .build();
+
+	        EmpSchedule empSchedule = DTOToEntity(scheduleDTO);
+	        empScheuleRepository.save(empSchedule);
+	    }
+	}
+
+
+	
+	
 	//개인일정 등록
 	@Override
 	public Long register(EmpScheduleDTO empScheduleDTO) {
@@ -109,6 +131,10 @@ public class EmpScheduleServiceImpl implements EmpScheduleService {
 	
 	}
 
+	
+	
+	
+	
 	
 
 	

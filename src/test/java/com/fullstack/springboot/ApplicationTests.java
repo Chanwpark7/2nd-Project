@@ -910,10 +910,31 @@ class ApplicationTests {
 //	}
 	
 	
-	void tes() {
-		String attachOrginName = "seoul.jpg";
-		System.out.println(companyChatFilesRepository.getImg(attachOrginName));
-
+//	void tes() {
+//		String attachOrginName = "seoul.jpg";
+//		System.out.println(companyChatFilesRepository.getImg(attachOrginName));
+//
+//	}
+	
+//	@Test
+//	void tes() {
+//		log.warn("!!!!1");
+//		LocalDate now = LocalDate.of(2025, 02, 20);
+//		System.out.println("nnn" + now);
+//		List<DayOff> day = dayOffRepository.getTodayDayOffList(now);
+//		for(DayOff res : day) {
+//			
+//			System.out.println("!!!" + res);
+//		}
+//	}
+	
+	@Test
+	@Transactional
+	void te() {
+		List<DayOffDTO> dayoff = dayOffService.getTodayDayOffList(LocalDate.now());
+		for(DayOffDTO res : dayoff) {
+			System.out.println(res);
+		}
 	}
 }
 
