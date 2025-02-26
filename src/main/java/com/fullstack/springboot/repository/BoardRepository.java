@@ -16,7 +16,7 @@ import com.fullstack.springboot.entity.Board;
 public interface BoardRepository extends JpaRepository<Board, Long>{
 	
 	
-	@Query("select new com.fullstack.springboot.dto.board.BoardReadDTO(b.boardNo, b.title, b.contents, b.employees.mailAddress, b.category, b.regDate, b.modDate, count(r)) from Board b left join Reply r On r.board = b "
+	@Query("select new com.fullstack.springboot.dto.board.BoardReadDTO(b.boardNo, b.title, b.contents, b.employees.mailAddress, b.category, b.regDate, b.modDate) from Board b "
 			+ "where b.boardNo = :boardNo")
 	BoardReadDTO getBoardWithEmployees(@Param("boardNo") Long boardNo);
 	
@@ -25,12 +25,11 @@ public interface BoardRepository extends JpaRepository<Board, Long>{
 	Object getUsefunc();
 
 
-	@Query("select b, r from Board b Right Join Reply r On r.board = b where b.boardNo = :boardNo")
-	Object[] getBoardWithReply(); // e? 
+//	@Query("select b, r from Board b Right Join Reply r On r.board = b where b.boardNo = :boardNo")
+//	Object[] getBoardWithReply(); // e? 
 
 	
-	@Query(value = "select b, e, count(r) from Board b left join b.employees e left join Reply r On r.board = b group by b", 
-		       countQuery = "select count(b) from Board b")
+	@Query(value = "select b, e from Board b left join b.employees e on b.employees = e")
 		Page<Object[]> getBoardWithReplyCount(Pageable pageable);
 		
 	@Query("select b from Board b where b.boardNo = :boardNo")

@@ -23,7 +23,6 @@ public class BoardDTO {
 	private String category;
 	private LocalDateTime regdate;
 	private LocalDateTime moddate;
-	private int replyCount;
 	
 	
 }

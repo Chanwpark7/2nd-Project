@@ -17,7 +17,6 @@ public class BoardReadDTO {
 	private String category;
 	private LocalDateTime regdate;
 	private LocalDateTime moddate;
-	private long replyCnt;
 	
 	public BoardReadDTO(Board board, long replyCnt) {
 		this.boardNo = board.getBoardNo();
@@ -25,10 +24,9 @@ public class BoardReadDTO {
 		this.contents = board.getContents();
 		this.empDto = EmployeesDTO.builder().mailAddress(board.getEmployees().getMailAddress()).build();
 		this.category = board.getCategory();
-		this.replyCnt = replyCnt;
 	}
 	public BoardReadDTO(long boardNo, String title, String contents,
-			String empMail, String category, LocalDateTime regDate, LocalDateTime modDate, long replyCnt) {
+			String empMail, String category, LocalDateTime regDate, LocalDateTime modDate) {
 		this.boardNo = boardNo;
 		this.title = title;
 		this.contents = contents;
@@ -36,7 +34,6 @@ public class BoardReadDTO {
 		this.category = category;
 		this.regdate = regDate;
 		this.moddate = modDate;
-		this.replyCnt = replyCnt;
 	}
 	public BoardReadDTO(long boardNo, String title, String contents,
 			String empMail, String category) {
@@ -45,7 +42,6 @@ public class BoardReadDTO {
 		this.contents = contents;
 		this.empDto = EmployeesDTO.builder().mailAddress(empMail).build();
 		this.category = category;
-		this.replyCnt = 1;
 	}
 	
 }
