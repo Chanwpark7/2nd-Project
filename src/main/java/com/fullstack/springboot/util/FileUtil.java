@@ -2,6 +2,7 @@ package com.fullstack.springboot.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,7 +13,9 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -80,6 +83,31 @@ public class FileUtil {
 		    return ResponseEntity.ok().headers(headers).body(resource);
 		  }
 
+	  public ResponseEntity<Resource> getReportFile(String fileName) {
+		    
+		    Resource resource = new FileSystemResource(uploadPath+ File.separator + fileName);
+
+		    if(!resource.exists()) {
+
+		      resource = new FileSystemResource(uploadPath+ File.separator + "default.jpeg");
+		    
+		    }
+
+		    HttpHeaders headers = new HttpHeaders();
+
+		    try{
+		        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		        ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
+		                  .filename(fileName, Charset.forName("UTF-8"))
+		                  .build();
+		        headers.setContentDisposition(contentDisposition);
+		    } catch(Exception e){
+		        return ResponseEntity.internalServerError().build();
+		    }
+		    return ResponseEntity.ok().headers(headers).body(resource);
+		  }
+
+	  
 	  public String getUploadPath() { //uploadPath 경로 반환
 		  return uploadPath;
 	  }

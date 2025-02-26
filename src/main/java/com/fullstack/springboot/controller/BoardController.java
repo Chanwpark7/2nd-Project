@@ -35,7 +35,6 @@ public class BoardController {
 	@PostMapping("/add")
 	public void registerPost(@RequestBody BoardDTO boardDTO) {
 
-		log.error("!!!!!!!!!!!!!!");
 		boardService.register(boardDTO);
 		
 	}

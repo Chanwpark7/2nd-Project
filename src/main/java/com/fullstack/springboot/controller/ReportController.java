@@ -71,7 +71,7 @@ public class ReportController {
 	
 	@GetMapping("/view/{fileName}")
 	public ResponseEntity<Resource> getMethodName(@PathVariable(name = "fileName") String fileName) {
-		return fileUtil.getFile(fileName);
+		return fileUtil.getReportFile(fileName);
 	}
 	
 	

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.List;
@@ -366,28 +367,34 @@ public class EmployeesServiceImpl implements EmployeesService {
 		
 		Long sal = Long.parseLong(getStringCellValue(cells, 3));
 		Long deptNo = deptInfoRepository.getDeptInfoWithName(getStringCellValue(cells, 4)).getDeptNo();
-		Long job = jobRepository.getJobWithTitle(getStringCellValue(cells, 5)).getJobNo(); 
 		
-		EmployeesDTO employeesDTO = EmployeesDTO.builder()
-				.firstName(getStringCellValue(cells, 0))
-				.lastName(getStringCellValue(cells, 1))
-				.mailAddress(getStringCellValue(cells, 2))
-				.salary(sal)
-				.deptNo(deptNo)
-				.jobNo(job)
-				.birthday(LocalDate.parse(getStringCellValue(cells, 6)))
-				.address(getStringCellValue(cells, 7))
-				.phoneNum(getStringCellValue(cells, 8))
-				.gender(gen)
-				.citizenId(getStringCellValue(cells, 10))
-				.password(getStringCellValue(cells, 11))
-				.build();
-		
-		return employeesDTO;
+		if(deptNo!=null) {
+			Long job = jobRepository.getJobWithTitle(getStringCellValue(cells, 5)).getJobNo(); 
+			if(job!=null) {
+				EmployeesDTO employeesDTO = EmployeesDTO.builder()
+						.firstName(getStringCellValue(cells, 0))
+						.lastName(getStringCellValue(cells, 1))
+						.mailAddress(getStringCellValue(cells, 2))
+						.salary(sal)
+						.deptNo(deptNo)
+						.jobNo(job)
+						.birthday(cells.getCell(6).getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
+						.address(getStringCellValue(cells, 7))
+						.phoneNum(getStringCellValue(cells, 8))
+						.gender(gen)
+						.citizenId(getStringCellValue(cells, 10))
+						.password(getStringCellValue(cells, 11))
+						.build();
+				
+				return employeesDTO;
+			}
+		}
+		return null;
 	}
 	
 	private String getStringCellValue(Row row, int cellIndex) {
 		Cell cell = row.getCell(cellIndex);
+
 		if(cell != null) {
 			if(cell.getCellType()==CellType.STRING) {
 				return cell.getStringCellValue();
