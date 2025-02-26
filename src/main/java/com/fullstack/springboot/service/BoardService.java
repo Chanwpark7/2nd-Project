@@ -42,7 +42,7 @@ public interface BoardService {
 			return entity;
 		}
 		
-	default BoardDTO entityToDTO(Board board, Employees employees, Long replyCount) {
+	default BoardDTO entityToDTO(Board board, Employees employees) {
 		BoardDTO boardDTO = BoardDTO.builder()
 				.boardNo(board.getBoardNo())
 				.title(board.getTitle())
@@ -51,7 +51,6 @@ public interface BoardService {
 				.moddate(board.getModDate())
 				.category(board.getCategory())
 				.mailAddress(employees.getMailAddress())
-				.replyCount(replyCount.intValue())
 				.build();
 		return boardDTO;
 	}

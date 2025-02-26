@@ -64,6 +64,7 @@ public class DayOffController {
 	
 	@GetMapping("/todayList/{dayOffDate}")
 	public List<DayOffDTO> getTodayDayOffList(@PathVariable("dayOffDate") LocalDate dayOffDate){
+		System.out.println(dayOffDate);
 		return dayOffService.getTodayDayOffList(dayOffDate);
 	}
 }

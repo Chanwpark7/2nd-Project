@@ -20,7 +20,6 @@ import com.fullstack.springboot.entity.Board;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.repository.BoardRepository;
 import com.fullstack.springboot.repository.EmployeesRepository;
-import com.fullstack.springboot.repository.ReplyRepository;
 import com.mysql.cj.log.Log;
 
 import jakarta.transaction.Transactional;
@@ -34,7 +33,6 @@ import lombok.extern.log4j.Log4j2;
 public class BoardServiceImpl implements BoardService {
 
 	private final BoardRepository boardRepository;
-	private final ReplyRepository replyRepository;
 	private final EmployeesRepository employeesRepository;
 	
 	@Override
@@ -61,7 +59,7 @@ public class BoardServiceImpl implements BoardService {
 		//검색기능을 추가한 Page 객체 얻기
 		Page<Object[]> result = boardRepository.getBoardWithReplyCount(pageable);
 		Page<BoardDTO> page = result.map(t -> { 
-			return entityToDTO((Board)t[0], (Employees)t[1], (Long)t[2]);});
+			return entityToDTO((Board)t[0], (Employees)t[1]);});
 		
 		List<BoardDTO> dtoList = page.get().toList();
 		
@@ -85,7 +83,6 @@ public class BoardServiceImpl implements BoardService {
 				.category(obj.getCategory())
 				.regdate(obj.getRegdate())
 				.moddate(obj.getModdate())
-				.replyCount((int)obj.getReplyCnt())
 				.build();
 		return boardDTO;
 	}
@@ -94,7 +91,6 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	@Override
 	public void removeWithRelpies(Long boardNo) {
-		replyRepository.deleteByBoardNo(boardNo);
 		boardRepository.deleteById(boardNo);
 		
 	}

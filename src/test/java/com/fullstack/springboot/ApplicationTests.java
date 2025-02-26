@@ -41,7 +41,6 @@ import com.fullstack.springboot.entity.DeptInfo;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.entity.Job;
 import com.fullstack.springboot.entity.Menu;
-import com.fullstack.springboot.entity.Reply;
 import com.fullstack.springboot.entity.Report;
 import com.fullstack.springboot.entity.ReportHistory;
 import com.fullstack.springboot.entity.RoomList;
@@ -57,7 +56,7 @@ import com.fullstack.springboot.repository.EmployeesImageRepository;
 import com.fullstack.springboot.repository.EmployeesRepository;
 import com.fullstack.springboot.repository.JobRepository;
 import com.fullstack.springboot.repository.MenuRepositoy;
-import com.fullstack.springboot.repository.ReplyRepository;
+
 import com.fullstack.springboot.repository.ReportHistoryRepository;
 import com.fullstack.springboot.repository.ReportRepository;
 import com.fullstack.springboot.repository.RoomListRepository;
@@ -104,7 +103,7 @@ class ApplicationTests {
 	@Autowired
 	private BoardRepository boardRepository;
 	
-	@Autowired ReplyRepository replyRepository;
+
 
 	@Autowired
 	private BookingRepository bookingRepository;
@@ -931,10 +930,7 @@ class ApplicationTests {
 	@Test
 	@Transactional
 	void te() {
-		List<DayOffDTO> dayoff = dayOffService.getTodayDayOffList(LocalDate.now());
-		for(DayOffDTO res : dayoff) {
-			System.out.println(res);
-		}
+		System.out.println(LocalDate.now());
 	}
 }
 
