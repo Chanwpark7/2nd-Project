@@ -290,6 +290,7 @@ public class ReportServiceImpl implements ReportService {
 				.reportStatus(report.getReportStatus())
 				.sender(report.getSender().getEmpNo())
 				.receivers(receivers)
+				.isDayOff(report.getIsDayOff())
 				.build();
 		
 		List<ReportFiles> reportFiles = report.getReportFiles();
