@@ -26,7 +26,7 @@ public interface BoardRepository extends JpaRepository<Board, Long>{
 
 
 //	@Query("select b, r from Board b Right Join Reply r On r.board = b where b.boardNo = :boardNo")
-//	Object[] getBoardWithReply(); // e? 
+//	Object[] getBoardWithReply(); // e
 
 	
 	@Query(value = "select b, e from Board b left join b.employees e on b.employees = e")
