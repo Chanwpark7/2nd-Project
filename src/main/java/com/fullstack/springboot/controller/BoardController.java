@@ -44,8 +44,6 @@ public class BoardController {
 	@GetMapping("/list")
 	public PageResponseDTO<BoardDTO> list(PageRequestDTO pageRequestDTO) {
 		
-		System.out.println("boardListController");
-		System.out.println(boardService.getList(pageRequestDTO));
 		return boardService.getList(pageRequestDTO);
 		
 	}

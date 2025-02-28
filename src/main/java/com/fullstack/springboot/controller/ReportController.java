@@ -55,11 +55,24 @@ public class ReportController {
 	
 	@PostMapping("/register/{empNo}")
 	public Long checkIn(@PathVariable(name = "empNo") Long empNo, ReportDTO reportDTO) {
+		//log.error(reportDTO);
 		List<MultipartFile> files = reportDTO.getFiles();
 
 	    List<String> uploadFileNames = fileUtil.attachFiles(files);
 
 	    reportDTO.setUploadFileNames(uploadFileNames);
+	    
+		return reportService.register(empNo,reportDTO);
+	}
+	
+	@PostMapping("/register/mobile/{empNo}")
+	public Long register(@PathVariable(name = "empNo") Long empNo, @RequestBody ReportDTO reportDTO) {
+		//log.error(reportDTO);
+//		List<MultipartFile> files = reportDTO.getFiles();
+//
+//	    List<String> uploadFileNames = fileUtil.attachFiles(files);
+//
+//	    reportDTO.setUploadFileNames(uploadFileNames);
 	    
 		return reportService.register(empNo,reportDTO);
 	}
