@@ -49,6 +49,19 @@ public class EmpDeptScheduleController {
 		List<DeptScheduleDTO> deptSchedule = deptScheduleService.getDeptScheList(deptNum, empNum);
 		List<EmpScheduleDTO> empSchedule = empScheduleService.getEmpScheduleList(empNum);
 		
+		
+		return Map.of("deptSchedule", deptSchedule, "empSchedule", empSchedule);
+	}
+	
+	
+	@GetMapping("/readSche/{deptNo}/{empNo}")
+	public Map<String, Object> getAllSche(@PathVariable("deptNo")long deptNo, @PathVariable("empNo")long empNo){
+		log.error(deptNo);
+		
+		List<DeptScheduleDTO> deptSchedule = deptScheduleService.getDeptScheList(deptNo, empNo);
+		List<EmpScheduleDTO> empSchedule = empScheduleService.getEmpScheduleList(empNo);
+		
+		
 		return Map.of("deptSchedule", deptSchedule, "empSchedule", empSchedule);
 	}
 	
@@ -79,7 +92,8 @@ public class EmpDeptScheduleController {
 	        log.warn("deptSchedule" + deptSchedule);  // 잘 받음ㅇㅇ
 	        List<EmpScheduleDTO> empSchedule = empScheduleService.getEmpScheduleList(empNo, startOfDay, endOfDay);
 	        log.warn("empSchedule" + empSchedule);   // 잘 받았음ㅇㅇ
-
+	        
+	        
 	        return Map.of("deptSchedule", deptSchedule, "empSchedule", empSchedule);
 	    } catch (Exception e) {
 	        log.error("Error occurred: {}", e.getMessage());
