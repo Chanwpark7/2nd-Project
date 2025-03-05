@@ -32,11 +32,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fullstack.springboot.dto.DayOffDTO;
 import com.fullstack.springboot.dto.DeptInfoDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
+import com.fullstack.springboot.dto.EmployeesWithDeptAndJobDTO;
 import com.fullstack.springboot.dto.JobDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResponseDTO;
 import com.fullstack.springboot.entity.DeptInfo;
 import com.fullstack.springboot.entity.Employees;
+import com.fullstack.springboot.entity.Job;
 import com.fullstack.springboot.repository.DeptInfoRepository;
 import com.fullstack.springboot.repository.EmployeesRepository;
 import com.fullstack.springboot.repository.JobRepository;
@@ -227,6 +229,11 @@ public class EmployeesServiceImpl implements EmployeesService {
 	public List<EmployeesDTO> addAllList() {
 
 		return employeesRepository.getAllList();
+	}
+	
+	@Override
+	public List<EmployeesWithDeptAndJobDTO> allListWithDeptAndJob() {
+		return employeesRepository.getEmployeesListWithJobAndDept();
 	}
 	
 	@Override

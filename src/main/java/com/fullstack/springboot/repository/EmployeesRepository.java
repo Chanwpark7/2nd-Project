@@ -18,6 +18,7 @@ import com.fullstack.springboot.dto.EmployeesAuthDTO;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.dto.CommuteDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
+import com.fullstack.springboot.dto.EmployeesWithDeptAndJobDTO;
 
 public interface EmployeesRepository extends JpaRepository<Employees, Long> {
 	
@@ -67,6 +68,12 @@ public interface EmployeesRepository extends JpaRepository<Employees, Long> {
 			+ "left join Commute cm on cm.employees = emp "
 			+ "where emp.empNo = :empNo")
 	Object[] getOneByEmpNo(@Param("empNo") Long empNo);
+	
+	@Query("Select new com.fullstack.springboot.dto.EmployeesWithDeptAndJobDTO(emp, j, di) "
+			+ "from Employees emp "
+			+ "left join Job j on emp.job = j "
+			+ "left join DeptInfo di on emp.deptInfo = di")
+	List<EmployeesWithDeptAndJobDTO> getEmployeesListWithJobAndDept();
 	
 	@Query("Select new com.fullstack.springboot.dto.CommuteDTO(cm) "
 			+ "from Commute cm "

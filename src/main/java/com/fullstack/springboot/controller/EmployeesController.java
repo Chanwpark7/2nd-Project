@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fullstack.springboot.dto.CommuteDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
+import com.fullstack.springboot.dto.EmployeesWithDeptAndJobDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResponseDTO;
@@ -99,5 +100,9 @@ public class EmployeesController {
 		return employeesService.checkIfMailExist(employeesDTO.getMailAddress());
 	}
 	
+	@GetMapping("/list/detail")
+	public List<EmployeesWithDeptAndJobDTO> getDetailLists() {
+		return employeesService.allListWithDeptAndJob();
+	}
 	
 }

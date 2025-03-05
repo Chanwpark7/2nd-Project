@@ -31,7 +31,8 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
 			+ "left join ReportHistory rh on r = rh.report "
 			+ "left join r.reportFiles rf on rf.ord = 0 "
 			+ "where r.sender = :sender "
-			+ "AND rh.rhNo = (SELECT MIN(subRh.rhNo) FROM ReportHistory subRh WHERE subRh.report = r and subRh.status = '대기' ) "
-			+ "or rh.rhNo = (SELECT MIN(subRh.rhNo) FROM ReportHistory subRh WHERE subRh.report = r and r.reportStatus = '완료' ) ")
+			+ "AND (rh.receiver IS NULL OR rh.receiver <> r.sender) "
+			+ "AND (rh.rhNo = (SELECT MIN(subRh.rhNo) FROM ReportHistory subRh WHERE subRh.report = r and subRh.status = '대기' ) "
+			+ "or rh.rhNo = (SELECT MIN(subRh.rhNo) FROM ReportHistory subRh WHERE subRh.report = r and r.reportStatus = '완료' )) ")
 	Page<Object[]> selectSentList(@Param("sender") Employees sender, Pageable pageable);
 }
