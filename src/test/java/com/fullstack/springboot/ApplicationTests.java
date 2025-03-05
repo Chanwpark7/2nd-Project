@@ -930,7 +930,9 @@ class ApplicationTests {
 	@Test
 	@Transactional
 	void te() {
-		System.out.println(LocalDate.now());
+		employeesService.allListWithDeptAndJob().stream().forEach(t -> {
+			log.error(t);
+		});
 	}
 }
 
