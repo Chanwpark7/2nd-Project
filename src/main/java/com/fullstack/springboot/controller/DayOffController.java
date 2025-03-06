@@ -68,6 +68,7 @@ public class DayOffController {
 		return dayOffService.getTodayDayOffList(dayOffDate);
 	}
 	
+	//전체리스트
 	@GetMapping("allDayOff")
 	public List<DayOffDTO> getAllDayOff(){
 		return  dayOffService.getAllDayOffList();
