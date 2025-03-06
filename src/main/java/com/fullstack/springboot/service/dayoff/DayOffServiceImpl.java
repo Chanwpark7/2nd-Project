@@ -111,8 +111,13 @@ public class DayOffServiceImpl implements DayOffService {
 		
 		System.out.println("dayoffService");
 		System.out.println( dayOffRepository.getTodayDayOffList(dayOffDate));
-		dayOffDate = LocalDate.now();
+		//dayOffDate = LocalDate.now();
 		return dayOffRepository.getTodayDayOffList(dayOffDate);
+	}
+
+	@Override
+	public List<DayOffDTO> getAllDayOffList() {
+		return dayOffRepository.getAllDayOffList();
 	}
 
 }

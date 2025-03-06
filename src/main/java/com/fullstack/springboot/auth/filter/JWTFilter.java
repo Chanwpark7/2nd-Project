@@ -49,7 +49,7 @@ public class JWTFilter extends OncePerRequestFilter {
 		}
 		
 		
-		return true;
+		return false;
 	}
 	
 	@Override
