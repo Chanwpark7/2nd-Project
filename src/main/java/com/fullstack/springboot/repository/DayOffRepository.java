@@ -26,4 +26,7 @@ public interface DayOffRepository extends JpaRepository<DayOff, Long> {
 	
 	@Query("select new com.fullstack.springboot.dto.DayOffDTO(do) from DayOff do join Employees e on do.employees.empNo = e.empNo where do.dayOffDate =:dayOffDate")
 	public List<DayOffDTO> getTodayDayOffList(@Param("dayOffDate") LocalDate dayOffDate);
+	
+	@Query("select new com.fullstack.springboot.dto.DayOffDTO(do) from DayOff do join Employees e on do.employees.empNo = e.empNo")
+	public List<DayOffDTO> getAllDayOffList();
 }

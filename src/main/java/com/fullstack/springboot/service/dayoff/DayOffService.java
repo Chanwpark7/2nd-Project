@@ -26,6 +26,8 @@ public interface DayOffService {
 	
 	public DayOffDTO getOne(Long dayOffNo);
 	
+	public List<DayOffDTO> getAllDayOffList();
+	
 	default DayOffDTO entityToDto(DayOff dayOff) {
 		DayOffDTO dto = DayOffDTO.builder()
 				.dayOffNo(dayOff.getDayOffNo())
