@@ -24,6 +24,8 @@ public interface EmployeesService {
 	
 	public PageResponseDTO<EmployeesDTO> getEmployeesListPage(PageRequestDTO pageRequestDTO);
 	
+	public PageResponseDTO<EmployeesDTO> getEmployeesFind(PageRequestDTO pageRequestDTO, String name);
+	
 	public EmployeesDTO getOne(Long empNo);
 	
 	public long getDDay(long empNo);

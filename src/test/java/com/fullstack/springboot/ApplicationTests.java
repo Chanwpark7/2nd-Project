@@ -816,6 +816,8 @@ class ApplicationTests {
 //		log.error(reportService.getSentList(110L, pageRequestDTO));
 //	}
 	
+
+	
 //	void tes() {
 //		DayOff dayOff = DayOff.builder().dayOffDate(LocalDate.now()).offHours(2L).employees(Employees.builder().empNo(205L).build()).build();
 //		System.out.println("성공");
@@ -927,12 +929,34 @@ class ApplicationTests {
 //		}
 //	}
 	
+//	@Test
+//	@Transactional
+//	void te() {
+//		employeesService.allListWithDeptAndJob().stream().forEach(t -> {
+//			log.error(t);
+//		});
+//	}
+	
+	
+//	void test() {
+//	    Pageable pageable = PageRequest.of(0, 10); 
+//	    Page<EmployeesDTO> employeesPage = employeesRepository.findEmp(pageable,"관리");
+//	    
+//	    employeesPage.forEach(res -> {
+//	        System.out.println("실행");
+//	        System.out.println(res);
+//	        log.warn(res); 
+//	    });
+//	}
 	@Test
-	@Transactional
-	void te() {
-		employeesService.allListWithDeptAndJob().stream().forEach(t -> {
-			log.error(t);
-		});
+	void tes() {
+		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+				.page(1)
+				.size(10)
+				.build();
+		String name = "관리";
+		log.error(employeesService.getEmployeesFind(pageRequestDTO, name));
 	}
+
 }
 

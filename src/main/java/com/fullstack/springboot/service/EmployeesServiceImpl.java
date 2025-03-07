@@ -159,6 +159,25 @@ public class EmployeesServiceImpl implements EmployeesService {
 				.pageRequestDTO(pageRequestDTO)
 				.build();
 	}
+	
+	@Override
+	public PageResponseDTO<EmployeesDTO> getEmployeesFind(PageRequestDTO pageRequestDTO, String name) {
+	    System.out.println("서비스");
+	    Pageable pageable = pageRequestDTO.getPageable(Sort.by("empNo").ascending());
+
+	    Page<EmployeesDTO> page = employeesRepository.findEmp(pageable, name);
+	    List<EmployeesDTO> dtoList = page.get().toList();
+	    System.out.println(dtoList);
+	    long totalCount = page.getTotalElements();
+
+	    return PageResponseDTO.<EmployeesDTO>withAll()
+	            .dtoList(dtoList)
+	            .totalCount(totalCount)
+	            .pageRequestDTO(pageRequestDTO)
+	            .build();
+	}
+
+
 
 	@Override
 	public EmployeesDTO getOne(Long empNo) {
@@ -414,5 +433,7 @@ public class EmployeesServiceImpl implements EmployeesService {
 		}
 		return null;
 	}
+
+	
 	
 }

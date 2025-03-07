@@ -47,6 +47,13 @@ public class EmployeesController {
 		return employeesService.getEmployeesListPage(pageRequestDTO);
 	}
 	
+	@GetMapping("/findlist/{name}")
+	public PageResponseDTO<EmployeesDTO> findList(PageRequestDTO pageRequestDTO, @PathVariable String name) {
+	    log.error("컨트롤러 ");
+	    return employeesService.getEmployeesFind(pageRequestDTO, name); 
+	}
+
+	
 	@GetMapping("/read/{empNo}")
 	public EmployeesDTO read(@PathVariable(name = "empNo") Long empNo) {
 		return employeesService.getOne(empNo);

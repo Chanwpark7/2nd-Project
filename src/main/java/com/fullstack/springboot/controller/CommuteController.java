@@ -40,7 +40,6 @@ public class CommuteController {
 	
 	@PutMapping("/checkout/{empNo}")
 	public void checkOut(@PathVariable(name = "empNo") Long empNo) {
-		
 		commuteService.checkOut(empNo);
 	}
 	

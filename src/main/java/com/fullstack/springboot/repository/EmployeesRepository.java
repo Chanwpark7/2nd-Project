@@ -27,6 +27,9 @@ public interface EmployeesRepository extends JpaRepository<Employees, Long> {
 	@EntityGraph(attributePaths = "roleSet")
 	@Query("select emp from Employees emp where emp.mailAddress = :email")
 	Employees getByEmail(@Param("email") String email);
+	
+	@Query("select e from Employees e where concat(e.firstName, e.lastName) like %:name%")
+	public Page<EmployeesDTO> findEmp(Pageable pageable,@Param("name") String name);
 
 	@Query("select e from Employees e where e.empNo =:empNo")
 	public Optional<Employees> getEmpNo(@Param("empNo")Long empNo);
