@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fullstack.springboot.entity.CompanyMail;
+import com.fullstack.springboot.entity.CompanyMailAttachFiles;
 import com.fullstack.springboot.mail.dto.CompanyMailAttachFilesDTO;
 import com.fullstack.springboot.mail.dto.CompanyMailDTO;
 import com.fullstack.springboot.repository.CompanyMailAttachFilesRepository;
@@ -48,5 +49,17 @@ public class CompanyMailAttachFilesServiceImpl implements CompanyMailAttachFiles
 		}
 		
 		return null;
+	}
+	
+	@Transactional
+	@Override
+	public List<CompanyMailAttachFiles> getEntityList(Long mailNo) {
+		// TODO Auto-generated method stub
+		return companyMailAttachFilesRepository.getListByMailNo(mailNo);
+	}
+	@Transactional
+	@Override
+	public CompanyMailAttachFiles getOne(String fileUuid) {
+		return companyMailAttachFilesRepository.getOne(fileUuid);
 	}
 }

@@ -12,6 +12,8 @@ import com.fullstack.springboot.mail.dto.CompanyMailDTO;
 public interface CompanyMailAttachFilesService {
 	
 	public String register(CompanyMailDTO targetMail, List<String> savedNames);
+	public List<CompanyMailAttachFiles> getEntityList(Long mailNo);
+	public CompanyMailAttachFiles getOne(String fileUuid);
 	
 	default CompanyMailAttachFiles attachDtoToEntity(CompanyMailAttachFilesDTO dto) {
 		return CompanyMailAttachFiles.builder()

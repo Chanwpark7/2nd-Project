@@ -22,9 +22,12 @@ public interface CompanyMailRepository extends JpaRepository<CompanyMail, Long> 
 	public Page<CompanyMail> getListPage(@Param("email") String email,@Param("cat") String cat ,Pageable pageable);
 	
 	@Query("select cm from CompanyMail cm where cm.sender.mailAddress = :email")
+	// and cm.mailCategory != 'isDelete'
 	public Page<CompanyMail> getMySendListPage(@Param("email") String email, Pageable pageable);
 	
 	@Query("select em from Employees em where em.mailAddress like :email")
 	public List<Employees> findReceivers(@Param("email") String email);
-
+	
+	@Query("select cmaf.attachOriginName from CompanyMailAttachFiles cmaf where cmaf.companyMail.mailNo = :mailNo")
+	public List<String> findAttc(@Param("mailNo")Long mailNo);
 }

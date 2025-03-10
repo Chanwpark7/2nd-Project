@@ -55,6 +55,9 @@ public class CompanyMailController {
 	@PostMapping(path = "/mail", consumes = { "multipart/form-data;charset=UTF-8"})
 	public String regiMail(CompanyMailDTO dto,@RequestParam String sendEmpNo,@RequestParam long[] receiveEmpNo) {
 		
+		System.out.println(dto.getContents());
+//		dto.setContents(dto.getContents().replace("\n", "<br>"));
+		
 		List<String> savedName = null;
 		
 		System.out.println("company-mail-sendMail");
@@ -123,10 +126,10 @@ public class CompanyMailController {
 		
 	}
 	@GetMapping("/mail/{mailNo}/attcfile")
-	public String getMailAttachFIle(@PathVariable("mailNo") String mailNo) {
+	public List<String> getMailAttachFIle(@PathVariable("mailNo") String mailNo) {
 		System.out.println("company-mail-attachedFile");
 		
-		return new String();
+		return companyMailService.findAttached(Long.valueOf(mailNo));
 	}
 	
 	@Transactional
@@ -162,11 +165,11 @@ public class CompanyMailController {
 	
 	
 	@PutMapping("/mail/m")
-	public String modCat(@RequestParam String cat, @RequestParam String sendEmpNo) {
+	public String modCat(@RequestParam String category, @RequestParam Long mailNo) {
 		System.out.println("company-mail-modCat");
 
 		//String tranMsg = companyMailService.modifyMailCat(Long.valueOf(URIVariableCrypto.decodePathVariable(mailNo)),cat);
-		String tranMsg = companyMailService.modifyMailCat(Long.valueOf(sendEmpNo),cat);
+		String tranMsg = companyMailService.modifyMailCat(mailNo,category);
 		
 		return tranMsg;
 	}

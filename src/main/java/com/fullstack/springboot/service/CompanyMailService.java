@@ -29,6 +29,8 @@ public interface CompanyMailService {
 	String modifyMailCat(Long sendEmpNo,String cat);
 	
 	List<EmployeeReceiverDTO> findMailReceiver(String email);
+
+	List<String> findAttached(Long mailNo);
 	
 	default CompanyMail mailDtoToEntity(CompanyMailDTO dto) {
 		return CompanyMail.builder()

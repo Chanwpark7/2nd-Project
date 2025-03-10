@@ -1,5 +1,9 @@
 package com.fullstack.springboot.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -7,13 +11,16 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fullstack.springboot.dto.EmployeeReceiverDTO;
 import com.fullstack.springboot.dto.EmployeesDTO;
 import com.fullstack.springboot.entity.CompanyMail;
+import com.fullstack.springboot.entity.CompanyMailAttachFiles;
 import com.fullstack.springboot.entity.Employees;
 import com.fullstack.springboot.mail.dto.CompanyMailDTO;
 import com.fullstack.springboot.mail.dto.CompanyMailListRequestDTO;
@@ -37,6 +44,11 @@ public class CompanyMailServiceImpl implements CompanyMailService {
 	@Autowired
 	CompanyMailReceivedRepository companyMailReceivedRepository;
 	
+	@Autowired
+	CompanyMailAttachFilesRepository attachFilesRepository;
+	@Value("${com.fullstack.springboot.uploadPath}")
+	private String uploadPath;
+	  
 	@Override
 	public long register(CompanyMailDTO dto) {
 		
@@ -56,6 +68,9 @@ public class CompanyMailServiceImpl implements CompanyMailService {
 			System.out.println(t);
 			dto = this.mailEntityToDto(t);
 		}
+		
+		
+		
 		return dto;
 		
 	}
@@ -141,6 +156,9 @@ public class CompanyMailServiceImpl implements CompanyMailService {
 		return dtoList;
 	}
 	
-	
+	public List<String> findAttached(Long mailNo){
+		List<String> list = new ArrayList<String>();
+		return companyMailRepository.findAttc(mailNo);
+	}
 	
 }
